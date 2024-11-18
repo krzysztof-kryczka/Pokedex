@@ -1,0 +1,16 @@
+{
+   "name": "pokedex",
+   "workspaces": [
+      "BackEnd-service",
+      "FrontEnd-service"
+   ],
+   "dependencies": {
+      "cp": "^0.2.0",
+      "npm-run-all": "^4.1.5"
+   },
+   "scripts": {
+      "FE-service": "npm run dev --workspace=FrontEnd-service",
+      "BE-service": "npm run dev --workspace=BackEnd-service",
+      "dev": "npm-run-all --parallel FE-service BE-service"
+   }
+}
