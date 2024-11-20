@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
 import { Pagination } from './Pagination'
 import { Loader } from './Loader'
@@ -8,13 +8,10 @@ const pokemonsPerPage = 15
 const totalPages = Math.ceil(totalPokemons / pokemonsPerPage)
 
 export const Pokedex = () => {
-   const [currentPage, setCurrentPage] = useState(1)
-   const { pokemons, isLoading, error } = useFetchPokemons(pokemonsPerPage, currentPage)
+   const { pokemons, isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(pokemonsPerPage)
    console.log(pokemons)
 
-   const handlePageChange = pageNumber => {
-      setCurrentPage(pageNumber)
-   }
+   const handlePageChange = pageNumber => setCurrentPage(pageNumber)
 
    return (
       <div className="p-4 max-auto mx-auto">
