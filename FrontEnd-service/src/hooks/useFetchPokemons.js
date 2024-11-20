@@ -20,7 +20,17 @@ export const useFetchPokemons = (pokemonsPerPage = 15) => {
             const response = await axios.get(
                `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${pokemonsPerPage}`,
             )
-            setPokemons(response.data)
+            const detailedPokemons = await Promise.all(
+               response.data.results.map(async pokemon => {
+                  const pokemonResponse = await axios.get(pokemon.url)
+                  const pokemonDetails = pokemonResponse.data
+                  console.log('Fetched Pokemon Details:', pokemonDetails)
+                  const combinedData = { ...pokemon, ...pokemonDetails }
+                  console.log('Combined Pokemon Details Data:', combinedData)
+                  return { ...pokemon, ...pokemonDetails }
+               }),
+            )
+            setPokemons(detailedPokemons)
          } catch (err) {
             setError(err)
          } finally {
