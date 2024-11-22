@@ -5,6 +5,7 @@ import { App } from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Pokedex } from './components/Pokedex.jsx'
 import { PokemonDetails } from './components/PokemonDetails.jsx'
+import { PokemonProvider } from './context/PokemonContext.jsx'
 
 const router = createBrowserRouter([
    {
@@ -19,6 +20,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
    <StrictMode>
-      <RouterProvider router={router} />
+      <PokemonProvider>
+         <RouterProvider router={router} />
+      </PokemonProvider>
    </StrictMode>,
 )

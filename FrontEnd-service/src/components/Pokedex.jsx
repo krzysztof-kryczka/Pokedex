@@ -1,16 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
 import { Pagination } from './Pagination'
 import { Loader } from './Loader'
 import { Link } from 'react-router-dom'
+import { usePokemon } from '../context/PokemonContext'
 
 const totalPokemons = 150
 const pokemonsPerPage = 15
 const totalPages = Math.ceil(totalPokemons / pokemonsPerPage)
 
 export const Pokedex = () => {
-   const { pokemons, isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(pokemonsPerPage)
-   console.log('pokemons', pokemons)
+   const {
+      pokemons: fetchedPokemons,
+      isLoading,
+      error,
+      currentPage,
+      setCurrentPage,
+   } = useFetchPokemons(pokemonsPerPage)
+   console.log('fetchedPokemons', fetchedPokemons)
+   const { pokemons, setPokemons } = usePokemon()
+
+   useEffect(() => {
+      setPokemons(fetchedPokemons)
+   }, [fetchedPokemons, setPokemons])
+
    const [searchTerm, setSearchTerm] = useState('')
    const filteredPokemons = pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
