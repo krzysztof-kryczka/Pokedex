@@ -1,15 +1,11 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
-import logo from './assets/logo.svg'
+import { Outlet } from 'react-router-dom'
+import { Navigation } from './components/Navigation'
 
 export const App = () => {
    return (
       <>
-         <header className="flex flex-col md:flex-row items-center md:items-center p-4 bg-blue-500">
-            <Link to="/" className="w-full flex justify-center md:justify-start">
-               <img src={logo} alt="Pokémon Logo" className="h-16 md:h-24" />
-            </Link>
-         </header>
+         <Navigation />
          <main>
             <Outlet />
          </main>
