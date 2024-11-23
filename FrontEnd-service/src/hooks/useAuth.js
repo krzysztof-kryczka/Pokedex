@@ -3,6 +3,7 @@ import axios from 'axios'
 
 export const useAuth = () => {
    const [loading, setLoading] = useState(false)
+   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null)
 
    const register = async (userData, enqueueSnackbar) => {
       setLoading(true)
@@ -43,6 +44,9 @@ export const useAuth = () => {
             return false
          }
 
+         setUser(user)
+         localStorage.setItem('user', JSON.stringify(user))
+
          enqueueSnackbar('Logowanie zakończone pomyślnie.', { variant: 'success' })
          setLoading(false)
          return true
@@ -54,5 +58,13 @@ export const useAuth = () => {
       }
    }
 
-   return { register, login, loading }
+   const logout = enqueueSnackbar => {
+      setUser(null)
+      localStorage.removeItem('user')
+      enqueueSnackbar('Wylogowano pomyślnie.', { variant: 'success' })
+   }
+
+   const isAuthenticated = user ? true : false
+
+   return { register, login, logout, loading, user, isAuthenticated }
 }

@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
+import { useAuth } from '../hooks/useAuth'
+import { useSnackbar } from 'notistack'
 
 export const Navigation = () => {
-   const isAuthenticated = false
-   const user = { name: 'Stefan' }
+   const { user, isAuthenticated, logout } = useAuth()
+   const { enqueueSnackbar } = useSnackbar()
 
    return (
       <header className="w-full bg-blue-500 p-4 shadow-md">
@@ -41,7 +43,7 @@ export const Navigation = () => {
                         Edycja
                      </Link>
                      <button
-                        onClick={() => {}}
+                        onClick={() => logout(enqueueSnackbar)}
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
                      >
                         Wyloguj
