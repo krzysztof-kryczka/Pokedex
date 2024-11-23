@@ -7,7 +7,8 @@ import { Pokedex } from './components/Pokedex.jsx'
 import { PokemonDetails } from './components/PokemonDetails.jsx'
 import { PokemonProvider } from './context/PokemonContext.jsx'
 import { SnackbarProvider } from 'notistack'
-import { Registration } from './pages/Registration.jsx'
+import { RegisterPage } from './pages/RegisterPage.jsx'
+import { LoginPage } from './pages/LoginPage.jsx'
 
 const router = createBrowserRouter([
    {
@@ -16,7 +17,8 @@ const router = createBrowserRouter([
       children: [
          { path: '/', element: <Pokedex /> },
          { path: 'pokemon/:name', element: <PokemonDetails /> },
-         { path: 'register', element: <Registration /> },
+         { path: 'register', element: <RegisterPage /> },
+         { path: 'login', element: <LoginPage /> },
       ],
    },
 ])

@@ -22,7 +22,7 @@ export const useAuth = () => {
          })
          enqueueSnackbar('Rejestracja zakończona pomyślnie.', { variant: 'success' })
          return true
-      // eslint-disable-next-line no-unused-vars
+         // eslint-disable-next-line no-unused-vars
       } catch (err) {
          enqueueSnackbar('Błąd podczas rejestracji użytkownika.', { variant: 'error' })
          return false
@@ -30,5 +30,29 @@ export const useAuth = () => {
          setLoading(false)
       }
    }
-   return { register, loading }
+
+   const login = async (email, password, enqueueSnackbar) => {
+      setLoading(true)
+      try {
+         const response = await axios.get('http://localhost:3000/users')
+         const users = response.data
+         const user = users.find(user => user.email === email && user.password === password)
+         if (!user) {
+            enqueueSnackbar('Nieprawidłowy email lub hasło.', { variant: 'error' })
+            setLoading(false)
+            return false
+         }
+
+         enqueueSnackbar('Logowanie zakończone pomyślnie.', { variant: 'success' })
+         setLoading(false)
+         return true
+         // eslint-disable-next-line no-unused-vars
+      } catch (err) {
+         enqueueSnackbar('Błąd podczas logowania.', { variant: 'error' })
+         setLoading(false)
+         return false
+      }
+   }
+
+   return { register, login, loading }
 }
