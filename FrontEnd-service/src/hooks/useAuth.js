@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios'
+import { AuthContext } from '../context/AuthContext'
 
 export const useAuth = () => {
    const [loading, setLoading] = useState(false)
-   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null)
+   const { user, setUser, isAuthenticated } = useContext(AuthContext)
 
    const register = async (userData, enqueueSnackbar) => {
       setLoading(true)
@@ -63,8 +64,6 @@ export const useAuth = () => {
       localStorage.removeItem('user')
       enqueueSnackbar('Wylogowano pomyślnie.', { variant: 'success' })
    }
-
-   const isAuthenticated = user ? true : false
 
    return { register, login, logout, loading, user, isAuthenticated }
 }

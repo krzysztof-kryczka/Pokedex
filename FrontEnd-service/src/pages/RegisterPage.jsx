@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { RegisterForm } from '../components/RegisterForm'
 
 export const RegisterPage = () => {
    const { enqueueSnackbar } = useSnackbar()
-   const { register: registerUser, loading } = useAuth()
+   const { register: registerUser, loading, isAuthenticated } = useAuth()
    const navigate = useNavigate()
    const {
       register,
@@ -32,6 +32,10 @@ export const RegisterPage = () => {
       } else {
          setIsSubmitting(false)
       }
+   }
+
+   if (isAuthenticated) {
+      return <Navigate to="/" />
    }
 
    return (
