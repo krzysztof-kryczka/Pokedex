@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 
 export const Navigation = () => {
-   const isAuthenticated = true
+   const isAuthenticated = false
    const user = { name: 'Stefan' }
 
    return (

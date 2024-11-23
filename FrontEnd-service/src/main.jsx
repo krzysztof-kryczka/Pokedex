@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Pokedex } from './components/Pokedex.jsx'
 import { PokemonDetails } from './components/PokemonDetails.jsx'
 import { PokemonProvider } from './context/PokemonContext.jsx'
+import { SnackbarProvider } from 'notistack'
+import { Registration } from './pages/Registration.jsx'
 
 const router = createBrowserRouter([
    {
@@ -14,14 +16,17 @@ const router = createBrowserRouter([
       children: [
          { path: '/', element: <Pokedex /> },
          { path: 'pokemon/:name', element: <PokemonDetails /> },
+         { path: 'register', element: <Registration /> },
       ],
    },
 ])
 
 createRoot(document.getElementById('root')).render(
    <StrictMode>
-      <PokemonProvider>
-         <RouterProvider router={router} />
-      </PokemonProvider>
+      <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+         <PokemonProvider>
+            <RouterProvider router={router} />
+         </PokemonProvider>
+      </SnackbarProvider>
    </StrictMode>,
 )
