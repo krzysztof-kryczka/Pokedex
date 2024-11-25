@@ -11,6 +11,8 @@ import { RegisterPage } from './pages/RegisterPage.jsx'
 import { LoginPage } from './pages/LoginPage.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { FavoritesPage } from './pages/FavoritesPage.jsx'
+import { EditPage } from './pages/EditPage.jsx'
+import { CreatePokemonPage } from './pages/CreatePokemonPage.jsx'
 
 const router = createBrowserRouter([
    {
@@ -22,6 +24,8 @@ const router = createBrowserRouter([
          { path: 'register', element: <RegisterPage /> },
          { path: 'login', element: <LoginPage /> },
          { path: 'favorites', element: <FavoritesPage /> },
+         { path: 'edit', element: <EditPage /> },
+         { path: 'create', element: <CreatePokemonPage /> },
          { path: '*', element: <Navigate to="/" /> },
       ],
    },
@@ -29,12 +33,12 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
    // <StrictMode>
-      <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-         <AuthProvider>
-            <PokemonProvider>
-               <RouterProvider router={router} />
-            </PokemonProvider>
-         </AuthProvider>
-      </SnackbarProvider>
+   <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+      <AuthProvider>
+         <PokemonProvider>
+            <RouterProvider router={router} />
+         </PokemonProvider>
+      </AuthProvider>
+   </SnackbarProvider>,
    // </StrictMode>,
 )
