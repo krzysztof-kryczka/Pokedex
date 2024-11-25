@@ -2,8 +2,8 @@ import { z } from 'zod'
 
 export const createPokemonSchema = z.object({
    name: z.string().min(1, 'Nazwa jest wymagana'),
-   weight: z.number().min(0, 'Waga musi być dodatnia'),
-   height: z.number().min(0, 'Wzrost musi być dodatni'),
-   base_experience: z.number().min(0, 'Doświadczenie musi być dodatnie'),
+   weight: z.number({ invalid_type_error: 'Waga musi być > 0' }).min(1),
+   height: z.number({ invalid_type_error: 'Wzrost musi być > 0' }).min(1),
+   base_experience: z.number({ invalid_type_error: 'Doświadczenie musi być > 0' }).min(1),
    sprite: z.string().url('URL grafiki musi być poprawnym URL'),
 })
