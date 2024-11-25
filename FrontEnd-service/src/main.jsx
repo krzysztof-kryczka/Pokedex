@@ -28,7 +28,7 @@ const router = createBrowserRouter([
 ])
 
 createRoot(document.getElementById('root')).render(
-   <StrictMode>
+   // <StrictMode>
       <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
          <AuthProvider>
             <PokemonProvider>
@@ -36,5 +36,5 @@ createRoot(document.getElementById('root')).render(
             </PokemonProvider>
          </AuthProvider>
       </SnackbarProvider>
-   </StrictMode>,
+   // </StrictMode>,
 )

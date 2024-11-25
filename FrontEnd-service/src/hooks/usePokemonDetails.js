@@ -1,66 +1,41 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useFavorites } from './useFavorites'
 
 export const usePokemonDetails = (pokemon, user, enqueueSnackbar) => {
-   const [isFavorite, setIsFavorite] = useState(false)
    const [pokemonDetails, setPokemonDetails] = useState(null)
+   const [isFavorite, setIsFavorite] = useState(false)
+   const { toggleFavorite } = useFavorites(user?.id, enqueueSnackbar)
 
    useEffect(() => {
-      if (pokemon) {
-         const fetchPokemonDetails = async () => {
-            try {
-               const response = await axios.get(pokemon.url)
-               setPokemonDetails(response.data)
-            } catch (err) {
-               console.error(err)
-            }
+      const fetchPokemonDetails = async () => {
+         if (!pokemon) return
+         try {
+            const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon.id}`)
+            setPokemonDetails(response.data)
+         } catch (error) {
+            console.error('Nie udało się pobrać szczegółów Pokémona:', error)
+            enqueueSnackbar('Nie udało się pobrać szczegółów Pokémona.', { variant: 'error' })
          }
-         fetchPokemonDetails()
       }
-   }, [pokemon])
+      fetchPokemonDetails()
+   }, [pokemon, enqueueSnackbar])
 
    useEffect(() => {
       if (user && pokemonDetails) {
-         const fetchFavoriteStatus = async () => {
+         const fetchFavorites = async () => {
             try {
                const response = await axios.get(
                   `http://localhost:3000/favorites?userId=${user.id}&pokemonId=${pokemonDetails.id}`,
                )
                setIsFavorite(response.data.length > 0)
-            } catch (err) {
-               console.error(err)
+            } catch (error) {
+               console.error('Błąd podczas pobierania pokemonów z karty Ulubione!', error)
             }
          }
-         fetchFavoriteStatus()
+         fetchFavorites()
       }
-   }, [pokemonDetails, user])
-
-   const toggleFavorite = async () => {
-      if (!user) return
-
-      try {
-         if (isFavorite) {
-            const response = await axios.get(
-               `http://localhost:3000/favorites?userId=${user.id}&pokemonId=${pokemonDetails.id}`,
-            )
-            await axios.delete(`http://localhost:3000/favorites/${response.data[0].id}`)
-            setIsFavorite(false)
-            enqueueSnackbar('Pokemon został usunięty z ulubionych.', { variant: 'success' })
-         } else {
-            await axios.post('http://localhost:3000/favorites', {
-               userId: user.id,
-               pokemonId: pokemonDetails.id,
-               name: pokemonDetails.name,
-               image: pokemonDetails.sprites.other['dream_world']['front_default'],
-            })
-            setIsFavorite(true)
-            enqueueSnackbar('Pokemon został dodany do ulubionych.', { variant: 'success' })
-         }
-         // eslint-disable-next-line no-unused-vars
-      } catch (err) {
-         enqueueSnackbar('Błąd podczas aktualizacji ulubionych pokemonów.', { variant: 'error' })
-      }
-   }
+   }, [user, pokemonDetails])
 
    return { pokemonDetails, isFavorite, toggleFavorite }
 }
