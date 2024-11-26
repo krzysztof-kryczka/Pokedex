@@ -47,6 +47,7 @@ export const CreatePokemonPage = () => {
             isSpriteUsed={isSpriteUsed}
             spriteUrl={spriteUrl}
             handleSpriteNavigation={handleSpriteNavigation}
+            isEditing={false}
          />
          {loading && <p>Trwa tworzenie Pokémona...</p>}
       </div>
