@@ -1,17 +1,108 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { editPokemonSchema } from '../schemas/pokemonSchema'
+import { useFetchPokemons } from '../hooks/useFetchPokemons'
+import { useEditPokemon } from '../hooks/useEditPokemon'
+import { PokemonEditForm } from '../shared/PokemonEditForm'
 
 export const EditPage = () => {
+   const { pokemons, isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
+   const [selectedPokemon, setSelectedPokemon] = useState(null)
    const navigate = useNavigate()
+   const { editExistingPokemon, loading } = useEditPokemon(navigate)
+
+   const {
+      register,
+      handleSubmit,
+      formState: { errors },
+   } = useForm({
+      resolver: zodResolver(editPokemonSchema),
+      mode: 'onSubmit',
+   })
+
+   const formRef = useRef(null)
+
+   const handleEditClick = pokemon => {
+      setSelectedPokemon(pokemon)
+      setTimeout(() => {
+         formRef.current?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+   }
+
+   if (isLoading) return <p className="text-center text-blue-700">Ładowanie Pokémonów...</p>
+   if (error) return <p className="text-center text-red-700">Błąd podczas ładowania Pokémonów: {error.message}</p>
 
    return (
-      <div className="bg-blue-50 min-h-screen p-8">
+      <div className="bg-blue-50 min-h-screen p-4 md:p-8">
          <button
             onClick={() => navigate('/create')}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 hover:bg-blue-600 w-full md:w-auto"
          >
-            Stwórz pokemona
+            Stwórz Pokemona
          </button>
+         <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Lista Pokémonów</h1>
+         <ul className="space-y-4">
+            {pokemons.map((pokemon, index) => (
+               <li
+                  key={`${index}-${pokemon.name}`}
+                  className="flex flex-col md:flex-row items-center justify-between bg-white p-4 shadow rounded-lg"
+               >
+                  <div className="flex items-center space-x-4 mb-4 md:mb-0">
+                     <span>{(currentPage - 1) * 15 + index + 1}</span>
+                     <span>{pokemon.name}</span>
+                     <img
+                        src={pokemon.sprites?.front_default || pokemon.sprite}
+                        alt={pokemon.name}
+                        className="w-16 h-16 md:w-20 md:h-20"
+                     />
+                  </div>
+                  <button
+                     onClick={() => handleEditClick(pokemon)}
+                     className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full md:w-auto"
+                  >
+                     Edytuj
+                  </button>
+               </li>
+            ))}
+         </ul>
+         {selectedPokemon && (
+            <div ref={formRef} className="mt-8">
+               <PokemonEditForm
+                  pokemon={selectedPokemon}
+                  register={register}
+                  errors={errors}
+                  onSubmit={handleSubmit(updatedPokemon => {
+                     console.log('Zaktualizowane dane Pokémona:', {
+                        ...selectedPokemon,
+                        ...updatedPokemon,
+                     })
+                     editExistingPokemon({
+                        ...selectedPokemon,
+                        ...updatedPokemon,
+                     })
+                  })}
+               />
+            </div>
+         )}
+         {loading && <p className="text-center text-blue-700">Trwa edycja Pokémona...</p>}
+         <div className="flex justify-center mt-8 space-x-2">
+            <button
+               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-full md:w-auto"
+               onClick={() => setCurrentPage(currentPage - 1)}
+               disabled={currentPage === 1}
+            >
+               Poprzednia
+            </button>
+            <button
+               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-full md:w-auto"
+               onClick={() => setCurrentPage(currentPage + 1)}
+               disabled={pokemons.length < 15}
+            >
+               Następna
+            </button>
+         </div>
       </div>
    )
 }
