@@ -17,20 +17,30 @@ export const useFetchPokemons = (pokemonsPerPage = 15) => {
                currentPage = 4, pokemonsPerPage = 15, Offset: (4 - 1) * 15 = 45, Get Pokémons 46 .. 60.
             */
             const offset = (currentPage - 1) * pokemonsPerPage
-            const response = await axios.get(
+            // Fetch Pokémon from external API
+            const apiResponse = await axios.get(
                `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${pokemonsPerPage}`,
             )
             const detailedPokemons = await Promise.all(
-               response.data.results.map(async pokemon => {
+               apiResponse.data.results.map(async pokemon => {
                   const pokemonResponse = await axios.get(pokemon.url)
                   const pokemonDetails = pokemonResponse.data
-                  console.log('Fetched Pokemon Details:', pokemonDetails)
-                  const combinedData = { ...pokemon, ...pokemonDetails }
-                  console.log('Combined Pokemon Details Data:', combinedData)
+                  // console.log('Fetched Pokemon Details:', pokemonDetails)
+                  // const combinedData = { ...pokemon, ...pokemonDetails }
+                  // console.log('Combined Pokemon Details Data:', combinedData)
                   return { ...pokemon, ...pokemonDetails }
                }),
             )
-            setPokemons(detailedPokemons)
+
+            // Fetch Pokémon from local db.json
+            const dbResponse = await axios.get('http://localhost:3000/pokemons')
+            const dbPokemons = dbResponse.data
+
+            // Merge and deduplicate Pokémon lists
+            const mergedPokemons = [...detailedPokemons, ...dbPokemons]
+            console.log('mergedPokemons: ', mergedPokemons)
+            setPokemons(mergedPokemons)
+            //setPokemons(detailedPokemons)
          } catch (err) {
             setError(err)
          } finally {

@@ -19,7 +19,9 @@ export const PokemonInfo = ({ pokemon, isAuthenticated, toggleFavorite, isFavori
          </div>
          <div>
             <p className="text-lg md:text-xl lg:text-2xl text-gray-600 mb-3 mt-3">
-               {pokemon.abilities[0].ability.name}
+               {pokemon.abilities && pokemon.abilities.length > 0
+                  ? pokemon.abilities[0].ability.name
+                  : 'Brak danych'}
             </p>
             <p className="text-xl md:text-2xl lg:text-3xl font-bold mb-3 mt-3">Ability</p>
          </div>
