@@ -53,7 +53,7 @@ export const EditPage = () => {
                      <span>{(currentPage - 1) * 15 + index + 1}</span>
                      <span>{pokemon.name}</span>
                      <img
-                        src={pokemon.sprites?.front_default || pokemon.sprite}
+                        src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
                         alt={pokemon.name}
                         className="w-16 h-16 md:w-20 md:h-20"
                      />

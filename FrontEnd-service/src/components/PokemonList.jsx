@@ -5,8 +5,7 @@ import { PokemonCard } from '../shared/PokemonCard'
 export const PokemonList = ({ pokemons }) => (
    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-12">
       {pokemons.map(pokemon => {
-         const pokemonId = pokemon.id || pokemon.url.split('/')[6]
-         const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonId}.svg`
+         const imageUrl = pokemon.sprites?.other.dream_world.front_default || pokemon.sprite
          return (
             <li
                key={pokemon.name}

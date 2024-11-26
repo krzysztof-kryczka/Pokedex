@@ -16,7 +16,7 @@ export const Pokedex = () => {
       error,
       currentPage,
       setCurrentPage,
-   } = useFetchPokemons(pokemonsPerPage)
+   } = useFetchPokemons(pokemonsPerPage, true)
    const { pokemons, setPokemons } = usePokemon()
 
    useEffect(() => {
