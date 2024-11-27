@@ -10,12 +10,13 @@ export const useCreatePokemon = (navigate, reset) => {
       setLoading(true)
       try {
          const pokemonToCreate = {
-            pokemonId: spriteIndex,
+            id: spriteIndex,
             name: newPokemon.name,
             weight: Number(newPokemon.weight),
             height: Number(newPokemon.height),
             base_experience: Number(newPokemon.base_experience),
             sprite: newPokemon.sprite,
+            abilities: []
          }
 
          await axios.post('http://localhost:3000/pokemons', pokemonToCreate)
