@@ -1,3 +1,5 @@
+import React from 'react'
+
 const PaginationButton = ({ page, label, currentPage, onPageChange }) => (
    <button
       onClick={() => onPageChange(page)}
@@ -11,15 +13,17 @@ const PaginationButton = ({ page, label, currentPage, onPageChange }) => (
    </button>
 )
 
-export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) => {
+   if (totalPages < 1) return null
+
    const maxPages = 5
    const startPage = Math.max(1, Math.min(totalPages - maxPages + 1, currentPage - Math.floor(maxPages / 2)))
    const endPage = Math.min(totalPages, startPage + maxPages - 1)
-   const pages = [...Array(endPage - startPage + 1).keys()].map(i => startPage + i)
+   const pages = [...Array(Math.max(endPage - startPage + 1, 0)).keys()].map(i => startPage + i)
 
    return (
       <div className="flex flex-wrap justify-center space-x-2 my-4">
-         {currentPage > 1 && (
+         {pageType !== 'edit' && currentPage > 1 && (
             <PaginationButton
                page={currentPage - 1}
                label="&lt;"
@@ -27,8 +31,8 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                onPageChange={onPageChange}
             />
          )}
-         <PaginationButton page={1} currentPage={currentPage} onPageChange={onPageChange} />
-         {startPage > 1 && startPage !== 2 && (
+         {pageType !== 'edit' && <PaginationButton page={1} currentPage={currentPage} onPageChange={onPageChange} />}
+         {pageType !== 'edit' && startPage > 1 && startPage !== 2 && (
             <button
                className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
                disabled
@@ -36,13 +40,14 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                ...
             </button>
          )}
-         {pages.map(
-            page =>
-               page !== 1 && (
-                  <PaginationButton key={page} page={page} currentPage={currentPage} onPageChange={onPageChange} />
-               ),
-         )}
-         {endPage < totalPages && (
+         {pageType !== 'edit' &&
+            pages.map(
+               page =>
+                  page !== 1 && (
+                     <PaginationButton key={page} page={page} currentPage={currentPage} onPageChange={onPageChange} />
+                  ),
+            )}
+         {pageType !== 'edit' && endPage < totalPages && (
             <>
                <button
                   className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
@@ -53,13 +58,31 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                <PaginationButton page={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
             </>
          )}
-         {currentPage < totalPages && (
+         {pageType !== 'edit' && currentPage < totalPages && (
             <PaginationButton
                page={currentPage + 1}
                label="&gt;"
                currentPage={currentPage}
                onPageChange={onPageChange}
             />
+         )}
+         {pageType === 'edit' && (
+            <>
+               <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-full md:w-auto"
+                  onClick={() => onPageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+               >
+                  Poprzednia
+               </button>
+               <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-full md:w-auto"
+                  onClick={() => onPageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+               >
+                  Następna
+               </button>
+            </>
          )}
       </div>
    )

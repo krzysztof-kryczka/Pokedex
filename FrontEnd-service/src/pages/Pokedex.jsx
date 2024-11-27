@@ -5,11 +5,10 @@ import { Loader } from '../components/Loader'
 import { PokemonList } from '../components/PokemonList'
 import { usePokemon } from '../context/PokemonContext'
 
-const totalPokemons = 150
 const pokemonsPerPage = 15
-const totalPages = Math.ceil(totalPokemons / pokemonsPerPage)
 
 export const Pokedex = () => {
+   const { pokemons: contextPokemons = [], setPokemons, totalCount } = usePokemon()
    const {
       pokemons: fetchedPokemons,
       isLoading,
@@ -17,16 +16,12 @@ export const Pokedex = () => {
       currentPage,
       setCurrentPage,
    } = useFetchPokemons(pokemonsPerPage, true)
-   const { pokemons, setPokemons } = usePokemon()
-
-   useEffect(() => {
-      setPokemons(fetchedPokemons)
-   }, [fetchedPokemons, setPokemons])
 
    const [searchTerm, setSearchTerm] = useState('')
-   const filteredPokemons = pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
-   const handlePageChange = pageNumber => setCurrentPage(pageNumber)
+   const filteredPokemons = contextPokemons.filter(pokemon =>
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()),
+   )
 
    return (
       <div className="p-4 max-auto mx-auto">
@@ -42,8 +37,12 @@ export const Pokedex = () => {
          {!isLoading && !error && (
             <>
                <PokemonList pokemons={filteredPokemons} />
-               {filteredPokemons.length >= pokemonsPerPage && (
-                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+               {filteredPokemons.length >= 0 && (
+                  <Pagination
+                     currentPage={currentPage}
+                     totalPages={Math.ceil(totalCount / pokemonsPerPage)}
+                     onPageChange={setCurrentPage}
+                  />
                )}
             </>
          )}
