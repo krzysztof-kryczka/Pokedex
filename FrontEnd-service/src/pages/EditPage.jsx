@@ -1,22 +1,23 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { editPokemonSchema } from '../schemas/pokemonSchema'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
-import { useEditPokemon } from '../hooks/useEditPokemon'
+import { useManagePokemon } from '../hooks/useManagePokemon'
 import { PokemonForm } from '../shared/PokemonForm'
 
 export const EditPage = () => {
    const { pokemons, isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
    const [selectedPokemon, setSelectedPokemon] = useState(null)
    const navigate = useNavigate()
-   const { editExistingPokemon, loading } = useEditPokemon(navigate)
+   const { savePokemon, loading } = useManagePokemon(navigate)
 
    const {
       register,
       handleSubmit,
       formState: { errors },
+      reset,
    } = useForm({
       resolver: zodResolver(editPokemonSchema),
       mode: 'onSubmit',
@@ -25,11 +26,28 @@ export const EditPage = () => {
    const formRef = useRef(null)
 
    const handleEditClick = pokemon => {
-      setSelectedPokemon(pokemon)
-      setTimeout(() => {
-         formRef.current?.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
+      if (selectedPokemon && selectedPokemon.name === pokemon.name) {
+         setSelectedPokemon(null)
+      } else {
+         setSelectedPokemon(pokemon)
+         setTimeout(() => {
+            formRef.current?.scrollIntoView({ behavior: 'smooth' })
+         }, 100)
+      }
    }
+
+   useEffect(() => {
+      if (selectedPokemon) {
+         reset({
+            name: selectedPokemon.name,
+            weight: selectedPokemon.weight,
+            height: selectedPokemon.height,
+            base_experience: selectedPokemon.base_experience,
+            sprite: selectedPokemon.sprites?.other.dream_world.front_default || selectedPokemon.sprite,
+            abilities: selectedPokemon.abilities ? selectedPokemon.abilities.map(a => a.ability.name).join(', ') : '',
+         })
+      }
+   }, [selectedPokemon, reset])
 
    if (isLoading) return <p className="text-center text-blue-700">Ładowanie Pokémonów...</p>
    if (error) return <p className="text-center text-red-700">Błąd podczas ładowania Pokémonów: {error.message}</p>
@@ -40,7 +58,7 @@ export const EditPage = () => {
             onClick={() => navigate('/create')}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 hover:bg-blue-600 w-full md:w-auto"
          >
-            Stwórz Pokemona
+            Stwórz Pokémona
          </button>
          <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Lista Pokémonów</h1>
          <ul className="space-y-4">
@@ -74,11 +92,11 @@ export const EditPage = () => {
                   register={register}
                   errors={errors}
                   onSubmit={handleSubmit(updatedPokemon => {
-                     console.log('Zaktualizowane dane Pokémona:', {
+                     console.log('Zaktualizowane dane pokémona:', {
                         ...selectedPokemon,
                         ...updatedPokemon,
                      })
-                     editExistingPokemon({
+                     savePokemon({
                         ...selectedPokemon,
                         ...updatedPokemon,
                      })

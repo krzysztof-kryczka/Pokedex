@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createPokemonSchema } from '../schemas/pokemonSchema'
 import { PokemonForm } from '../shared/PokemonForm'
-import { useFetchSprites } from '../hooks/useFetchSprites'
-import { useCreatePokemon } from '../hooks/useCreatePokemon'
+import { useManagePokemon } from '../hooks/useManagePokemon'
 
 export const CreatePokemonPage = () => {
    const {
@@ -19,9 +18,8 @@ export const CreatePokemonPage = () => {
       mode: 'onSubmit',
    })
    const [spriteIndex, setSpriteIndex] = useState(151)
-   const usedSprites = useFetchSprites()
    const navigate = useNavigate()
-   const { createPokemon, loading } = useCreatePokemon(navigate, reset)
+   const { savePokemon, loading, usedSprites } = useManagePokemon(navigate, reset)
 
    useEffect(() => {
       const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${spriteIndex}.svg`
@@ -43,7 +41,7 @@ export const CreatePokemonPage = () => {
          <PokemonForm
             register={register}
             errors={errors}
-            onSubmit={handleSubmit(newPokemon => createPokemon(newPokemon, spriteIndex))}
+            onSubmit={handleSubmit(newPokemon => savePokemon(newPokemon, spriteIndex))}
             isSpriteUsed={isSpriteUsed}
             spriteUrl={spriteUrl}
             handleSpriteNavigation={handleSpriteNavigation}
