@@ -9,6 +9,7 @@ import { PokemonForm } from '../shared/PokemonForm'
 import { Pagination } from '../components/Pagination'
 import { usePokemon } from '../context/PokemonContext'
 import { Loader } from '../components/Loader'
+import { PokemonListDisplay } from '../shared/PokemonListDisplay'
 
 export const EditPage = () => {
    const { pokemons: contextPokemons = [], setPokemons, totalCount } = usePokemon()
@@ -53,6 +54,13 @@ export const EditPage = () => {
       }
    }, [selectedPokemon, reset])
 
+   const handlePageChange = page => {
+      console.log('Changing to page:', page)
+      setSelectedPokemon(null)
+      setCurrentPage(page)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
+
    return (
       <div className="bg-blue-50 min-h-screen p-4 md:p-8">
          <button
@@ -65,33 +73,16 @@ export const EditPage = () => {
          {error && (
             <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>
          )}
-         {isLoading && <Loader />}
-         {!isLoading && !error && (
+         {isLoading ? (
+            <Loader />
+         ) : (
             <>
-               <ul className="space-y-4">
-                  {contextPokemons.map((pokemon, index) => (
-                     <li
-                        key={`${index}-${pokemon.id || pokemon.pokemonId}`}
-                        className="flex flex-col md:flex-row items-center justify-between bg-white p-4 shadow rounded-lg"
-                     >
-                        <div className="flex items-center space-x-4 mb-4 md:mb-0">
-                           <span>{(currentPage - 1) * 15 + index + 1}</span>
-                           <span>{pokemon.name}</span>
-                           <img
-                              src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
-                              alt={pokemon.name}
-                              className="w-16 h-16 md:w-20 md:h-20"
-                           />
-                        </div>
-                        <button
-                           onClick={() => handleEditClick(pokemon)}
-                           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full md:w-auto"
-                        >
-                           Edytuj
-                        </button>
-                     </li>
-                  ))}
-               </ul>
+               <PokemonListDisplay
+                  pokemons={contextPokemons}
+                  onEditClick={handleEditClick}
+                  currentPage={currentPage}
+                  pageType="edit"
+               />
                {selectedPokemon && (
                   <div ref={formRef} className="mt-8">
                      <PokemonForm
@@ -99,20 +90,16 @@ export const EditPage = () => {
                         register={register}
                         errors={errors}
                         onSubmit={handleSubmit(updatedPokemon => {
-                           savePokemon({
-                              ...selectedPokemon,
-                              ...updatedPokemon,
-                           })
+                           savePokemon({ ...selectedPokemon, ...updatedPokemon })
                         })}
                         isEditing={true}
                      />
                   </div>
                )}
-               {loading && <p className="text-center text-blue-700">Trwa edycja Pokémona...</p>}
                <Pagination
                   currentPage={currentPage}
                   totalPages={Math.ceil(totalCount / 15)}
-                  onPageChange={setCurrentPage}
+                  onPageChange={handlePageChange}
                   pageType="edit"
                />
             </>
