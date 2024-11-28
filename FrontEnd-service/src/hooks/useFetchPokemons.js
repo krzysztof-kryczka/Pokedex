@@ -60,7 +60,12 @@ export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = fa
                         return { ...pokemon, ...pokemonDetails }
                      }),
                   )
-                  finalPokemons = [...finalPokemons, ...detailedPokemons]
+
+                  // Exclude duplicates: prioritize local Pokémon
+                  const localPokemonIds = dbPokemons.map(pokemon => pokemon.id)
+                  const uniqueApiPokemons = detailedPokemons.filter(pokemon => !localPokemonIds.includes(pokemon.id))
+
+                  finalPokemons = [...finalPokemons, ...uniqueApiPokemons]
                   console.log(finalPokemons)
                }
             }
