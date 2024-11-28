@@ -13,6 +13,7 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import { FavoritesPage } from './pages/FavoritesPage.jsx'
 import { EditPage } from './pages/EditPage.jsx'
 import { CreatePokemonPage } from './pages/CreatePokemonPage.jsx'
+import { RankingPage } from './pages/RankingPage.jsx'
 
 const router = createBrowserRouter([
    {
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
          { path: 'favorites', element: <FavoritesPage /> },
          { path: 'edit', element: <EditPage /> },
          { path: 'create', element: <CreatePokemonPage /> },
+         { path: 'ranking', element: <RankingPage /> },
          { path: '*', element: <Navigate to="/" /> },
       ],
    },

@@ -1,0 +1,51 @@
+import React from 'react'
+import { useFetchPokemons } from '../hooks/useFetchPokemons'
+import { usePokemon } from '../context/PokemonContext'
+import { Loader } from '../components/Loader'
+import { Pagination } from '../components/Pagination'
+import { PokemonListDisplay } from '../shared/PokemonListDisplay'
+
+export const RankingPage = () => {
+   const { pokemons: contextPokemons, totalCount } = usePokemon()
+   const { isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
+
+   const handlePageChange = page => {
+      setCurrentPage(page)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
+
+   return (
+      <div className="bg-blue-50 min-h-screen p-4 md:p-8">
+         <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Ranking Pokémonów</h1>
+         {error && (
+            <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>
+         )}
+         {isLoading ? (
+            <Loader />
+         ) : (
+            <>
+               <div className="mb-4">
+                  <label htmlFor="sortCriteria" className="block mb-2">
+                     Sortuj według:
+                  </label>
+                  <select id="sortCriteria" className="p-2 border rounded w-full bg-white text-black">
+                     <option value="base_experience">Doświadczenie</option>
+                     <option value="weight">Waga</option>
+                     <option value="height">Wzrost</option>
+                     <option value="battle_wins">Liczba wygranych walk</option>
+                  </select>
+               </div>
+               <PokemonListDisplay pokemons={contextPokemons} currentPage={currentPage} pageType="ranking" />
+               {Math.ceil(totalCount / 15) > 1 && (
+                  <Pagination
+                     currentPage={currentPage}
+                     totalPages={Math.ceil(totalCount / 15)}
+                     onPageChange={handlePageChange}
+                     pageType="ranking"
+                  />
+               )}
+            </>
+         )}
+      </div>
+   )
+}
