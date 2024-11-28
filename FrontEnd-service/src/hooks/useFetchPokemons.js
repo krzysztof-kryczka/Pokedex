@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { usePokemon } from '../context/PokemonContext'
+import { getPokemons, getExternalPokemons, getExternalPokemonDetails } from '../api'
 
 export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = false) => {
    const { setPokemons, setTotalCount } = usePokemon()
@@ -18,7 +18,7 @@ export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = fa
 
             if (includeLocalPokemons) {
                // Fetch Pokémon from local db.json
-               const dbResponse = await axios.get('http://localhost:3000/pokemons')
+               const dbResponse = await getPokemons()
                dbPokemons = dbResponse.data
                totalLocalPokemons = dbPokemons.length
             }
@@ -47,12 +47,10 @@ export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = fa
                   // const offset = (currentPage - 1) * remainingPokemonsCount
 
                   // Fetch Pokémon from external API
-                  const apiResponse = await axios.get(
-                     `https://pokeapi.co/api/v2/pokemon?offset=${apiOffset}&limit=${remainingPokemonsCount}`,
-                  )
+                  const apiResponse = await getExternalPokemons(apiOffset, remainingPokemonsCount)
                   const detailedPokemons = await Promise.all(
                      apiResponse.data.results.map(async pokemon => {
-                        const pokemonResponse = await axios.get(pokemon.url)
+                        const pokemonResponse = await getExternalPokemonDetails(pokemon.url)
                         const pokemonDetails = pokemonResponse.data
                         // console.log('Fetched Pokemon Details:', pokemonDetails)
                         // const combinedData = { ...pokemon, ...pokemonDetails }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSnackbar } from 'notistack'
-import axios from 'axios'
+import { fetchUsedSprites, getPokemons, savePokemon as savePokemonApi, updatePokemon as updatePokemonApi } from '../api'
 
 export const useManagePokemon = (navigate, reset) => {
    const { enqueueSnackbar } = useSnackbar()
@@ -8,16 +8,16 @@ export const useManagePokemon = (navigate, reset) => {
    const [usedSprites, setUsedSprites] = useState([])
 
    useEffect(() => {
-      const fetchUsedSprites = async () => {
+      const fetchSprites = async () => {
          try {
-            const response = await axios.get('http://localhost:3000/pokemons')
+            const response = await fetchUsedSprites()
             const sprites = response.data.map(pokemon => pokemon.sprite)
             setUsedSprites(sprites)
          } catch (error) {
             console.error("Nie udało się pobrać listy używanych sprite'ów:", error)
          }
       }
-      fetchUsedSprites()
+      fetchSprites()
    }, [])
 
    const savePokemon = async (pokemonData, spriteIndex) => {
@@ -25,10 +25,10 @@ export const useManagePokemon = (navigate, reset) => {
       try {
          const { id, name, weight, height, base_experience, abilities } = pokemonData
          const sprite = pokemonData.sprite || pokemonData.sprites?.other.dream_world.front_default
-         const pokemonUrl = `http://localhost:3000/pokemons/${id || spriteIndex}`
+         const pokemonId = id || spriteIndex
 
          const finalPokemonData = {
-            id: id || spriteIndex,
+            id: pokemonId,
             name,
             weight: Number(weight),
             height: Number(height),
@@ -38,15 +38,15 @@ export const useManagePokemon = (navigate, reset) => {
          }
 
          // Check: if the Pokémon exists in db.json
-         const response = await axios.get('http://localhost:3000/pokemons')
+         const response = await getPokemons()
          const allPokemons = response.data
-         const existingPokemon = allPokemons.find(pokemon => pokemon.id === id)
+         const existingPokemon = allPokemons.find(pokemon => pokemon.id === pokemonId)
 
          if (existingPokemon) {
-            await axios.put(pokemonUrl, finalPokemonData)
+            await updatePokemonApi(pokemonId, finalPokemonData)
             enqueueSnackbar(`Zmieniono atrybuty pokémona: ${name}`, { variant: 'success' })
          } else {
-            await axios.post('http://localhost:3000/pokemons', finalPokemonData)
+            await savePokemonApi(finalPokemonData)
             enqueueSnackbar(`Nowy pokémon: ${name} został dodany`, { variant: 'success' })
             if (reset) reset()
          }

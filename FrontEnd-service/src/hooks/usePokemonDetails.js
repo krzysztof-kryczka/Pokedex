@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { getLocalPokemonById, getExternalPokemonDetails, getFavoritesByUserId } from '../api'
 import { useFavorites } from './useFavorites'
 
 export const usePokemonDetails = (pokemon, user, enqueueSnackbar) => {
@@ -11,8 +11,13 @@ export const usePokemonDetails = (pokemon, user, enqueueSnackbar) => {
       const fetchPokemonDetails = async () => {
          if (!pokemon) return
          try {
-            const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon.id}`)
-            setPokemonDetails(response.data)
+            const localResponse = await getLocalPokemonById(pokemon.id)
+            if (localResponse.data.length > 0) {
+               setPokemonDetails(localResponse.data[0])
+            } else {
+               const apiResponse = await getExternalPokemonDetails(`/pokemon/${pokemon.id}`)
+               setPokemonDetails(apiResponse.data)
+            }
          } catch (error) {
             console.error('Nie udało się pobrać szczegółów Pokémona:', error)
             enqueueSnackbar('Nie udało się pobrać szczegółów Pokémona.', { variant: 'error' })
@@ -25,10 +30,9 @@ export const usePokemonDetails = (pokemon, user, enqueueSnackbar) => {
       if (user && pokemonDetails) {
          const fetchFavorites = async () => {
             try {
-               const response = await axios.get(
-                  `http://localhost:3000/favorites?userId=${user.id}&pokemonId=${pokemonDetails.id}`,
-               )
-               setIsFavorite(response.data.length > 0)
+               const response = await getFavoritesByUserId(user.id)
+               const isFav = response.data.some(fav => fav.pokemonId === pokemonDetails.id)
+               setIsFavorite(isFav)
             } catch (error) {
                console.error('Błąd podczas pobierania pokemonów z karty Ulubione!', error)
             }

@@ -1,6 +1,6 @@
-import { useContext, useState } from 'react'
-import axios from 'axios'
+import { useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import { getUsers, createUser } from '../api'
 
 export const useAuth = () => {
    const [loading, setLoading] = useState(false)
@@ -9,7 +9,7 @@ export const useAuth = () => {
    const register = async (userData, enqueueSnackbar) => {
       setLoading(true)
       try {
-         const response = await axios.get('http://localhost:3000/users')
+         const response = await getUsers()
          const users = response.data
          const userExists = users.some(user => user.email === userData.email)
          if (userExists) {
@@ -17,7 +17,7 @@ export const useAuth = () => {
             setLoading(false)
             return false
          }
-         await axios.post('http://localhost:3000/users', {
+         await createUser({
             name: userData.name,
             email: userData.email,
             password: userData.password,
@@ -36,7 +36,7 @@ export const useAuth = () => {
    const login = async (email, password, enqueueSnackbar) => {
       setLoading(true)
       try {
-         const response = await axios.get('http://localhost:3000/users')
+         const response = await getUsers()
          const users = response.data
          const user = users.find(user => user.email === email && user.password === password)
          if (!user) {
