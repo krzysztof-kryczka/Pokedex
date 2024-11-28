@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
 import { usePokemon } from '../context/PokemonContext'
 import { Loader } from '../components/Loader'
@@ -8,6 +8,26 @@ import { PokemonListDisplay } from '../shared/PokemonListDisplay'
 export const RankingPage = () => {
    const { pokemons: contextPokemons, totalCount } = usePokemon()
    const { isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
+   const [sortCriteria, setSortCriteria] = useState('base_experience')
+   const [sortOrder, setSortOrder] = useState('desc')
+
+   const sortedCurrentPokemons = [...contextPokemons].sort((a, b) => {
+      if (sortOrder === 'asc') {
+         return a[sortCriteria] - b[sortCriteria]
+      } else {
+         return b[sortCriteria] - a[sortCriteria]
+      }
+   })
+
+   const handleSortChange = event => {
+      const criteria = event.target.value
+      if (sortCriteria === criteria) {
+         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+      } else {
+         setSortCriteria(criteria)
+         setSortOrder('desc')
+      }
+   }
 
    const handlePageChange = page => {
       setCurrentPage(page)
@@ -28,14 +48,19 @@ export const RankingPage = () => {
                   <label htmlFor="sortCriteria" className="block mb-2">
                      Sortuj według:
                   </label>
-                  <select id="sortCriteria" className="p-2 border rounded w-full bg-white text-black">
+                  <select
+                     id="sortCriteria"
+                     className="p-2 border rounded w-full bg-white text-black"
+                     value={sortCriteria}
+                     onChange={handleSortChange}
+                  >
                      <option value="base_experience">Doświadczenie</option>
                      <option value="weight">Waga</option>
                      <option value="height">Wzrost</option>
                      <option value="battle_wins">Liczba wygranych walk</option>
                   </select>
                </div>
-               <PokemonListDisplay pokemons={contextPokemons} currentPage={currentPage} pageType="ranking" />
+               <PokemonListDisplay pokemons={sortedCurrentPokemons} currentPage={currentPage} pageType="ranking" />
                {Math.ceil(totalCount / 15) > 1 && (
                   <Pagination
                      currentPage={currentPage}
