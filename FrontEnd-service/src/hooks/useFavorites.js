@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import {
-   addFavorite,
-   getExternalPokemonDetails,
    getFavoritesByUserId,
    getLocalPokemonById,
+   addFavorite,
    removeFavorite,
+   getExternalPokemonDetails,
 } from '../api'
 
 export const useFavorites = (userId, enqueueSnackbar) => {
@@ -14,8 +14,11 @@ export const useFavorites = (userId, enqueueSnackbar) => {
    const fetchFavorites = async () => {
       try {
          const response = await getFavoritesByUserId(userId)
-         setFavorites(response.data)
-         if (response.data.length === 0) {
+         const userFavorites = response.data.filter(
+            favorite => Array.isArray(favorite.userId) && favorite.userId.includes(userId),
+         )
+         setFavorites(userFavorites)
+         if (userFavorites.length === 0) {
             setFavoriteDetails([])
          }
       } catch (err) {
@@ -55,15 +58,18 @@ export const useFavorites = (userId, enqueueSnackbar) => {
 
    const toggleFavorite = async pokemonId => {
       try {
-         const response = await getFavoritesByUserId(userId)
-         const favorite = response.data.find(fav => fav.pokemonId === pokemonId)
+         const favorite = favorites.find(fav => fav.pokemonId === pokemonId)
          if (favorite) {
-            await removeFavorite(favorite.id)
-            setFavorites(favorites.filter(fav => fav.pokemonId !== pokemonId))
+            await removeFavorite(pokemonId, userId)
+            setFavorites(
+               favorites.map(fav =>
+                  fav.pokemonId === pokemonId ? { ...fav, userId: fav.userId.filter(id => id !== userId) } : fav,
+               ),
+            )
             enqueueSnackbar('Pokemon został usunięty z ulubionych.', { variant: 'success' })
          } else {
-            await addFavorite({ userId, pokemonId })
-            setFavorites([...favorites, { userId, pokemonId }])
+            await addFavorite(pokemonId, userId)
+            setFavorites([...favorites, { pokemonId, userId: [userId] }])
             enqueueSnackbar('Pokemon został dodany do ulubionych.', { variant: 'success' })
          }
       } catch (err) {

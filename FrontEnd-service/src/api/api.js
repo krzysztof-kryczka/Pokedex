@@ -22,9 +22,35 @@ export const createUser = userData => localAxios.post('/users', userData)
 export const getUsers = () => localAxios.get('/users')
 
 // page: favorites
-export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId=${userId}`)
-export const addFavorite = favoriteData => localAxios.post('/favorites', favoriteData)
-export const removeFavorite = favoriteId => localAxios.delete(`/favorites/${favoriteId}`)
+// export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId=${userId}`)
+// export const addFavorite = favoriteData => localAxios.post('/favorites', favoriteData)
+// export const removeFavorite = favoriteId => localAxios.delete(`/favorites/${favoriteId}`)
+
+export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId_like=${userId}`)
+
+export const addFavorite = async (pokemonId, userId) => {
+   const response = await localAxios.get(`/favorites?pokemonId=${pokemonId}`)
+   const favorite = response.data[0]
+   if (favorite) {
+      return localAxios.patch(`/favorites/${favorite.id}`, { userId: [...favorite.userId, userId] })
+   } else {
+      return localAxios.post(`/favorites`, { pokemonId, userId: [userId], id: pokemonId })
+   }
+}
+
+export const removeFavorite = async (pokemonId, userId) => {
+   const response = await localAxios.get(`/favorites?pokemonId=${pokemonId}`)
+   const favorite = response.data[0]
+   if (favorite) {
+      const updatedUserId = favorite.userId.filter(id => id !== userId)
+      if (updatedUserId.length > 0) {
+         return localAxios.patch(`/favorites/${favorite.id}`, { userId: updatedUserId })
+      } else {
+         return localAxios.delete(`/favorites/${favorite.id}`)
+      }
+   }
+   throw new Error(`Favorite with pokemonId ${pokemonId} not found for user ${userId}`)
+}
 
 // page: create/edit
 export const fetchUsedSprites = () => localAxios.get('/pokemons')
