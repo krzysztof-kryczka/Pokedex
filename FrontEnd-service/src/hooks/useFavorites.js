@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
    getFavoritesByUserId,
    getLocalPokemonById,
@@ -11,7 +11,9 @@ export const useFavorites = (userId, enqueueSnackbar) => {
    const [favorites, setFavorites] = useState([])
    const [favoriteDetails, setFavoriteDetails] = useState([])
 
-   const fetchFavorites = async () => {
+   // useCallback is used here to remember the fetchFavorites function to avoid creating a new function on every render.
+   // This helps prevent infinite loops in useEffect that I encountered via the dependency array
+   const fetchFavorites = useCallback(async () => {
       try {
          const response = await getFavoritesByUserId(userId)
          const userFavorites = response.data.filter(
@@ -25,12 +27,11 @@ export const useFavorites = (userId, enqueueSnackbar) => {
          console.error(err)
          enqueueSnackbar('Nie udało się pobrać ulubionych Pokemonów.', { variant: 'error' })
       }
-   }
+   }, [userId, enqueueSnackbar])
 
    useEffect(() => {
       fetchFavorites()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+   }, [fetchFavorites])
 
    useEffect(() => {
       if (favorites.length > 0) {
@@ -61,11 +62,12 @@ export const useFavorites = (userId, enqueueSnackbar) => {
          const favorite = favorites.find(fav => fav.pokemonId === pokemonId)
          if (favorite) {
             await removeFavorite(pokemonId, userId)
-            setFavorites(
-               favorites.map(fav =>
+            const updatedFavorites = favorites
+               .map(fav =>
                   fav.pokemonId === pokemonId ? { ...fav, userId: fav.userId.filter(id => id !== userId) } : fav,
-               ),
-            )
+               )
+               .filter(fav => fav.userId.length > 0) // Deleting entries with an empty userId array
+            setFavorites(updatedFavorites)
             enqueueSnackbar('Pokemon został usunięty z ulubionych.', { variant: 'success' })
          } else {
             await addFavorite(pokemonId, userId)
