@@ -14,6 +14,7 @@ import { FavoritesPage } from './pages/FavoritesPage.jsx'
 import { EditPage } from './pages/EditPage.jsx'
 import { CreatePokemonPage } from './pages/CreatePokemonPage.jsx'
 import { RankingPage } from './pages/RankingPage.jsx'
+import { ArenaPage } from './pages/ArenaPage.jsx'
 
 const router = createBrowserRouter([
    {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
          { path: 'edit', element: <EditPage /> },
          { path: 'create', element: <CreatePokemonPage /> },
          { path: 'ranking', element: <RankingPage /> },
+         { path: 'arena', element: <ArenaPage /> },
          { path: '*', element: <Navigate to="/" /> },
       ],
    },

@@ -8,7 +8,7 @@ import { PokemonCard } from '../shared/PokemonCard'
 
 export const PokemonDetails = () => {
    const { name } = useParams()
-   const { pokemons } = usePokemon()
+   const { pokemons, arena, setArena } = usePokemon()
    const { user, isAuthenticated } = useAuth()
    const { enqueueSnackbar } = useSnackbar()
 
@@ -16,6 +16,7 @@ export const PokemonDetails = () => {
    const { pokemonDetails, isFavorite, toggleFavorite } = usePokemonDetails(pokemon, user, enqueueSnackbar)
 
    const [favorite, setFavorite] = useState(isFavorite)
+   const [inArena, setInArena] = useState(false)
 
    useEffect(() => {
       setFavorite(isFavorite)
@@ -36,6 +37,8 @@ export const PokemonDetails = () => {
       setFavorite(!favorite)
    }
 
+   const handleToggleArena = async () => {}
+
    return (
       <div className="p-4 max-w-full mx-auto">
          <PokemonCard
@@ -46,6 +49,11 @@ export const PokemonDetails = () => {
             isAuthenticated={isAuthenticated}
             toggleFavorite={handleToggleFavorite}
             isFavorite={favorite}
+            toggleArena={handleToggleArena}
+            isInArena={inArena}
+            arenaSlots={arena?.length || 0}
+            wins={pokemonDetails?.wins || 0}
+            losses={pokemonDetails?.losses || 0}
             showActions={true}
          />
       </div>

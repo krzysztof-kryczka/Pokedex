@@ -23,6 +23,12 @@ export const Pokedex = () => {
       pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()),
    )
 
+   const handlePageChange = page => {
+      console.log('Changing to page:', page)
+      setCurrentPage(page)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
+
    return (
       <div className="p-4 max-auto mx-auto">
          {error && <p className="text-center text-red-700 font-bold">Błąd podczas pobierania danych z API.</p>}
@@ -41,7 +47,7 @@ export const Pokedex = () => {
                   <Pagination
                      currentPage={currentPage}
                      totalPages={Math.ceil(totalCount / pokemonsPerPage)}
-                     onPageChange={setCurrentPage}
+                     onPageChange={handlePageChange}
                   />
                )}
             </>
