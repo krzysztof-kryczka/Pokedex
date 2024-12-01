@@ -9,6 +9,7 @@ export const PokemonInfo = ({
    toggleArena,
    isInArena,
    arenaSlots,
+   showFavorite,
 }) => (
    <div className="flex flex-col">
       <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-8 capitalize text-center">{pokemon.name}</h2>
@@ -40,6 +41,7 @@ export const PokemonInfo = ({
             toggleArena={toggleArena}
             isInArena={isInArena}
             arenaSlots={arenaSlots}
+            showFavorite={showFavorite}
          />
       )}
    </div>

@@ -56,3 +56,8 @@ export const removeFavorite = async (pokemonId, userId) => {
 export const fetchUsedSprites = () => localAxios.get('/pokemons')
 export const savePokemon = pokemonData => localAxios.post('/pokemons', pokemonData)
 export const updatePokemon = (pokemonId, pokemonData) => localAxios.put(`/pokemons/${pokemonId}`, pokemonData)
+
+// page: arena
+export const getArena = () => localAxios.get('/arena')
+export const addPokemonToArena = pokemonId => localAxios.post('/arena', { id: pokemonId })
+export const removePokemonFromArena = pokemonId => localAxios.delete(`/arena/${pokemonId}`)

@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useSnackbar } from 'notistack'
 import { usePokemonDetails } from '../hooks/usePokemonDetails'
 import { PokemonCard } from '../shared/PokemonCard'
+import { addPokemonToArena, removePokemonFromArena } from '../api'
 
 export const PokemonDetails = () => {
    const { name } = useParams()
@@ -20,7 +21,10 @@ export const PokemonDetails = () => {
 
    useEffect(() => {
       setFavorite(isFavorite)
-   }, [isFavorite])
+      if (pokemonDetails && arena) {
+         setInArena(arena.some(arenaPokemon => arenaPokemon.id === pokemonDetails.id))
+      }
+   }, [isFavorite, arena, pokemonDetails])
 
    if (!pokemon) {
       return <p className="text-center">Nie znaleziono danych dla Pokémona {name}.</p>
@@ -37,24 +41,39 @@ export const PokemonDetails = () => {
       setFavorite(!favorite)
    }
 
-   const handleToggleArena = async () => {}
+   const handleToggleArena = async () => {
+      try {
+         if (inArena) {
+            await removePokemonFromArena(pokemonDetails.id)
+            setArena(prev => prev.filter(pokemon => pokemon.id !== pokemonDetails.id))
+         } else {
+            if (arena.length < 2) {
+               await addPokemonToArena(pokemonDetails.id)
+               setArena(prev => [...prev, { id: pokemonDetails.id }])
+            } else {
+               enqueueSnackbar('Arena jest pełna. Usuń Pokémona, aby dodać nowego.', { variant: 'error' })
+               return
+            }
+         }
+         setInArena(!inArena)
+      } catch (error) {
+         console.error('Błąd podczas aktualizacji areny:', error)
+         enqueueSnackbar('Błąd podczas aktualizacji areny.', { variant: 'error' })
+      }
+   }
 
    return (
       <div className="p-4 max-w-full mx-auto">
          <PokemonCard
             pokemon={pokemonDetails}
             imageUrl={imageUrl}
-            imageClassName="flex justify-center items-center mb-4 md:mb-0 md:w-1/3"
-            cardClassName="flex flex-col md:flex-row justify-around rounded-3xl"
             isAuthenticated={isAuthenticated}
             toggleFavorite={handleToggleFavorite}
             isFavorite={favorite}
             toggleArena={handleToggleArena}
             isInArena={inArena}
-            arenaSlots={arena?.length || 0}
-            wins={pokemonDetails?.wins || 0}
-            losses={pokemonDetails?.losses || 0}
             showActions={true}
+            arenaSlots={arena.length}
          />
       </div>
    )

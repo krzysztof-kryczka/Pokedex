@@ -14,6 +14,8 @@ export const PokemonCard = ({
    toggleArena,
    isInArena,
    showActions,
+   showFavorite = true,
+   arenaSlots,
 }) => (
    <div className="relative p4">
       {true && (
@@ -25,7 +27,7 @@ export const PokemonCard = ({
       )}
       <div
          className={clsx(
-            'overflow-hidden shadow-lg p-4 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 flex flex-col md:flex-row',
+            'overflow-hidden shadow-lg p-4 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 flex flex-col md:flex-row justify-evenly',
             cardClassName,
          )}
       >
@@ -37,9 +39,11 @@ export const PokemonCard = ({
             isFavorite={isFavorite}
             toggleArena={toggleArena}
             isInArena={isInArena}
+            showFavorite={showFavorite}
+            arenaSlots={arenaSlots}
          />
       </div>
-      {true && (
+      {showActions && isInArena && (
          <button
             onClick={toggleArena}
             className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
