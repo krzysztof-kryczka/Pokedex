@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { usePokemon } from '../context/PokemonContext'
+import { useSnackbar } from 'notistack'
 import { PokemonCard } from '../shared/PokemonCard'
 import { PlaceholderCard } from '../shared/PlaceholderCard'
 import { BattleButton } from '../shared/BattleButton'
 import { BattleResultModal } from '../shared/BattleResultModal'
-import { enqueueSnackbar } from 'notistack'
-import { getArena } from '../api'
+import { getArena, removePokemonFromArena } from '../api'
+import BattleArena from '../assets/battle-arena.webp'
 
 export const ArenaPage = () => {
    const { pokemons, arena, setArena } = usePokemon()
+   const { enqueueSnackbar } = useSnackbar()
    const [battleResult, setBattleResult] = useState(null)
    const [showModal, setShowModal] = useState(false)
 
@@ -25,14 +27,25 @@ export const ArenaPage = () => {
       fetchArena()
    }, [setArena, enqueueSnackbar])
 
-   const handleRemoveFromArena = () => {}
+   const handleRemoveFromArena = async id => {
+      try {
+         await removePokemonFromArena(id)
+         setArena(prev => prev.filter(pokemon => pokemon.id !== id))
+      } catch (error) {
+         console.error('Nie udało się usunąć Pokémona z areny:', error)
+         enqueueSnackbar('Nie udało się usunąć Pokémona z areny.', { variant: 'error' })
+      }
+   }
 
-   const handleBattle = () => {}
+   const handleBattle = async () => {}
 
    const handleLeaveArena = () => {}
 
    return (
-      <div className="p-4 max-w-full mx-auto">
+      <div
+         className="p-4 max-w-full mx-auto"
+         style={{ backgroundImage: `url(${BattleArena})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {arena.length > 0 ? (
                arena.map(arenaPokemon => {
@@ -40,17 +53,18 @@ export const ArenaPage = () => {
                   const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`
                   return (
                      <PokemonCard
-                        key={pokemon?.id}
-                        pokemon={pokemons.find(p => p.id === pokemon.id)}
+                        key={pokemon.id}
+                        pokemon={pokemon}
                         imageUrl={imageUrl}
                         isAuthenticated={true}
                         toggleFavorite={() => {}}
                         isFavorite={false}
-                        toggleArena={() => handleRemoveFromArena()}
+                        toggleArena={() => handleRemoveFromArena(pokemon.id)}
                         isInArena={true}
                         showActions={true}
                         showFavorite={false}
                         arenaSlots={arena.length}
+                        showArenaAction={false}
                      />
                   )
                })

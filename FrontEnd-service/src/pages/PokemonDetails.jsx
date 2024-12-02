@@ -74,6 +74,7 @@ export const PokemonDetails = () => {
             isInArena={inArena}
             showActions={true}
             arenaSlots={arena.length}
+            showArenaAction={true}
          />
       </div>
    )

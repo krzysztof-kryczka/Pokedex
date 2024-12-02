@@ -16,8 +16,9 @@ export const PokemonCard = ({
    showActions,
    showFavorite = true,
    arenaSlots,
+   showArenaAction,
 }) => (
-   <div className="relative p4">
+   <div className={clsx('relative p-0', isInArena && 'opacity-75')}>
       {true && (
          <div className="absolute top-0 left-0 bg-black text-white p-5 rounded-tl-2xl rounded-br-2xl shadow-lg">
             <div className="flex flex-col items-start space-y-1 font-mono font-bold">
@@ -41,9 +42,10 @@ export const PokemonCard = ({
             isInArena={isInArena}
             showFavorite={showFavorite}
             arenaSlots={arenaSlots}
+            showArenaAction={showArenaAction}
          />
       </div>
-      {showActions && isInArena && (
+      {!showArenaAction && isInArena && (
          <button
             onClick={toggleArena}
             className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
