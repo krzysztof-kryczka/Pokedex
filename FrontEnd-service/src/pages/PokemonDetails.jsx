@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useSnackbar } from 'notistack'
 import { usePokemonDetails } from '../hooks/usePokemonDetails'
 import { PokemonCard } from '../shared/PokemonCard'
-import { addPokemonToArena, removePokemonFromArena } from '../api'
+import { addPokemonToArena, getPokemons, removePokemonFromArena, savePokemon } from '../api'
 
 export const PokemonDetails = () => {
    const { name } = useParams()
@@ -48,6 +48,17 @@ export const PokemonDetails = () => {
             setArena(prev => prev.filter(pokemon => pokemon.id !== pokemonDetails.id))
          } else {
             if (arena.length < 2) {
+            const response = await getPokemons()
+            const allPokemons = response.data
+            const existingPokemon = allPokemons.find(p => p.id === pokemonDetails.id)
+
+            if (!existingPokemon) {
+               const { id, name, weight, height, base_experience, abilities } = pokemonDetails
+               const sprite = pokemonDetails.sprites.other.dream_world.front_default
+               const pokemonData = { id, name, weight, height, base_experience, sprite, abilities }
+               await savePokemon(pokemonData)
+            }
+
                await addPokemonToArena(pokemonDetails.id)
                setArena(prev => [...prev, { id: pokemonDetails.id }])
             } else {
