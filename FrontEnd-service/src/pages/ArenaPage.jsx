@@ -5,27 +5,31 @@ import { PokemonCard } from '../shared/PokemonCard'
 import { PlaceholderCard } from '../shared/PlaceholderCard'
 import { BattleButton } from '../shared/BattleButton'
 import { BattleResultModal } from '../shared/BattleResultModal'
-import { getArena, removePokemonFromArena } from '../api'
+import { getPokemons, getArena, removePokemonFromArena, updatePokemon } from '../api'
 import BattleArena from '../assets/battle-arena.webp'
 
 export const ArenaPage = () => {
-   const { pokemons, arena, setArena } = usePokemon()
+   const { pokemons, setPokemons, arena, setArena } = usePokemon()
    const { enqueueSnackbar } = useSnackbar()
    const [battleResult, setBattleResult] = useState(null)
    const [showModal, setShowModal] = useState(false)
 
    useEffect(() => {
-      const fetchArena = async () => {
+      const fetchData = async () => {
          try {
-            const response = await getArena()
-            setArena(response.data)
+            const pokemonsResponse = await getPokemons()
+            setPokemons(pokemonsResponse.data)
+            console.log('Pokémons zostały pobrane:', pokemonsResponse.data)
+            const arenaResponse = await getArena()
+            setArena(arenaResponse.data)
+            console.log('Dane areny zostały pobrane:', arenaResponse.data)
          } catch (error) {
-            console.error('Nie udało się pobrać danych z areny:', error)
-            enqueueSnackbar('Nie udało się pobrać danych z areny.', { variant: 'error' })
+            console.error('Nie udało się pobrać danych:', error)
+            enqueueSnackbar('Nie udało się pobrać danych.', { variant: 'error' })
          }
       }
-      fetchArena()
-   }, [setArena, enqueueSnackbar])
+      fetchData()
+   }, [setPokemons, setArena, enqueueSnackbar])
 
    const handleRemoveFromArena = async id => {
       try {
@@ -37,9 +41,40 @@ export const ArenaPage = () => {
       }
    }
 
-   const handleBattle = async () => {}
+   const handleBattle = async () => {
+      if (arena.length === 2) {
+         const pokemon1 = pokemons.find(p => p.id === arena[0].id)
+         const pokemon2 = pokemons.find(p => p.id === arena[1].id)
+         if (pokemon1 && pokemon2) {
+            const result1 = pokemon1.base_experience * pokemon1.weight
+            const result2 = pokemon2.base_experience * pokemon2.weight
+            if (result1 > result2) {
+               setBattleResult({ winner: pokemon1, loser: pokemon2 })
+               pokemon1.wins = (pokemon1.wins || 0) + 1
+               pokemon1.base_experience += 10
+               pokemon2.losses = (pokemon2.losses || 0) + 1
+            } else if (result2 > result1) {
+               setBattleResult({ winner: pokemon2, loser: pokemon1 })
+               pokemon2.wins = (pokemon2.wins || 0) + 1
+               pokemon2.base_experience += 10
+               pokemon1.losses = (pokemon1.losses || 0) + 1
+            } else {
+               setBattleResult({ winner: null, loser: null })
+               enqueueSnackbar('Remis! Pokemony nie otrzymały żadnych statystyk.', { variant: 'info' })
+            }
+            await updatePokemon(pokemon1?.id, pokemon1)
+            await updatePokemon(pokemon2?.id, pokemon2)
+            setShowModal(true)
+         } else {
+            enqueueSnackbar('Nie znaleziono Pokémona na arenie.', { variant: 'error' })
+         }
+      }
+   }
 
-   const handleLeaveArena = () => {}
+   const handleLeaveArena = () => {
+      setArena([])
+      setShowModal(false)
+   }
 
    return (
       <div
@@ -50,23 +85,28 @@ export const ArenaPage = () => {
             {arena.length > 0 ? (
                arena.map(arenaPokemon => {
                   const pokemon = pokemons.find(p => p.id === arenaPokemon.id)
-                  const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`
-                  return (
-                     <PokemonCard
-                        key={pokemon.id}
-                        pokemon={pokemon}
-                        imageUrl={imageUrl}
-                        isAuthenticated={true}
-                        toggleFavorite={() => {}}
-                        isFavorite={false}
-                        toggleArena={() => handleRemoveFromArena(pokemon.id)}
-                        isInArena={true}
-                        showActions={true}
-                        showFavorite={false}
-                        arenaSlots={arena.length}
-                        showArenaAction={false}
-                     />
-                  )
+                  if (pokemon) {
+                     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`
+                     return (
+                        <PokemonCard
+                           key={pokemon.id}
+                           pokemon={pokemon}
+                           imageUrl={imageUrl}
+                           isAuthenticated={true}
+                           toggleFavorite={() => {}}
+                           isFavorite={false}
+                           toggleArena={() => handleRemoveFromArena(pokemon.id)}
+                           isInArena={true}
+                           showActions={true}
+                           showFavorite={false}
+                           arenaSlots={arena.length}
+                           showArenaAction={false}
+                        />
+                     )
+                  } else {
+                     console.error('Nie znaleziono Pokémona o ID:', arenaPokemon.id)
+                     return null
+                  }
                })
             ) : (
                <>
