@@ -13,6 +13,7 @@ export const ArenaPage = () => {
    const { enqueueSnackbar } = useSnackbar()
    const [battleResult, setBattleResult] = useState(null)
    const [showModal, setShowModal] = useState(false)
+   const [loserId, setLoserId] = useState(null)
 
    useEffect(() => {
       const fetchData = async () => {
@@ -53,11 +54,13 @@ export const ArenaPage = () => {
                pokemon1.wins = (pokemon1.wins || 0) + 1
                pokemon1.base_experience += 10
                pokemon2.losses = (pokemon2.losses || 0) + 1
+               setLoserId(pokemon2.id)
             } else if (result2 > result1) {
                setBattleResult({ winner: pokemon2, loser: pokemon1 })
                pokemon2.wins = (pokemon2.wins || 0) + 1
                pokemon2.base_experience += 10
                pokemon1.losses = (pokemon1.losses || 0) + 1
+               setLoserId(pokemon1.id)
             } else {
                setBattleResult({ winner: null, loser: null })
                enqueueSnackbar('Remis! Pokemony nie otrzymały żadnych statystyk.', { variant: 'info' })
@@ -74,6 +77,7 @@ export const ArenaPage = () => {
    const handleLeaveArena = () => {
       setArena([])
       setShowModal(false)
+      setLoserId(null)
    }
 
    return (
@@ -101,6 +105,7 @@ export const ArenaPage = () => {
                            showFavorite={false}
                            arenaSlots={arena.length}
                            showArenaAction={false}
+                           isLoser={pokemon.id === loserId}
                         />
                      )
                   } else {
