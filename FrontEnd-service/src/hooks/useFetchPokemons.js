@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { usePokemon } from '../context/PokemonContext'
 import { getPokemons, getExternalPokemons, getExternalPokemonDetails } from '../api'
 
@@ -7,6 +7,7 @@ export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = fa
    const [isLoading, setIsLoading] = useState(true)
    const [error, setError] = useState(null)
    const [currentPage, setCurrentPage] = useState(1)
+   const additionalPokemonsCountRef = useRef(0)
 
    useEffect(() => {
       const fetchPokemons = async () => {
@@ -24,13 +25,20 @@ export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = fa
             }
 
             const totalPokemons = 150 + totalLocalPokemons
-            const offset = (currentPage - 1) * pokemonsPerPage
-            const limit = Math.min(pokemonsPerPage, totalPokemons - offset) // Don't fetch more Pokémon than available
+            let baseOffset = (currentPage - 1) * pokemonsPerPage
+            if (currentPage === 1) {
+               additionalPokemonsCountRef.current = 0
+            } else {
+               baseOffset += additionalPokemonsCountRef.current
+            }
+            const limit = Math.min(pokemonsPerPage, totalPokemons - baseOffset)
+            let offset = baseOffset
 
             // Fetch Pokémon for the current page
             if (includeLocalPokemons) {
                const localPokemonsPage = dbPokemons.slice(offset, offset + limit)
                finalPokemons = [...localPokemonsPage]
+               offset += localPokemonsPage.length
             }
 
             if (finalPokemons.length < limit) {
@@ -44,9 +52,8 @@ export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = fa
             */
                   // Calculate offset, starting from 0 for API Pokémon
                   const apiOffset = Math.max(0, offset - totalLocalPokemons)
-                  // const offset = (currentPage - 1) * remainingPokemonsCount
-
-                  // Fetch Pokémon from external API
+                  // const apiOffset = offset - totalLocalPokemons
+                  console.log('apiOffset: ', apiOffset)
                   const apiResponse = await getExternalPokemons(apiOffset, remainingPokemonsCount)
                   const detailedPokemons = await Promise.all(
                      apiResponse.data.results.map(async pokemon => {
@@ -64,9 +71,28 @@ export const useFetchPokemons = (pokemonsPerPage = 15, includeLocalPokemons = fa
                   const uniqueApiPokemons = detailedPokemons.filter(pokemon => !localPokemonIds.includes(pokemon.id))
 
                   finalPokemons = [...finalPokemons, ...uniqueApiPokemons]
-                  console.log(finalPokemons)
+
+                  while (finalPokemons.length < pokemonsPerPage && apiOffset + remainingPokemonsCount < 150) {
+                     const additionalPokemonsCount = pokemonsPerPage - finalPokemons.length
+                     const additionalApiOffset = apiOffset + remainingPokemonsCount
+                     const additionalApiResponse = await getExternalPokemons(
+                        additionalApiOffset,
+                        additionalPokemonsCount,
+                     )
+                     const additionalPokemons = await Promise.all(
+                        additionalApiResponse.data.results.map(async pokemon => {
+                           const pokemonResponse = await getExternalPokemonDetails(pokemon.url)
+                           const pokemonDetails = pokemonResponse.data
+                           return { ...pokemon, ...pokemonDetails }
+                        }),
+                     )
+                     finalPokemons = [...finalPokemons, ...additionalPokemons]
+                     additionalPokemonsCountRef.current += additionalPokemons.length
+                     console.log('finalPokemons: ', finalPokemons)
+                  }
                }
             }
+
             setPokemons(finalPokemons)
 
             // Update total count: 150 Pokémon from external API + local Pokémon
