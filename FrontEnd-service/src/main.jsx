@@ -15,6 +15,8 @@ import { EditPage } from './pages/EditPage.jsx'
 import { CreatePokemonPage } from './pages/CreatePokemonPage.jsx'
 import { RankingPage } from './pages/RankingPage.jsx'
 import { ArenaPage } from './pages/ArenaPage.jsx'
+import { PrivateRoute } from './components/PrivateRoute.jsx'
+import { PublicRoute } from './components/PublicRoute.jsx'
 
 const router = createBrowserRouter([
    {
@@ -23,13 +25,15 @@ const router = createBrowserRouter([
       children: [
          { path: '/', element: <Pokedex /> },
          { path: 'pokemon/:name', element: <PokemonDetails /> },
-         { path: 'register', element: <RegisterPage /> },
-         { path: 'login', element: <LoginPage /> },
-         { path: 'favorites', element: <FavoritesPage /> },
-         { path: 'edit', element: <EditPage /> },
-         { path: 'create', element: <CreatePokemonPage /> },
-         { path: 'ranking', element: <RankingPage /> },
-         { path: 'arena', element: <ArenaPage /> },
+         // public route
+         { path: 'register', element: <PublicRoute element={<RegisterPage />} /> },
+         { path: 'login', element: <PublicRoute element={<LoginPage />} /> },
+         // private route
+         { path: 'favorites', element: <PrivateRoute element={<FavoritesPage />} /> },
+         { path: 'edit', element: <PrivateRoute element={<EditPage />} /> },
+         { path: 'create', element: <PrivateRoute element={<CreatePokemonPage />} /> },
+         { path: 'ranking', element: <PrivateRoute element={<RankingPage />} /> },
+         { path: 'arena', element: <PrivateRoute element={<ArenaPage />} /> },
          { path: '*', element: <Navigate to="/" /> },
       ],
    },
