@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useFavorites } from '../hooks/useFavorites'
 import { PokemonCard } from '../shared/PokemonCard'
@@ -12,10 +12,6 @@ export const FavoritesPage = () => {
    const handleRemoveFavorite = async pokemonId => {
       await toggleFavorite(pokemonId)
       fetchFavorites()
-   }
-
-   if (!user) {
-      return <p className="text-center text-lg">Zaloguj się, aby zobaczyć swoje ulubione pokemony.</p>
    }
 
    return (

@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { LoginForm } from '../components/LoginForm'
 
 export const LoginPage = () => {
    const { enqueueSnackbar } = useSnackbar()
-   const { login, loading, isAuthenticated } = useAuth()
+   const { login, loading } = useAuth()
    const navigate = useNavigate()
    const {
       register,
@@ -25,10 +25,6 @@ export const LoginPage = () => {
       } else {
          enqueueSnackbar('Logowanie nie powiodło się. Sprawdź swoje dane i spróbuj ponownie.', { variant: 'error' })
       }
-   }
-
-   if (isAuthenticated) {
-      return <Navigate to="/" />
    }
 
    return (
