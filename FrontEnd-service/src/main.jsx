@@ -17,6 +17,7 @@ import { RankingPage } from './pages/RankingPage.jsx'
 import { ArenaPage } from './pages/ArenaPage.jsx'
 import { PrivateRoute } from './components/PrivateRoute.jsx'
 import { PublicRoute } from './components/PublicRoute.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 const router = createBrowserRouter([
    {
@@ -42,11 +43,13 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
    // <StrictMode>
    <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-      <AuthProvider>
-         <PokemonProvider>
-            <RouterProvider router={router} />
-         </PokemonProvider>
-      </AuthProvider>
+      <ThemeProvider>
+         <AuthProvider>
+            <PokemonProvider>
+               <RouterProvider router={router} />
+            </PokemonProvider>
+         </AuthProvider>
+      </ThemeProvider>
    </SnackbarProvider>,
    // </StrictMode>,
 )

@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import { useAuth } from '../hooks/useAuth'
 import { useSnackbar } from 'notistack'
+import { ThemeContext } from '../context/ThemeContext'
+import { FaSun, FaMoon } from 'react-icons/fa'
+import clsx from 'clsx'
 
 export const Navigation = () => {
    const { user, isAuthenticated, logout } = useAuth()
    const { enqueueSnackbar } = useSnackbar()
+   const { theme, toggleTheme } = useContext(ThemeContext)
 
    return (
       <header className="w-full bg-blue-500 p-4 shadow-md">
@@ -65,6 +69,19 @@ export const Navigation = () => {
                      </Link>
                   </>
                )}
+               <div
+                  className="relative flex items-center justify-center w-16 h-8 dark:bg-dark-background rounded-full cursor-pointer"
+                  onClick={toggleTheme}
+               >
+                  <div
+                     className={clsx(
+                        'absolute w-11 h-11 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300',
+                        theme === 'dark' ? 'bg-dark-background translate-x-3' : 'bg-light-background -translate-x-3',
+                     )}
+                  >
+                     {theme === 'dark' ? <FaMoon className="text-blue-500" /> : <FaSun className="text-yellow-500" />}
+                  </div>
+               </div>
             </div>
          </div>
       </header>
