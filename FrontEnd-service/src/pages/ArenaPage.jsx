@@ -74,10 +74,18 @@ export const ArenaPage = () => {
       }
    }
 
-   const handleLeaveArena = () => {
-      setArena([])
-      setShowModal(false)
-      setLoserId(null)
+   const handleLeaveArena = async () => {
+      try {
+         for (const pokemon of arena) {
+            await removePokemonFromArena(pokemon.id)
+         }
+         setArena([])
+         setShowModal(false)
+         setLoserId(null)
+      } catch (error) {
+         console.error('Nie udało się usunąć Pokémonów z areny:', error)
+         enqueueSnackbar('Nie udało się usunąć Pokémonów z areny.', { variant: 'error' })
+      }
    }
 
    return (
