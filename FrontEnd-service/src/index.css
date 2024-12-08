@@ -7,6 +7,7 @@
    --color-text-light: #000;
    --color-bg-dark: #181a1b;
    --color-text-dark: #fff;
+   --color-bg-blue-light: #ebf8ff;
 }
 
 * {
@@ -23,4 +24,12 @@
    .dark body {
       @apply bg-dark-background text-dark-text;
    }
+}
+
+.bg-light-blue {
+   background-color: var(--color-bg-blue-light);
+}
+
+.dark .bg-light-blue {
+   background-color: var(--color-bg-dark);
 }

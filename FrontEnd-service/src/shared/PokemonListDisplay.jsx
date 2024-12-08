@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ThemeContext } from '../context/ThemeContext'
+import clsx from 'clsx'
 
 export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageType }) => {
+   const { theme } = useContext(ThemeContext)
    if (pageType === 'edit') {
       return (
          <ul className="space-y-4">
@@ -34,7 +37,12 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
 
    if (pageType === 'ranking') {
       return (
-         <table className="min-w-full bg-white">
+         <table
+            className={clsx('min-w-full bg-light-background', {
+               'dark:bg-dark-background': theme === 'dark',
+               dark: theme === 'dark',
+            })}
+         >
             <thead>
                <tr>
                   <th className="py-2">ID</th>
@@ -61,7 +69,7 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
                      <td className="py-2">{pokemon.base_experience}</td>
                      <td className="py-2">{pokemon.weight}</td>
                      <td className="py-2">{pokemon.height}</td>
-                     <td className="py-2">{pokemon.battle_wins}</td>
+                     <td className="py-2">{pokemon.wins}</td>
                   </tr>
                ))}
             </tbody>

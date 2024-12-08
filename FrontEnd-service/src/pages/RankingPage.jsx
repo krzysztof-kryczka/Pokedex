@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
 import { usePokemon } from '../context/PokemonContext'
 import { Loader } from '../components/Loader'
 import { Pagination } from '../components/Pagination'
 import { PokemonListDisplay } from '../shared/PokemonListDisplay'
+import { ThemeContext } from '../context/ThemeContext'
+import clsx from 'clsx'
 
 export const RankingPage = () => {
    const { pokemons: contextPokemons, totalCount } = usePokemon()
    const { isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
+   const { theme } = useContext(ThemeContext)
    const [sortCriteria, setSortCriteria] = useState('base_experience')
    const [sortOrder, setSortOrder] = useState('desc')
 
@@ -35,7 +38,9 @@ export const RankingPage = () => {
    }
 
    return (
-      <div className="bg-blue-50 min-h-screen p-4 md:p-8">
+      <div
+         className={clsx('bg-light-blue min-h-screen p-4 md:p-8', { 'dark:bg-dark-background dark': theme === 'dark' })}
+      >
          <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Ranking Pokémonów</h1>
          {error && (
             <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>
@@ -50,7 +55,7 @@ export const RankingPage = () => {
                   </label>
                   <select
                      id="sortCriteria"
-                     className="p-2 border rounded w-full bg-white text-black"
+                     className="p-2 border rounded w-full bg-white dark:bg-gray-700 text-black dark:text-white"
                      value={sortCriteria}
                      onChange={handleSortChange}
                   >

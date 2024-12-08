@@ -21,9 +21,11 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
    const endPage = Math.min(totalPages, startPage + maxPages - 1)
    const pages = [...Array(Math.max(endPage - startPage + 1, 0)).keys()].map(i => startPage + i)
 
+   console.log('pageType', pageType)
+
    return (
       <div className="flex flex-wrap justify-center space-x-2 my-4">
-         {pageType !== 'edit' && currentPage > 1 && (
+         {pageType !== 'edit' && pageType !== 'ranking' && currentPage > 1 && (
             <PaginationButton
                page={currentPage - 1}
                label="&lt;"
@@ -31,8 +33,10 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
                onPageChange={onPageChange}
             />
          )}
-         {pageType !== 'edit' && <PaginationButton page={1} currentPage={currentPage} onPageChange={onPageChange} />}
-         {pageType !== 'edit' && startPage > 1 && startPage !== 2 && (
+         {pageType !== 'edit' && pageType !== 'ranking' && (
+            <PaginationButton page={1} currentPage={currentPage} onPageChange={onPageChange} />
+         )}
+         {pageType !== 'edit' && pageType !== 'ranking' && startPage > 1 && startPage !== 2 && (
             <button
                className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
                disabled
@@ -41,13 +45,14 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
             </button>
          )}
          {pageType !== 'edit' &&
+            pageType !== 'ranking' &&
             pages.map(
                page =>
                   page !== 1 && (
                      <PaginationButton key={page} page={page} currentPage={currentPage} onPageChange={onPageChange} />
                   ),
             )}
-         {pageType !== 'edit' && endPage < totalPages && (
+         {pageType !== 'edit' && pageType !== 'ranking' && endPage < totalPages && (
             <>
                <button
                   className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
@@ -58,7 +63,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
                <PaginationButton page={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
             </>
          )}
-         {pageType !== 'edit' && currentPage < totalPages && (
+         {pageType !== 'edit' && pageType !== 'ranking' && currentPage < totalPages && (
             <PaginationButton
                page={currentPage + 1}
                label="&gt;"
@@ -66,7 +71,8 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
                onPageChange={onPageChange}
             />
          )}
-         {pageType === 'edit' && (
+
+         {(pageType === 'edit' || pageType === 'ranking') && (
             <>
                <button
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-full md:w-auto"
