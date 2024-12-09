@@ -4,12 +4,13 @@
 
 :root {
    --color-bg-light: #fff;
-   --color-text-light: #000;
+   --color-text-light: #131516;
    --color-bg-dark: #181a1b;
    --color-text-dark: #fff;
    --color-bg-blue-light: #ebf8ff;
    --color-bg-section-blue-light: #3b82f6;
    --color-bg-section-blue-dark: #0844a6;
+   --color-bg-search-dark: #0e0f0f;
 }
 
 * {
@@ -42,4 +43,8 @@
 
 .bg-dark-section {
    background-color: var(--color-bg-section-blue-dark);
+}
+
+.bg-dark-search {
+   background-color: var(--color-bg-search-dark);
 }

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
 import { Pagination } from '../components/Pagination'
 import { Loader } from '../components/Loader'
 import { PokemonList } from '../components/PokemonList'
 import { usePokemon } from '../context/PokemonContext'
+import { ThemeContext } from '../context/ThemeContext'
+import clsx from 'clsx'
 
 const pokemonsPerPage = 15
 
@@ -16,6 +18,7 @@ export const Pokedex = () => {
       currentPage,
       setCurrentPage,
    } = useFetchPokemons(pokemonsPerPage, true)
+   const { theme } = useContext(ThemeContext)
 
    const [searchTerm, setSearchTerm] = useState('')
 
@@ -31,6 +34,7 @@ export const Pokedex = () => {
 
    return (
       <div className="p-4 max-auto mx-auto">
+         <h1>Total Count: {totalCount}</h1>
          {error && <p className="text-center text-red-700 font-bold">Błąd podczas pobierania danych z API.</p>}
          {isLoading && <Loader />}
          <input
@@ -38,7 +42,10 @@ export const Pokedex = () => {
             placeholder="Szukaj Pokémona"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="p-2 border rounded w-full mb-4 md:p-3 md:mb-6 lg:p-4 lg:mb-8 bg-gradient-to-r from-blue-200 via-blue-50 to-blue-100 text-black"
+            className={clsx(
+               'p-2 border rounded w-full mb-4 md:p-3 md:mb-6 lg:p-4 lg:mb-8  text-black',
+               theme === 'dark' ? 'bg-dark-search border-gray-500 text-white' : 'bg-gradient-to-r from-blue-200 via-blue-50 to-blue-100',
+            )}
          />
          {!isLoading && !error && (
             <>
