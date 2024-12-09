@@ -8,6 +8,8 @@
    --color-bg-dark: #181a1b;
    --color-text-dark: #fff;
    --color-bg-blue-light: #ebf8ff;
+   --color-bg-section-blue-light: #3b82f6;
+   --color-bg-section-blue-dark: #0844a6;
 }
 
 * {
@@ -32,4 +34,12 @@
 
 .dark .bg-light-blue {
    background-color: var(--color-bg-dark);
+}
+
+.bg-light-section {
+   background-color: var(--color-bg-section-blue-light);
+}
+
+.bg-dark-section {
+   background-color: var(--color-bg-section-blue-dark);
 }
