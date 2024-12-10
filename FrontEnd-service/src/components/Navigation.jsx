@@ -17,6 +17,18 @@ export const Navigation = () => {
       setMenuOpen(!menuOpen)
    }
 
+   const authenticatedLinks = [
+      { to: '/favorites', text: 'Ulubione' },
+      { to: '/arena', text: 'Arena' },
+      { to: '/ranking', text: 'Ranking' },
+      { to: '/edit', text: 'Edycja' },
+   ]
+
+   const unauthenticatedLinks = [
+      { to: '/login', text: 'Logowanie' },
+      { to: '/register', text: 'Rejestracja' },
+   ]
+
    return (
       <header className={clsx('w-full p-4 shadow-md', theme === 'dark' ? 'bg-dark-section' : 'bg-light-section')}>
          <div className="flex items-center justify-between">
@@ -54,30 +66,15 @@ export const Navigation = () => {
                <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
                   {isAuthenticated ? (
                      <>
-                        <Link
-                           to="/favorites"
-                           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
-                        >
-                           Ulubione
-                        </Link>
-                        <Link
-                           to="/arena"
-                           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
-                        >
-                           Arena
-                        </Link>
-                        <Link
-                           to="/ranking"
-                           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
-                        >
-                           Ranking
-                        </Link>
-                        <Link
-                           to="/edit"
-                           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
-                        >
-                           Edycja
-                        </Link>
+                        {authenticatedLinks.map(link => (
+                           <Link
+                              key={link.to}
+                              to={link.to}
+                              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
+                           >
+                              {link.text}
+                           </Link>
+                        ))}
                         <Link
                            onClick={() => logout(enqueueSnackbar)}
                            className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
@@ -87,18 +84,15 @@ export const Navigation = () => {
                      </>
                   ) : (
                      <>
-                        <Link
-                           to="/login"
-                           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
-                        >
-                           Logowanie
-                        </Link>
-                        <Link
-                           to="/register"
-                           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
-                        >
-                           Rejestracja
-                        </Link>
+                        {unauthenticatedLinks.map(link => (
+                           <Link
+                              key={link.to}
+                              to={link.to}
+                              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
+                           >
+                              {link.text}
+                           </Link>
+                        ))}
                      </>
                   )}
                </div>
@@ -111,34 +105,16 @@ export const Navigation = () => {
                      <p className="text-white flex items-center justify-center">
                         <FaUser className="mr-2" /> {`Zalogowany jako: ${user.name}`}
                      </p>
-                     <Link
-                        to="/favorites"
-                        className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
-                        onClick={handleMenuToggle}
-                     >
-                        Ulubione
-                     </Link>
-                     <Link
-                        to="/arena"
-                        className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
-                        onClick={handleMenuToggle}
-                     >
-                        Arena
-                     </Link>
-                     <Link
-                        to="/ranking"
-                        className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
-                        onClick={handleMenuToggle}
-                     >
-                        Ranking
-                     </Link>
-                     <Link
-                        to="/edit"
-                        className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
-                        onClick={handleMenuToggle}
-                     >
-                        Edycja
-                     </Link>
+                     {authenticatedLinks.map(link => (
+                        <Link
+                           key={link.to}
+                           to={link.to}
+                           className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
+                           onClick={handleMenuToggle}
+                        >
+                           {link.text}
+                        </Link>
+                     ))}
                      <Link
                         onClick={() => {
                            logout(enqueueSnackbar)
@@ -151,20 +127,16 @@ export const Navigation = () => {
                   </>
                ) : (
                   <>
-                     <Link
-                        to="/login"
-                        className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
-                        onClick={handleMenuToggle}
-                     >
-                        Logowanie
-                     </Link>
-                     <Link
-                        to="/register"
-                        className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
-                        onClick={handleMenuToggle}
-                     >
-                        Rejestracja
-                     </Link>
+                     {unauthenticatedLinks.map(link => (
+                        <Link
+                           key={link.to}
+                           to={link.to}
+                           className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
+                           onClick={handleMenuToggle}
+                        >
+                           {link.text}
+                        </Link>
+                     ))}
                   </>
                )}
                <div
