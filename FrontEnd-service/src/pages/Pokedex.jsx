@@ -33,8 +33,7 @@ export const Pokedex = () => {
    }
 
    return (
-      <div className="p-4 max-auto mx-auto">
-         <h1>Total Count: {totalCount}</h1>
+      <div className="p-4">
          {error && <p className="text-center text-red-700 font-bold">Błąd podczas pobierania danych z API.</p>}
          {isLoading && <Loader />}
          <input
@@ -44,7 +43,9 @@ export const Pokedex = () => {
             onChange={e => setSearchTerm(e.target.value)}
             className={clsx(
                'p-2 border rounded w-full mb-4 md:p-3 md:mb-6 lg:p-4 lg:mb-8  text-black',
-               theme === 'dark' ? 'bg-dark-search border-gray-500 text-white' : 'bg-gradient-to-r from-blue-200 via-blue-50 to-blue-100',
+               theme === 'dark'
+                  ? 'bg-dark-search border-gray-500 text-white'
+                  : 'bg-gradient-to-r from-blue-200 via-blue-50 to-blue-100',
             )}
          />
          {!isLoading && !error && (

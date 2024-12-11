@@ -39,7 +39,9 @@ export const RankingPage = () => {
 
    return (
       <div
-         className={clsx('bg-light-blue min-h-screen p-4 md:p-8', { 'dark:bg-dark-background dark': theme === 'dark' })}
+         className={clsx('bg-light-blue min-h-screen p-4 md:p-8', {
+            'dark:bg-dark-background dark': theme === 'dark',
+         })}
       >
          <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Ranking Pokémonów</h1>
          {error && (

@@ -7,7 +7,7 @@ import { ThemeContext } from '../context/ThemeContext'
 export const PokemonList = ({ pokemons }) => {
       const { theme } = useContext(ThemeContext)
    return(
-   <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-12">
+   <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-12 pb-4" >
       {pokemons.map(pokemon => {
          const imageUrl = pokemon.sprites?.other.dream_world.front_default || pokemon.sprite
          return (

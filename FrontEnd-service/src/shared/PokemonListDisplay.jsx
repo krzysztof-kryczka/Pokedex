@@ -4,27 +4,33 @@ import clsx from 'clsx'
 
 export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageType }) => {
    const { theme } = useContext(ThemeContext)
+
    if (pageType === 'edit') {
       return (
          <ul className="space-y-4">
             {pokemons.map((pokemon, index) => (
                <li
                   key={`${index}-${pokemon.id}`}
-                  className="flex flex-col md:flex-row items-center justify-between bg-white p-4 shadow rounded-lg"
+                  className={clsx(
+                     'flex flex-col md:flex-row items-center justify-between p-4 shadow rounded-lg bg-light-background',
+                     {
+                        'dark:bg-black': theme === 'dark',
+                     },
+                  )}
                >
-                  <div className="flex items-center space-x-4 mb-4 md:mb-0">
-                     <span>{(currentPage - 1) * 15 + index + 1}</span>
-                     <span>{pokemon.name}</span>
+                  <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mb-4 md:mb-0">
+                     <span className="text-sm sm:text-base">{(currentPage - 1) * 15 + index + 1}</span>
+                     <span className="text-sm sm:text-base">{pokemon.name}</span>
                      <img
                         src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
                         alt={pokemon.name}
-                        className="w-16 h-16 md:w-20 md:h-20"
+                        className="w-12 h-12 sm:w-16 sm:h-16"
                      />
                   </div>
                   {onEditClick && (
                      <button
                         onClick={() => onEditClick(pokemon)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full md:w-auto"
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full sm:w-auto"
                      >
                         Edytuj
                      </button>
@@ -37,43 +43,44 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
 
    if (pageType === 'ranking') {
       return (
-         <table
-            className={clsx('min-w-full bg-light-background', {
-               'dark:bg-dark-background': theme === 'dark',
-               dark: theme === 'dark',
-            })}
-         >
-            <thead>
-               <tr>
-                  <th className="py-2">ID</th>
-                  <th className="py-2">Nazwa Pokémona</th>
-                  <th className="py-2">Obrazek</th>
-                  <th className="py-2">Doświadczenie</th>
-                  <th className="py-2">Waga</th>
-                  <th className="py-2">Wzrost</th>
-                  <th className="py-2">Liczba wygranych walk</th>
-               </tr>
-            </thead>
-            <tbody>
-               {pokemons.map((pokemon, index) => (
-                  <tr key={pokemon.id} className="text-center">
-                     <td className="py-2">{(currentPage - 1) * 15 + index + 1}</td>
-                     <td className="py-2">{pokemon.name}</td>
-                     <td className="py-2 flex justify-center items-center">
-                        <img
-                           src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
-                           alt={pokemon.name}
-                           className="w-16 h-16 md:w-20 md:h-20"
-                        />
-                     </td>
-                     <td className="py-2">{pokemon.base_experience}</td>
-                     <td className="py-2">{pokemon.weight}</td>
-                     <td className="py-2">{pokemon.height}</td>
-                     <td className="py-2">{pokemon.wins}</td>
+         <div className="overflow-x-auto">
+            <table
+               className={clsx('min-w-full bg-light-background text-xs sm:text-sm md:text-base', {
+                  'dark:bg-dark-background': theme === 'dark',
+               })}
+            >
+               <thead>
+                  <tr>
+                     <th className="py-1 px-2 sm:px-4 md:px-8">ID</th>
+                     <th className="py-1 px-2 sm:px-4 md:px-8">Nazwa Pokémona</th>
+                     <th className="py-1 px-2 sm:px-4 md:px-8">Obrazek</th>
+                     <th className="py-1 px-2 sm:px-4 md:px-8">Doświadczenie</th>
+                     <th className="py-1 px-2 sm:px-4 md:px-8">Waga</th>
+                     <th className="py-1 px-2 sm:px-4 md:px-8">Wzrost</th>
+                     <th className="py-1 px-2 sm:px-4 md:px-8">Liczba wygranych walk</th>
                   </tr>
-               ))}
-            </tbody>
-         </table>
+               </thead>
+               <tbody>
+                  {pokemons.map((pokemon, index) => (
+                     <tr key={pokemon.id} className="text-center">
+                        <td className="py-1 px-2 sm:px-4 md:px-8">{(currentPage - 1) * 15 + index + 1}</td>
+                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.name}</td>
+                        <td className="py-1 px-2 sm:px-4 md:px-8 flex justify-center items-center">
+                           <img
+                              src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
+                              alt={pokemon.name}
+                              className="w-12 h-12 sm:w-16 sm:h-16"
+                           />
+                        </td>
+                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.base_experience}</td>
+                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.weight}</td>
+                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.height}</td>
+                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.wins}</td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
+         </div>
       )
    }
 

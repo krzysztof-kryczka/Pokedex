@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createPokemonSchema } from '../schemas/pokemonSchema'
 import { PokemonForm } from '../shared/PokemonForm'
 import { useManagePokemon } from '../hooks/useManagePokemon'
+import { ThemeContext } from '../context/ThemeContext'
+import clsx from 'clsx'
 
 export const CreatePokemonPage = () => {
    const {
@@ -20,6 +22,7 @@ export const CreatePokemonPage = () => {
    const [spriteIndex, setSpriteIndex] = useState(151)
    const navigate = useNavigate()
    const { savePokemon, loading, usedSprites } = useManagePokemon(navigate, reset)
+   const { theme } = useContext(ThemeContext)
 
    useEffect(() => {
       const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${spriteIndex}.svg`
@@ -36,18 +39,24 @@ export const CreatePokemonPage = () => {
    const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${spriteIndex}.svg`
 
    return (
-      <div className="bg-blue-50 min-h-screen p-8">
-         <h1 className="text-4xl font-bold text-center mb-8 text-blue-700">Stwórz Pokemona</h1>
-         <PokemonForm
-            register={register}
-            errors={errors}
-            onSubmit={handleSubmit(newPokemon => savePokemon(newPokemon, spriteIndex))}
-            isSpriteUsed={isSpriteUsed}
-            spriteUrl={spriteUrl}
-            handleSpriteNavigation={handleSpriteNavigation}
-            isEditing={false}
-         />
-         {loading && <p>Trwa tworzenie Pokémona...</p>}
+      <div
+         className={clsx('bg-light-blue min-h-screen p-8', {
+            'dark:bg-dark-background': theme === 'dark',
+         })}
+      >
+         <div className="mx-auto">
+            <h1 className="text-4xl font-bold text-center mb-8 text-blue-700">Stwórz Pokemona</h1>
+            <PokemonForm
+               register={register}
+               errors={errors}
+               onSubmit={handleSubmit(newPokemon => savePokemon(newPokemon, spriteIndex))}
+               isSpriteUsed={isSpriteUsed}
+               spriteUrl={spriteUrl}
+               handleSpriteNavigation={handleSpriteNavigation}
+               isEditing={false}
+            />
+            {loading && <p>Trwa tworzenie Pokémona...</p>}
+         </div>
       </div>
    )
 }

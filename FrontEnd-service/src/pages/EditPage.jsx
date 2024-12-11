@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,6 +10,8 @@ import { Pagination } from '../components/Pagination'
 import { usePokemon } from '../context/PokemonContext'
 import { Loader } from '../components/Loader'
 import { PokemonListDisplay } from '../shared/PokemonListDisplay'
+import { ThemeContext } from '../context/ThemeContext'
+import clsx from 'clsx'
 
 export const EditPage = () => {
    const { pokemons: contextPokemons = [], setPokemons, totalCount } = usePokemon()
@@ -17,6 +19,7 @@ export const EditPage = () => {
    const [selectedPokemon, setSelectedPokemon] = useState(null)
    const navigate = useNavigate()
    const { savePokemon, loading } = useManagePokemon(navigate)
+   const { theme } = useContext(ThemeContext)
 
    const {
       register,
@@ -62,7 +65,11 @@ export const EditPage = () => {
    }
 
    return (
-      <div className="bg-blue-50 min-h-screen p-4 md:p-8">
+      <div
+         className={clsx('bg-light-blue min-h-screen p-4 md:p-8', {
+            'dark:bg-dark-background dark': theme === 'dark',
+         })}
+      >
          <button
             onClick={() => navigate('/create')}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 hover:bg-blue-600 w-full md:w-auto"

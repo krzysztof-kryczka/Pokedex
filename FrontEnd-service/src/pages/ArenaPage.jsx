@@ -89,49 +89,51 @@ export const ArenaPage = () => {
    }
 
    return (
-      <div
-         className="p-4 max-w-full mx-auto"
-         style={{ backgroundImage: `url(${BattleArena})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {arena.length > 0 ? (
-               arena.map(arenaPokemon => {
-                  const pokemon = pokemons.find(p => p.id === arenaPokemon.id)
-                  if (pokemon) {
-                     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`
-                     return (
-                        <PokemonCard
-                           key={pokemon.id}
-                           pokemon={pokemon}
-                           imageUrl={imageUrl}
-                           isAuthenticated={true}
-                           toggleFavorite={() => {}}
-                           isFavorite={false}
-                           toggleArena={() => handleRemoveFromArena(pokemon.id)}
-                           isInArena={true}
-                           showActions={true}
-                           showFavorite={false}
-                           arenaSlots={arena.length}
-                           showArenaAction={false}
-                           isLoser={pokemon.id === loserId}
-                        />
-                     )
-                  } else {
-                     console.error('Nie znaleziono Pokémona o ID:', arenaPokemon.id)
-                     return null
-                  }
-               })
-            ) : (
-               <>
-                  <PlaceholderCard />
-                  <PlaceholderCard />
-               </>
-            )}
+      <div className="min-w-screen-xl">
+         <div
+            className="p-4"
+            style={{ backgroundImage: `url(${BattleArena})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+         >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+               {arena.length > 0 ? (
+                  arena.map(arenaPokemon => {
+                     const pokemon = pokemons.find(p => p.id === arenaPokemon.id)
+                     if (pokemon) {
+                        const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`
+                        return (
+                           <PokemonCard
+                              key={pokemon.id}
+                              pokemon={pokemon}
+                              imageUrl={imageUrl}
+                              isAuthenticated={true}
+                              toggleFavorite={() => {}}
+                              isFavorite={false}
+                              toggleArena={() => handleRemoveFromArena(pokemon.id)}
+                              isInArena={true}
+                              showActions={true}
+                              showFavorite={false}
+                              arenaSlots={arena.length}
+                              showArenaAction={false}
+                              isLoser={pokemon.id === loserId}
+                           />
+                        )
+                     } else {
+                        console.error('Nie znaleziono Pokémona o ID:', arenaPokemon.id)
+                        return null
+                     }
+                  })
+               ) : (
+                  <>
+                     <PlaceholderCard />
+                     <PlaceholderCard />
+                  </>
+               )}
+            </div>
+            <div className="flex justify-center mt-4">
+               <BattleButton onClick={handleBattle} disabled={arena.length < 2} />
+            </div>
+            {showModal && <BattleResultModal result={battleResult} onClose={handleLeaveArena} />}
          </div>
-         <div className="flex justify-center mt-4">
-            <BattleButton onClick={handleBattle} disabled={arena.length < 2} />
-         </div>
-         {showModal && <BattleResultModal result={battleResult} onClose={handleLeaveArena} />}
       </div>
    )
 }
