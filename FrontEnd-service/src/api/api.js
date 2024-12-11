@@ -29,27 +29,37 @@ export const getUsers = () => localAxios.get('/users')
 export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId_like=${userId}`)
 
 export const addFavorite = async (pokemonId, userId) => {
-   const response = await localAxios.get(`/favorites?pokemonId=${pokemonId}`)
-   const favorite = response.data[0]
-   if (favorite) {
-      return localAxios.patch(`/favorites/${favorite.id}`, { userId: [...favorite.userId, userId] })
-   } else {
-      return localAxios.post(`/favorites`, { pokemonId, userId: [userId], id: pokemonId })
+   try {
+      const response = await localAxios.get(`/favorites?pokemonId=${pokemonId}`)
+      const favorite = response.data[0]
+      if (favorite) {
+         return await localAxios.patch(`/favorites/${favorite.id}`, { userId: [...favorite.userId, userId] })
+      } else {
+         return await localAxios.post(`/favorites`, { pokemonId, userId: [userId], id: pokemonId })
+      }
+   } catch (error) {
+      console.error('Error adding favorite:', error)
+      throw new Error('Unable to add favorite.')
    }
 }
 
 export const removeFavorite = async (pokemonId, userId) => {
-   const response = await localAxios.get(`/favorites?pokemonId=${pokemonId}`)
-   const favorite = response.data[0]
-   if (favorite) {
-      const updatedUserId = favorite.userId.filter(id => id !== userId)
-      if (updatedUserId.length > 0) {
-         return localAxios.patch(`/favorites/${favorite.id}`, { userId: updatedUserId })
-      } else {
-         return localAxios.delete(`/favorites/${favorite.id}`)
+   try {
+      const response = await localAxios.get(`/favorites?pokemonId=${pokemonId}`)
+      const favorite = response.data[0]
+      if (favorite) {
+         const updatedUserId = favorite.userId.filter(id => id !== userId)
+         if (updatedUserId.length > 0) {
+            return await localAxios.patch(`/favorites/${favorite.id}`, { userId: updatedUserId })
+         } else {
+            return await localAxios.delete(`/favorites/${favorite.id}`)
+         }
       }
+      throw new Error(`Favorite with pokemonId ${pokemonId} not found for user ${userId}`)
+   } catch (error) {
+      console.error('Error removing favorite:', error)
+      throw new Error('Unable to remove favorite.')
    }
-   throw new Error(`Favorite with pokemonId ${pokemonId} not found for user ${userId}`)
 }
 
 // page: create/edit

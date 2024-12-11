@@ -19,26 +19,38 @@ import { PrivateRoute } from './components/PrivateRoute.jsx'
 import { PublicRoute } from './components/PublicRoute.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+   [
+      {
+         element: <App />,
+         path: '/',
+         children: [
+            { path: '/', element: <Pokedex /> },
+            { path: 'pokemon/:name', element: <PokemonDetails /> },
+            // public route
+            { path: 'register', element: <PublicRoute element={<RegisterPage />} /> },
+            { path: 'login', element: <PublicRoute element={<LoginPage />} /> },
+            // private route
+            { path: 'favorites', element: <PrivateRoute element={<FavoritesPage />} /> },
+            { path: 'edit', element: <PrivateRoute element={<EditPage />} /> },
+            { path: 'create', element: <PrivateRoute element={<CreatePokemonPage />} /> },
+            { path: 'ranking', element: <PrivateRoute element={<RankingPage />} /> },
+            { path: 'arena', element: <PrivateRoute element={<ArenaPage />} /> },
+            { path: '*', element: <Navigate to="/" /> },
+         ],
+      },
+   ],
    {
-      element: <App />,
-      path: '/',
-      children: [
-         { path: '/', element: <Pokedex /> },
-         { path: 'pokemon/:name', element: <PokemonDetails /> },
-         // public route
-         { path: 'register', element: <PublicRoute element={<RegisterPage />} /> },
-         { path: 'login', element: <PublicRoute element={<LoginPage />} /> },
-         // private route
-         { path: 'favorites', element: <PrivateRoute element={<FavoritesPage />} /> },
-         { path: 'edit', element: <PrivateRoute element={<EditPage />} /> },
-         { path: 'create', element: <PrivateRoute element={<CreatePokemonPage />} /> },
-         { path: 'ranking', element: <PrivateRoute element={<RankingPage />} /> },
-         { path: 'arena', element: <PrivateRoute element={<ArenaPage />} /> },
-         { path: '*', element: <Navigate to="/" /> },
-      ],
+      future: {
+         v7_startTransition: true,
+         v7_relativeSplatPath: true,
+         v7_fetcherPersist: true,
+         v7_normalizeFormMethod: true,
+         v7_partialHydration: true,
+         v7_skipActionErrorRevalidation: true,
+      },
    },
-])
+)
 
 createRoot(document.getElementById('root')).render(
    // <StrictMode>
@@ -46,7 +58,7 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider>
          <AuthProvider>
             <PokemonProvider>
-               <RouterProvider router={router} />
+               <RouterProvider router={router} future={{ v7_startTransition: true }} />
             </PokemonProvider>
          </AuthProvider>
       </ThemeProvider>
