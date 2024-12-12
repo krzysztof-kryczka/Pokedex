@@ -8,12 +8,13 @@ export const PokemonActions = ({
    toggleArena,
    isInArena,
    arenaSlots,
+   showFavorite,
    showArenaAction,
 }) => (
    <div className="flex items-center justify-center mt-4">
       {isAuthenticated && (
          <>
-            {showArenaAction && (
+            {showFavorite && (
                <div>
                   <button
                      onClick={toggleFavorite}

@@ -26,7 +26,7 @@ export const getUsers = () => localAxios.get('/users')
 // export const addFavorite = favoriteData => localAxios.post('/favorites', favoriteData)
 // export const removeFavorite = favoriteId => localAxios.delete(`/favorites/${favoriteId}`)
 
-export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId_like=${userId}`)
+export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId=${userId}`)
 
 export const addFavorite = async (pokemonId, userId) => {
    try {
