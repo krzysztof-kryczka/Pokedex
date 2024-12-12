@@ -45,7 +45,7 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
       return (
          <div className="overflow-x-auto">
             <table
-               className={clsx('min-w-full bg-light-background text-xs sm:text-sm md:text-base', {
+               className={clsx('min-w-full bg-light-background text-[7px] sm:text-sm md:text-base', {
                   'dark:bg-dark-background': theme === 'dark',
                })}
             >

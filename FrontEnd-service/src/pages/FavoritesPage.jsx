@@ -7,7 +7,7 @@ import { Pagination } from '../components/Pagination'
 import { useNavigate } from 'react-router-dom'
 
 export const FavoritesPage = () => {
-   const { user, isAuthenticated } = useAuth()
+   const { user } = useAuth()
    const { enqueueSnackbar } = useSnackbar()
    const { favoriteDetails, toggleFavorite, fetchFavorites } = useFavorites(user?.id, enqueueSnackbar)
    const [currentPage, setCurrentPage] = useState(1)
@@ -36,7 +36,7 @@ export const FavoritesPage = () => {
 
    return (
       <div className="p-4 max-w-full mx-auto">
-         <h1 className="text-4xl font-bold mb-4 text-center">Ulubione Pokemony</h1>
+         <h1 className="text-4xl font-bold mb-4 pb-4 text-center">Ulubione Pokemony</h1>
          {favoriteDetails.length === 0 ? (
             <p className="text-center text-lg">
                Nie masz jeszcze żadnych ulubionych pokemonów. Dodaj je klikając w ikonę serca na karcie pokemona.
@@ -55,10 +55,9 @@ export const FavoritesPage = () => {
                            imageUrl={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`}
                            imageClassName="flex justify-center items-center"
                            cardClassName="flex flex-col md:flex-col justify-around"
-                           isAuthenticated={isAuthenticated}
                            toggleFavorite={e => handleRemoveFavorite(pokemon.id, e)}
                            isFavorite={true}
-                           showActions={true}
+                           showFavorite={true}
                         />
                      </li>
                   ))}

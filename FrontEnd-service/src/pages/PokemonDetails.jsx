@@ -10,7 +10,7 @@ import { addPokemonToArena, getPokemons, removePokemonFromArena, savePokemon } f
 export const PokemonDetails = () => {
    const { name } = useParams()
    const { pokemons, arena, setArena } = usePokemon()
-   const { user, isAuthenticated } = useAuth()
+   const { user } = useAuth()
    const { enqueueSnackbar } = useSnackbar()
 
    const pokemon = pokemons.find(p => p.name === name)
@@ -48,16 +48,16 @@ export const PokemonDetails = () => {
             setArena(prev => prev.filter(pokemon => pokemon.id !== pokemonDetails.id))
          } else {
             if (arena.length < 2) {
-            const response = await getPokemons()
-            const allPokemons = response.data
-            const existingPokemon = allPokemons.find(p => p.id === pokemonDetails.id)
+               const response = await getPokemons()
+               const allPokemons = response.data
+               const existingPokemon = allPokemons.find(p => p.id === pokemonDetails.id)
 
-            if (!existingPokemon) {
-               const { id, name, weight, height, base_experience, abilities } = pokemonDetails
-               const sprite = pokemonDetails.sprites.other.dream_world.front_default
-               const pokemonData = { id, name, weight, height, base_experience, sprite, abilities }
-               await savePokemon(pokemonData)
-            }
+               if (!existingPokemon) {
+                  const { id, name, weight, height, base_experience, abilities } = pokemonDetails
+                  const sprite = pokemonDetails.sprites.other.dream_world.front_default
+                  const pokemonData = { id, name, weight, height, base_experience, sprite, abilities }
+                  await savePokemon(pokemonData)
+               }
 
                await addPokemonToArena(pokemonDetails.id)
                setArena(prev => [...prev, { id: pokemonDetails.id }])
@@ -78,7 +78,6 @@ export const PokemonDetails = () => {
          <PokemonCard
             pokemon={pokemonDetails}
             imageUrl={imageUrl}
-            isAuthenticated={isAuthenticated}
             toggleFavorite={handleToggleFavorite}
             isFavorite={favorite}
             toggleArena={handleToggleArena}
@@ -86,6 +85,7 @@ export const PokemonDetails = () => {
             showActions={true}
             arenaSlots={arena.length}
             showArenaAction={true}
+            showFavorite={true}
          />
       </div>
    )

@@ -3,27 +3,28 @@ import clsx from 'clsx'
 import { PokemonImage } from './PokemonImage'
 import { PokemonInfo } from './PokemonInfo'
 import { ThemeContext } from '../context/ThemeContext'
+import { AuthContext } from '../context/AuthContext'
 
 export const PokemonCard = ({
    pokemon,
    imageUrl,
    cardClassName,
    imageClassName,
-   isAuthenticated,
    toggleFavorite,
    isFavorite,
    toggleArena,
    isInArena,
-   showActions,
-   showFavorite = true,
+   showFavorite = false,
    arenaSlots,
    showArenaAction,
    isLoser,
 }) => {
    const { theme } = useContext(ThemeContext)
+   const { isAuthenticated } = useContext(AuthContext)
+
    return (
       <div className={clsx('relative p-0', isInArena && 'opacity-75', isLoser && 'opacity-30')}>
-         {true && (pokemon.wins > 0 || pokemon.losses > 0) && (
+         {isAuthenticated && (pokemon.wins > 0 || pokemon.losses > 0) && (
             <div className="absolute top-0 left-0 bg-black text-white p-5 rounded-tl-2xl rounded-br-2xl shadow-lg">
                <div className="flex flex-col items-start space-y-1 font-mono font-bold">
                   <p className="text-lg">W: {pokemon.wins || 0}</p> <p className="text-lg">L: {pokemon.losses || 0}</p>
@@ -40,7 +41,6 @@ export const PokemonCard = ({
             <PokemonImage imageUrl={imageUrl} imageClassName={imageClassName} pokemonName={pokemon.name} />
             <PokemonInfo
                pokemon={pokemon}
-               isAuthenticated={isAuthenticated}
                toggleFavorite={toggleFavorite}
                isFavorite={isFavorite}
                toggleArena={toggleArena}

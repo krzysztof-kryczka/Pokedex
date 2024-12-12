@@ -14,7 +14,6 @@ export const useAuth = () => {
          const userExists = users.some(user => user.email === userData.email)
          if (userExists) {
             enqueueSnackbar('Użytkownik z tym adresem email już istnieje.', { variant: 'error' })
-            setLoading(false)
             return false
          }
          await createUser({
@@ -41,21 +40,20 @@ export const useAuth = () => {
          const user = users.find(user => user.email === email && user.password === password)
          if (!user) {
             enqueueSnackbar('Nieprawidłowy email lub hasło.', { variant: 'error' })
-            setLoading(false)
             return false
          }
 
          setUser(user)
-         const userData = { id: user.id, name: user.name, email: user.email, isAuthenticated: true }
+         const userData = { id: user.id, name: user.name, email: user.email }
          localStorage.setItem('user', JSON.stringify(userData))
          enqueueSnackbar('Logowanie zakończone pomyślnie.', { variant: 'success' })
-         setLoading(false)
          return true
          // eslint-disable-next-line no-unused-vars
       } catch (err) {
          enqueueSnackbar('Błąd podczas logowania.', { variant: 'error' })
-         setLoading(false)
          return false
+      } finally {
+         setLoading(false)
       }
    }
 

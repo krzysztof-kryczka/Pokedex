@@ -105,7 +105,6 @@ export const ArenaPage = () => {
                               key={pokemon.id}
                               pokemon={pokemon}
                               imageUrl={imageUrl}
-                              isAuthenticated={true}
                               toggleFavorite={() => {}}
                               isFavorite={false}
                               toggleArena={() => handleRemoveFromArena(pokemon.id)}
