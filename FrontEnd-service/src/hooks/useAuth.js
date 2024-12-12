@@ -46,8 +46,8 @@ export const useAuth = () => {
          }
 
          setUser(user)
-         localStorage.setItem('user', JSON.stringify(user))
-
+         const userData = { id: user.id, name: user.name, email: user.email, isAuthenticated: true }
+         localStorage.setItem('user', JSON.stringify(userData))
          enqueueSnackbar('Logowanie zakończone pomyślnie.', { variant: 'success' })
          setLoading(false)
          return true
