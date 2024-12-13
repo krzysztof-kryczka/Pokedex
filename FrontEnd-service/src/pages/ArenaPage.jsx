@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { usePokemon } from '../context/PokemonContext'
 import { useSnackbar } from 'notistack'
 import { PokemonCard } from '../shared/PokemonCard'
-import { PlaceholderCard } from '../shared/PlaceholderCard'
-import { BattleButton } from '../shared/BattleButton'
-import { BattleResultModal } from '../shared/BattleResultModal'
+import { PlaceholderCard } from '../shared/Arena/PlaceholderCard'
+import { BattleButton } from '../shared/Arena/BattleButton'
+import { BattleResultModal } from '../shared/Arena/BattleResultModal'
 import { getPokemons, getArena, removePokemonFromArena, updatePokemon } from '../api'
 import BattleArena from '../assets/battle-arena.webp'
 
@@ -89,7 +89,7 @@ export const ArenaPage = () => {
    }
 
    return (
-      <div className="min-w-screen-xl">
+      // <div className="min-w-full">
          <div
             className="p-4"
             style={{ backgroundImage: `url(${BattleArena})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -105,14 +105,10 @@ export const ArenaPage = () => {
                               key={pokemon.id}
                               pokemon={pokemon}
                               imageUrl={imageUrl}
-                              toggleFavorite={() => {}}
-                              isFavorite={false}
                               toggleArena={() => handleRemoveFromArena(pokemon.id)}
                               isInArena={true}
-                              showActions={true}
-                              showFavorite={false}
                               arenaSlots={arena.length}
-                              showArenaAction={false}
+                              // showArenaAction={false}
                               isLoser={pokemon.id === loserId}
                            />
                         )
@@ -133,6 +129,6 @@ export const ArenaPage = () => {
             </div>
             {showModal && <BattleResultModal result={battleResult} onClose={handleLeaveArena} />}
          </div>
-      </div>
+      // </div>
    )
 }

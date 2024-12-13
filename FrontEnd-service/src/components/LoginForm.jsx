@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyledButton } from '../shared/StyledButton'
 
 export const LoginForm = ({ register, handleSubmit, errors, onSubmit, loading }) => {
    const handleFormSubmit = event => {

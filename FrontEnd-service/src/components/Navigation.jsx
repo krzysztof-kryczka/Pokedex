@@ -6,6 +6,7 @@ import { useSnackbar } from 'notistack'
 import { ThemeContext } from '../context/ThemeContext'
 import { FaSun, FaMoon, FaBars, FaTimes, FaUser } from 'react-icons/fa'
 import clsx from 'clsx'
+import { StyledNavLinkButton } from '../shared/StyledNavLinkButton'
 
 export const Navigation = () => {
    const { user, isAuthenticated, logout } = useAuth()
@@ -67,46 +68,18 @@ export const Navigation = () => {
                   {isAuthenticated ? (
                      <>
                         {authenticatedLinks.map(link => (
-                           <Link
-                              key={link.to}
-                              to={link.to}
-                              className={clsx(
-                                 'btn text-center w-32',
-                                 theme === 'dark'
-                                    ? 'bg-dark-button hover:bg-dark-button-hover'
-                                    : 'bg-light-button hover:bg-light-button-hover',
-                              )}
-                           >
+                           <StyledNavLinkButton key={link.to} to={link.to}>
                               {link.text}
-                           </Link>
+                           </StyledNavLinkButton>
                         ))}
-                        <Link
-                           onClick={() => logout(enqueueSnackbar)}
-                           className={clsx(
-                              'btn text-center w-32',
-                              theme === 'dark'
-                                 ? 'bg-dark-button hover:bg-dark-button-hover'
-                                 : 'bg-light-button hover:bg-light-button-hover',
-                           )}
-                        >
-                           Wyloguj
-                        </Link>
+                        <StyledNavLinkButton onClick={() => logout(enqueueSnackbar)}>Wyloguj</StyledNavLinkButton>
                      </>
                   ) : (
                      <>
                         {unauthenticatedLinks.map(link => (
-                           <Link
-                              key={link.to}
-                              to={link.to}
-                              className={clsx(
-                                 'btn text-center w-32',
-                                 theme === 'dark'
-                                    ? 'bg-dark-button hover:bg-dark-button-hover'
-                                    : 'bg-light-button hover:bg-light-button-hover',
-                              )}
-                           >
+                           <StyledNavLinkButton key={link.to} to={link.to}>
                               {link.text}
-                           </Link>
+                           </StyledNavLinkButton>
                         ))}
                      </>
                   )}
@@ -121,51 +94,25 @@ export const Navigation = () => {
                         <FaUser className="mr-2" /> {`Zalogowany jako: ${user.name}`}
                      </p>
                      {authenticatedLinks.map(link => (
-                        <Link
-                           key={link.to}
-                           to={link.to}
-                           className={clsx(
-                              'block btn text-center',
-                              theme === 'dark'
-                                 ? 'bg-dark-button hover:bg-dark-button-hover'
-                                 : 'bg-light-button hover:bg-light-button-hover',
-                           )}
-                           onClick={handleMenuToggle}
-                        >
+                        <StyledNavLinkButton key={link.to} to={link.to} onClick={handleMenuToggle}>
                            {link.text}
-                        </Link>
+                        </StyledNavLinkButton>
                      ))}
-                     <Link
+                     <StyledNavLinkButton
                         onClick={() => {
                            logout(enqueueSnackbar)
                            handleMenuToggle()
                         }}
-                        className={clsx(
-                           'block btn text-center',
-                           theme === 'dark'
-                              ? 'bg-dark-button hover:bg-dark-button-hover'
-                              : 'bg-light-button hover:bg-light-button-hover',
-                        )}
                      >
                         Wyloguj
-                     </Link>
+                     </StyledNavLinkButton>
                   </>
                ) : (
                   <>
                      {unauthenticatedLinks.map(link => (
-                        <Link
-                           key={link.to}
-                           to={link.to}
-                           className={clsx(
-                              'block btn text-center',
-                              theme === 'dark'
-                                 ? 'bg-dark-button hover:bg-dark-button-hover'
-                                 : 'bg-light-button hover:bg-light-button-hover',
-                           )}
-                           onClick={handleMenuToggle}
-                        >
+                        <StyledNavLinkButton key={link.to} to={link.to} onClick={handleMenuToggle}>
                            {link.text}
-                        </Link>
+                        </StyledNavLinkButton>
                      ))}
                   </>
                )}

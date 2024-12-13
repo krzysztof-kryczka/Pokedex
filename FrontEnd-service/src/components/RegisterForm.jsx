@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyledButton } from '../shared/StyledButton'
 
 export const RegisterForm = ({ register, handleSubmit, errors, onSubmit, loading, isSubmitting }) => {
    const handleFormSubmit = event => {
