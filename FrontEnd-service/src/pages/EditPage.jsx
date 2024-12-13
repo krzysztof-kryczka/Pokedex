@@ -12,6 +12,7 @@ import { Loader } from '../components/Loader'
 import { PokemonListDisplay } from '../shared/PokemonListDisplay'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
+import { StyledButton } from '../shared/StyledButton'
 
 export const EditPage = () => {
    const { pokemons: contextPokemons = [], setPokemons, totalCount } = usePokemon()
@@ -70,12 +71,7 @@ export const EditPage = () => {
             'dark:bg-dark-background dark': theme === 'dark',
          })}
       >
-         <button
-            onClick={() => navigate('/create')}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 hover:bg-blue-600 w-full md:w-auto"
-         >
-            Stwórz Pokémona
-         </button>
+         <StyledButton onClick={() => navigate('/create')}>Stwórz Pokémona</StyledButton>
          <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Lista Pokémonów</h1>
          {error && (
             <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>

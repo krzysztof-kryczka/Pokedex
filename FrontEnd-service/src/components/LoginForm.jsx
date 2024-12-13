@@ -27,13 +27,9 @@ export const LoginForm = ({ register, handleSubmit, errors, onSubmit, loading })
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
          </div>
-         <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:bg-gray-400"
-            disabled={loading}
-         >
+         <StyledButton type="submit" disabled={loading}>
             {loading ? 'Logowanie...' : 'Zaloguj się'}
-         </button>
+         </StyledButton>
       </form>
    )
 }

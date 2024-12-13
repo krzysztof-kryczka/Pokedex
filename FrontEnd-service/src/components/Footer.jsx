@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react'
+import { ThemeContext } from '../context/ThemeContext'
+import clsx from 'clsx'
 
 export const Footer = () => {
+   const { theme } = useContext(ThemeContext)
    return (
-      <footer className="p-4 bg-blue-500 text-center w-full">
-         <p className="text-blue-900 font-bold">
+      <footer className={clsx('p-4 w-full text-center', theme === 'dark' ? 'bg-section-dark' : 'bg-section-light')}>
+         <p className="text-white font-bold">
             &copy; 2024 Pokédex. All Rights Reserved. <br />
             Developed by Krzysztof Kryczka
          </p>
       </footer>
-   );
-};
+   )
+}

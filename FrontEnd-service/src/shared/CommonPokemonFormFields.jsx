@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
+import { StyledButton } from './StyledButton'
 
 export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText, buttonDisabled }) => {
    const { theme } = useContext(ThemeContext)
@@ -50,15 +51,9 @@ export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText,
             />
             {errors.base_experience && <p className="text-red-500 mt-2">{errors.base_experience.message}</p>}
          </div>
-         <button
-            type="submit"
-            className={`w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-4 ${
-               buttonDisabled ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            disabled={buttonDisabled}
-         >
+         <StyledButton type="submit" className="w-full" disabled={buttonDisabled}>
             {buttonText}
-         </button>
+         </StyledButton>
       </div>
    )
 }

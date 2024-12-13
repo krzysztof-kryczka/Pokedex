@@ -46,13 +46,9 @@ export const RegisterForm = ({ register, handleSubmit, errors, onSubmit, loading
             />
             {errors.repeatPassword && <p className="text-red-500 text-sm">{errors.repeatPassword.message}</p>}
          </div>
-         <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:bg-gray-400"
-            disabled={loading || isSubmitting}
-         >
+         <StyledButton type="submit" disabled={loading || isSubmitting}>
             {loading || isSubmitting ? 'Rejestracja...' : 'Zarejestruj się'}
-         </button>
+         </StyledButton>
       </form>
    )
 }

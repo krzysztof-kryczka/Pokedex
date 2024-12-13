@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyledButton } from '../shared/StyledButton'
 
 const PaginationButton = ({ page, label, currentPage, onPageChange }) => (
    <button
@@ -79,20 +80,13 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
 
          {(pageType === 'edit' || pageType === 'ranking' || pageType === 'favorites') && (
             <>
-               <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-full md:w-auto"
-                  onClick={() => onPageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-               >
+               <StyledButton onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
                   Poprzednia
-               </button>
-               <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-full md:w-auto"
-                  onClick={() => onPageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-               >
+               </StyledButton>
+
+               <StyledButton onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                   Następna
-               </button>
+               </StyledButton>
             </>
          )}
       </div>

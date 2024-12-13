@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
+import { StyledButton } from './StyledButton'
 
 export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageType }) => {
    const { theme } = useContext(ThemeContext)
@@ -28,12 +29,12 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
                      />
                   </div>
                   {onEditClick && (
-                     <button
+                     <StyledButton
                         onClick={() => onEditClick(pokemon)}
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full sm:w-auto"
                      >
                         Edytuj
-                     </button>
+                     </StyledButton>
                   )}
                </li>
             ))}

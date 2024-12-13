@@ -8,9 +8,13 @@
    --color-bg-dark: #181a1b;
    --color-text-dark: #fff;
    --color-bg-blue-light: #ebf8ff;
-   --color-bg-section-blue-light: #3b82f6;
-   --color-bg-section-blue-dark: #0844a6;
+   --color-bg-section-blue-light: #3b82f6; /* bg-blue-500 */
+   --color-bg-section-blue-light-hover: #2563eb; /* bg-blue-600 */
+   --color-bg-section-blue-dark: #0844a6; /* bg-blue-700 */
+   --color-bg-section-blue-dark-hover: #06397a; /* bg-blue-800 */
    --color-bg-search-dark: #0e0f0f;
+   --color-bg-section-light: #2b5876;
+   --color-bg-section-dark: #122430;
 }
 
 * {
@@ -41,10 +45,46 @@
    background-color: var(--color-bg-section-blue-light);
 }
 
-.bg-dark-section {
+.bg-light-section-hover:hover {
+   background-color: var(--color-bg-section-blue-light-hover);
+}
+
+.dark .bg-dark-section {
    background-color: var(--color-bg-section-blue-dark);
+}
+
+.dark .bg-dark-section-hover:hover {
+   background-color: var(--color-bg-section-blue-dark-hover);
 }
 
 .bg-dark-search {
    background-color: var(--color-bg-search-dark);
+}
+
+.bg-light-button {
+   background-color: var(--color-bg-section-blue-light); /* bg-blue-500 */
+}
+
+.hover\:bg-light-button-hover:hover {
+   background-color: var(--color-bg-section-blue-light-hover); /* bg-blue-600 */
+}
+
+.bg-dark-button {
+   background-color: var(--color-bg-section-blue-dark); /* bg-blue-700 */
+}
+
+.hover\:bg-dark-button-hover:hover {
+   background-color: var(--color-bg-section-blue-dark-hover); /* bg-blue-800 */
+}
+
+.btn {
+   @apply px-4 py-2 rounded-lg text-white transition duration-200 disabled:opacity-40 disabled:cursor-not-allowed;
+}
+
+.bg-section-light {
+   background-color: var(--color-bg-section-light);
+}
+
+.bg-section-dark {
+   background-color: var(--color-bg-section-dark);
 }

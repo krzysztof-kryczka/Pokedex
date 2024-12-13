@@ -30,7 +30,7 @@ export const Navigation = () => {
    ]
 
    return (
-      <header className={clsx('w-full p-4 shadow-md', theme === 'dark' ? 'bg-dark-section' : 'bg-light-section')}>
+      <header className={clsx('p-4 w-full', theme === 'dark' ? 'bg-section-dark' : 'bg-section-light')}>
          <div className="flex items-center justify-between">
             <Link to="/" className="flex justify-center md:justify-start">
                <img src={logo} alt="Pokémon Logo" className="h-16 md:h-24" />
@@ -70,14 +70,24 @@ export const Navigation = () => {
                            <Link
                               key={link.to}
                               to={link.to}
-                              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
+                              className={clsx(
+                                 'btn text-center w-32',
+                                 theme === 'dark'
+                                    ? 'bg-dark-button hover:bg-dark-button-hover'
+                                    : 'bg-light-button hover:bg-light-button-hover',
+                              )}
                            >
                               {link.text}
                            </Link>
                         ))}
                         <Link
                            onClick={() => logout(enqueueSnackbar)}
-                           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
+                           className={clsx(
+                              'btn text-center w-32',
+                              theme === 'dark'
+                                 ? 'bg-dark-button hover:bg-dark-button-hover'
+                                 : 'bg-light-button hover:bg-light-button-hover',
+                           )}
                         >
                            Wyloguj
                         </Link>
@@ -88,7 +98,12 @@ export const Navigation = () => {
                            <Link
                               key={link.to}
                               to={link.to}
-                              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center w-32"
+                              className={clsx(
+                                 'btn text-center w-32',
+                                 theme === 'dark'
+                                    ? 'bg-dark-button hover:bg-dark-button-hover'
+                                    : 'bg-light-button hover:bg-light-button-hover',
+                              )}
                            >
                               {link.text}
                            </Link>
@@ -109,7 +124,12 @@ export const Navigation = () => {
                         <Link
                            key={link.to}
                            to={link.to}
-                           className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
+                           className={clsx(
+                              'block btn text-center',
+                              theme === 'dark'
+                                 ? 'bg-dark-button hover:bg-dark-button-hover'
+                                 : 'bg-light-button hover:bg-light-button-hover',
+                           )}
                            onClick={handleMenuToggle}
                         >
                            {link.text}
@@ -120,7 +140,12 @@ export const Navigation = () => {
                            logout(enqueueSnackbar)
                            handleMenuToggle()
                         }}
-                        className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
+                        className={clsx(
+                           'block btn text-center',
+                           theme === 'dark'
+                              ? 'bg-dark-button hover:bg-dark-button-hover'
+                              : 'bg-light-button hover:bg-light-button-hover',
+                        )}
                      >
                         Wyloguj
                      </Link>
@@ -131,7 +156,12 @@ export const Navigation = () => {
                         <Link
                            key={link.to}
                            to={link.to}
-                           className="block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 hover:bg-blue-700 text-center"
+                           className={clsx(
+                              'block btn text-center',
+                              theme === 'dark'
+                                 ? 'bg-dark-button hover:bg-dark-button-hover'
+                                 : 'bg-light-button hover:bg-light-button-hover',
+                           )}
                            onClick={handleMenuToggle}
                         >
                            {link.text}

@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyledButton } from './StyledButton'
 
 export const BattleResultModal = ({ result, onClose }) => (
    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -11,12 +12,7 @@ export const BattleResultModal = ({ result, onClose }) => (
          ) : (
             <h2 className="text-2xl font-bold mb-4">Remis!</h2>
          )}
-         <button
-            onClick={onClose}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600"
-         >
-            Opuść arenę
-         </button>
+         <StyledButton onClick={onClose}>Opuść arenę</StyledButton>
       </div>
    </div>
 )
