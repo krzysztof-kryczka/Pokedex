@@ -14,8 +14,10 @@ export const PokemonList = ({ pokemons }) => {
                <li
                   key={pokemon.name}
                   className={clsx(
-                     'border rounded-3xl overflow-hidden shadow-lg transform hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
-                     theme === 'dark' ? 'border-gray-500' : '',
+                     'rounded-3xl  shadow-lg transform hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer',
+                     theme === 'dark'
+                        ? 'border-gray-500 bg-dark-background'
+                        : 'bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
                   )}
                >
                   <Link to={`/pokemon/${pokemon.name}`}>

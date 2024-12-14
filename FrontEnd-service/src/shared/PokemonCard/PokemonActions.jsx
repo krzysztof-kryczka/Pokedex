@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { FaHeart, FaShieldAlt } from 'react-icons/fa'
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 
 export const PokemonActions = ({
    toggleFavorite,
