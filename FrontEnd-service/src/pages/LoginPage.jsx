@@ -5,7 +5,7 @@ import { loginSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { LoginForm } from '../components/LoginForm'
+import { LoginForm } from '../shared/PokemonUser/LoginForm'
 
 export const LoginPage = () => {
    const { enqueueSnackbar } = useSnackbar()
@@ -20,23 +20,20 @@ export const LoginPage = () => {
    const onSubmit = async data => {
       const result = await login(data.email, data.password, enqueueSnackbar)
       if (result) {
-         enqueueSnackbar('Logowanie zakończone pomyślnie.', { variant: 'success' })
          navigate('/')
-      } else {
-         enqueueSnackbar('Logowanie nie powiodło się. Sprawdź swoje dane i spróbuj ponownie.', { variant: 'error' })
       }
    }
 
    return (
-      <div className="p-4 max-auto mx-auto">
-         <h1 className="text-4xl font-bold mb-4 text-center">Logowanie</h1>
-         <LoginForm
-            register={register}
-            handleSubmit={handleSubmit}
-            errors={errors}
-            onSubmit={onSubmit}
-            loading={loading}
-         />
-      </div>
+         <div className="p-4">
+            <h1 className="text-4xl font-bold py-4 text-center">Logowanie</h1>
+            <LoginForm
+               register={register}
+               handleSubmit={handleSubmit}
+               errors={errors}
+               onSubmit={onSubmit}
+               loading={loading}
+            />
+         </div>
    )
 }

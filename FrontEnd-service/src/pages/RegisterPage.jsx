@@ -5,7 +5,7 @@ import { registerSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { RegisterForm } from '../components/RegisterForm'
+import { RegisterForm } from '../shared/PokemonUser/RegisterForm'
 
 export const RegisterPage = () => {
    const { enqueueSnackbar } = useSnackbar()
@@ -25,18 +25,15 @@ export const RegisterPage = () => {
       const result = await registerUser(data, enqueueSnackbar)
       if (result) {
          reset()
-         enqueueSnackbar('Nastąpiło przekierowanie na stronę główną', { variant: 'info', autoHideDuration: 5000 })
-         setTimeout(() => {
-            navigate('/')
-         }, 500)
+         navigate('/')
       } else {
          setIsSubmitting(false)
       }
    }
 
    return (
-      <div className="p-4 max-auto mx-auto">
-         <h1 className="text-4xl font-bold mb-4 text-center">Rejestracja</h1>
+      <div className="p-4">
+         <h1 className="text-4xl font-bold py-4 text-center">Rejestracja</h1>
          <RegisterForm
             register={register}
             handleSubmit={handleSubmit}
