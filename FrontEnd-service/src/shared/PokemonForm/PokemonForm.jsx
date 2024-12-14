@@ -1,5 +1,5 @@
 import React from 'react'
-import { SpriteNavigation } from './SpriteNavigation'
+import { SpriteNavigation } from '../SpriteNavigation'
 import { CommonPokemonFormFields } from './CommonPokemonFormFields'
 
 export const PokemonForm = ({
