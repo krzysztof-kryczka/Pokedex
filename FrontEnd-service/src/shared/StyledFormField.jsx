@@ -24,7 +24,10 @@ export const StyledFormField = ({
             {...register(name, { valueAsNumber })}
             min={min}
             disabled={disabled}
-            className={clsx('w-full px-4 py-2 border rounded-lg', theme === 'dark' ? 'bg-dark-search' : '')}
+            className={clsx(
+               'w-full px-4 py-2 border rounded-lg disabled:cursor-not-allowed',
+               theme === 'dark' ? 'bg-dark-search disabled:opacity-30' : '',
+            )}
          />
          {errors && <p className="text-red-500 font-bold mt-2">{errors.message}</p>}
       </div>

@@ -1,13 +1,10 @@
-import React, { useContext } from 'react'
-import { ThemeContext } from '../../context/ThemeContext'
+import React from 'react'
 import { StyledButton } from '../StyledButton'
 import { StyledFormField } from '../StyledFormField'
 
 export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText, buttonDisabled }) => {
-   const { theme } = useContext(ThemeContext)
-
    return (
-      <div className="space-y-4">
+      <div className="flex flex-col gap-5">
          <StyledFormField
             label="Nazwa"
             type="text"

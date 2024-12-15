@@ -67,12 +67,12 @@ export const EditPage = () => {
 
    return (
       <div
-         className={clsx('bg-light-blue min-h-screen p-4 md:p-8', {
+         className={clsx('max-w-5xl mx-auto p-4', {
             'dark:bg-dark-background dark': theme === 'dark',
          })}
       >
          <StyledButton onClick={() => navigate('/create')}>Stwórz Pokémona</StyledButton>
-         <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Lista Pokémonów</h1>
+         <h1 className="text-2xl md:text-4xl font-bold text-center m-4 md:m-8">Lista Pokémonów</h1>
          {error && (
             <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>
          )}

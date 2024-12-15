@@ -40,23 +40,21 @@ export const CreatePokemonPage = () => {
 
    return (
       <div
-         className={clsx('bg-light-blue min-h-screen p-8', {
+         className={clsx('p-4 max-w-5xl mx-auto', {
             'dark:bg-dark-background': theme === 'dark',
          })}
       >
-         <div className="mx-auto">
-            <h1 className="text-4xl font-bold text-center mb-8 text-blue-700">Stwórz Pokemona</h1>
-            <PokemonForm
-               register={register}
-               errors={errors}
-               onSubmit={handleSubmit(newPokemon => savePokemon(newPokemon, spriteIndex))}
-               isSpriteUsed={isSpriteUsed}
-               spriteUrl={spriteUrl}
-               handleSpriteNavigation={handleSpriteNavigation}
-               isEditing={false}
-            />
-            {loading && <p>Trwa tworzenie Pokémona...</p>}
-         </div>
+         <h1 className="text-4xl font-bold text-center my-4 text-blue-700">Stwórz Pokémona</h1>
+         <PokemonForm
+            register={register}
+            errors={errors}
+            onSubmit={handleSubmit(newPokemon => savePokemon(newPokemon, spriteIndex))}
+            isSpriteUsed={isSpriteUsed}
+            spriteUrl={spriteUrl}
+            handleSpriteNavigation={handleSpriteNavigation}
+            isEditing={false}
+         />
+         {loading && <p>Trwa tworzenie Pokémona...</p>}
       </div>
    )
 }

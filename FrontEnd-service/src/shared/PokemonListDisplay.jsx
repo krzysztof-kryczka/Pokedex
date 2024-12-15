@@ -8,31 +8,26 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
 
    if (pageType === 'edit') {
       return (
-         <ul className="space-y-4">
+         <ul className="flex flex-col gap-5">
             {pokemons.map((pokemon, index) => (
                <li
                   key={`${index}-${pokemon.id}`}
                   className={clsx(
-                     'flex flex-col md:flex-row items-center justify-between p-4 shadow rounded-lg bg-light-background',
-                     {
-                        'dark:bg-black': theme === 'dark',
-                     },
+                     'flex flex-col md:flex-row items-center justify-between p-4 shadow-lg rounded-lg',
+                     theme === 'dark' ? ' bg-dark-search' : 'bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
                   )}
                >
-                  <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mb-4 md:mb-0">
+                  <div className="flex flex-col md:flex-row items-center md:gap-10 gap-5 mb-4 md:mb-0">
                      <span className="text-sm sm:text-base">{(currentPage - 1) * 15 + index + 1}</span>
                      <span className="text-sm sm:text-base">{pokemon.name}</span>
                      <img
                         src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
                         alt={pokemon.name}
-                        className="w-12 h-12 sm:w-16 sm:h-16"
+                        className="w-24 h-24"
                      />
                   </div>
                   {onEditClick && (
-                     <StyledButton
-                        onClick={() => onEditClick(pokemon)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full sm:w-auto"
-                     >
+                     <StyledButton onClick={() => onEditClick(pokemon)} className="w-full sm:w-auto">
                         Edytuj
                      </StyledButton>
                   )}
