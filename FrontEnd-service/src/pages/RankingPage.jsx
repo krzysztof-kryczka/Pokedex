@@ -4,6 +4,7 @@ import { usePokemon } from '../context/PokemonContext'
 import { Loader } from '../components/Loader'
 import { Pagination } from '../components/Pagination'
 import { PokemonListDisplay } from '../shared/PokemonListDisplay'
+import { PokemonSort } from '../shared/PokemonSort'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
 
@@ -22,24 +23,9 @@ export const RankingPage = () => {
       }
    })
 
-   const handleSortChange = event => {
-      const criteria = event.target.value
-      if (sortCriteria === criteria) {
-         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-      } else {
-         setSortCriteria(criteria)
-         setSortOrder('desc')
-      }
-   }
-
-   const handlePageChange = page => {
-      setCurrentPage(page)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-   }
-
    return (
       <div
-         className={clsx('bg-light-blue min-h-screen p-4 md:p-8', {
+         className={clsx('max-w-5xl mx-auto p-4 md:p-8', {
             'dark:bg-dark-background dark': theme === 'dark',
          })}
       >
@@ -51,28 +37,21 @@ export const RankingPage = () => {
             <Loader />
          ) : (
             <>
-               <div className="mb-4">
-                  <label htmlFor="sortCriteria" className="block mb-2">
-                     Sortuj według:
-                  </label>
-                  <select
-                     id="sortCriteria"
-                     className="p-2 border rounded w-full bg-white dark:bg-gray-700 text-black dark:text-white"
-                     value={sortCriteria}
-                     onChange={handleSortChange}
-                  >
-                     <option value="base_experience">Doświadczenie</option>
-                     <option value="weight">Waga</option>
-                     <option value="height">Wzrost</option>
-                     <option value="battle_wins">Liczba wygranych walk</option>
-                  </select>
-               </div>
+               <PokemonSort
+                  sortCriteria={sortCriteria}
+                  sortOrder={sortOrder}
+                  onSortChange={setSortCriteria}
+                  onOrderChange={setSortOrder}
+               />
                <PokemonListDisplay pokemons={sortedCurrentPokemons} currentPage={currentPage} pageType="ranking" />
                {Math.ceil(totalCount / 15) > 1 && (
                   <Pagination
                      currentPage={currentPage}
                      totalPages={Math.ceil(totalCount / 15)}
-                     onPageChange={handlePageChange}
+                     onPageChange={page => {
+                        setCurrentPage(page)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                     }}
                      pageType="ranking"
                   />
                )}

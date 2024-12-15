@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
 import { StyledButton } from './StyledButton'
+import { StyledTableHeaderCell } from './StyledTableHeaderCell'
+import { StyledTableCell } from './StyledTableCell'
 
 export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageType }) => {
    const { theme } = useContext(ThemeContext)
@@ -39,39 +41,39 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
 
    if (pageType === 'ranking') {
       return (
-         <div className="overflow-x-auto">
+         <div className="overflow-x-auto rounded-3xl border dark:border-gray-500">
             <table
-               className={clsx('min-w-full bg-light-background text-[7px] sm:text-sm md:text-base', {
+               className={clsx('bg-light-background text-[7px] sm:text-sm md:text-base', {
                   'dark:bg-dark-background': theme === 'dark',
                })}
             >
                <thead>
                   <tr>
-                     <th className="py-1 px-2 sm:px-4 md:px-8">ID</th>
-                     <th className="py-1 px-2 sm:px-4 md:px-8">Nazwa Pokémona</th>
-                     <th className="py-1 px-2 sm:px-4 md:px-8">Obrazek</th>
-                     <th className="py-1 px-2 sm:px-4 md:px-8">Doświadczenie</th>
-                     <th className="py-1 px-2 sm:px-4 md:px-8">Waga</th>
-                     <th className="py-1 px-2 sm:px-4 md:px-8">Wzrost</th>
-                     <th className="py-1 px-2 sm:px-4 md:px-8">Liczba wygranych walk</th>
+                     <StyledTableHeaderCell>ID</StyledTableHeaderCell>
+                     <StyledTableHeaderCell>Nazwa Pokémona</StyledTableHeaderCell>
+                     <StyledTableHeaderCell>Obrazek</StyledTableHeaderCell>
+                     <StyledTableHeaderCell>Doświadczenie</StyledTableHeaderCell>
+                     <StyledTableHeaderCell>Waga</StyledTableHeaderCell>
+                     <StyledTableHeaderCell>Wzrost</StyledTableHeaderCell>
+                     <StyledTableHeaderCell>Liczba wygranych walk</StyledTableHeaderCell>
                   </tr>
                </thead>
                <tbody>
                   {pokemons.map((pokemon, index) => (
-                     <tr key={pokemon.id} className="text-center">
-                        <td className="py-1 px-2 sm:px-4 md:px-8">{(currentPage - 1) * 15 + index + 1}</td>
-                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.name}</td>
-                        <td className="py-1 px-2 sm:px-4 md:px-8 flex justify-center items-center">
+                     <tr key={pokemon.id} className="text-center even:bg-gray-100 even:dark:bg-gray-700">
+                        <StyledTableCell>{(currentPage - 1) * 15 + index + 1}</StyledTableCell>
+                        <StyledTableCell>{pokemon.name}</StyledTableCell>
+                        <StyledTableCell className="flex justify-center items-center">
                            <img
                               src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
                               alt={pokemon.name}
                               className="w-12 h-12 sm:w-16 sm:h-16"
                            />
-                        </td>
-                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.base_experience}</td>
-                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.weight}</td>
-                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.height}</td>
-                        <td className="py-1 px-2 sm:px-4 md:px-8">{pokemon.wins}</td>
+                        </StyledTableCell>
+                        <StyledTableCell>{pokemon.base_experience}</StyledTableCell>
+                        <StyledTableCell>{pokemon.weight}</StyledTableCell>
+                        <StyledTableCell>{pokemon.height}</StyledTableCell>
+                        <StyledTableCell>{pokemon.wins}</StyledTableCell>
                      </tr>
                   ))}
                </tbody>
