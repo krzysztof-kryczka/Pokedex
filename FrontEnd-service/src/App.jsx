@@ -7,7 +7,7 @@ export const App = () => {
    return (
       <div className="flex flex-col min-h-screen">
          <Navigation />
-         <main className="flex-grow max-w-[1920px]">
+         <main className="flex-grow">
             <Outlet />
          </main>
          <Footer />

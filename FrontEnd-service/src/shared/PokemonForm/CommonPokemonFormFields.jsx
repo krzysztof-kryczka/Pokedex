@@ -1,11 +1,11 @@
 import React from 'react'
-import { StyledButton } from '../StyledButton'
-import { StyledFormField } from '../StyledFormField'
+import { Button } from '../UI/Button'
+import { FormField } from '../UI/FormField'
 
 export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText, buttonDisabled }) => {
    return (
       <div className="flex flex-col gap-5">
-         <StyledFormField
+         <FormField
             label="Nazwa"
             type="text"
             defaultValue={pokemon ? pokemon.name : ''}
@@ -14,7 +14,7 @@ export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText,
             errors={errors.name}
             disabled={!!pokemon}
          />
-         <StyledFormField
+         <FormField
             label="Waga"
             type="number"
             defaultValue={pokemon ? pokemon.weight : ''}
@@ -24,7 +24,7 @@ export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText,
             valueAsNumber
             errors={errors.weight}
          />
-         <StyledFormField
+         <FormField
             label="Wzrost"
             type="number"
             defaultValue={pokemon ? pokemon.height : ''}
@@ -34,7 +34,7 @@ export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText,
             valueAsNumber
             errors={errors.height}
          />
-         <StyledFormField
+         <FormField
             label="Doświadczenie"
             type="number"
             defaultValue={pokemon ? pokemon.base_experience : ''}
@@ -44,9 +44,9 @@ export const CommonPokemonFormFields = ({ register, errors, pokemon, buttonText,
             valueAsNumber
             errors={errors.base_experience}
          />
-         <StyledButton type="submit" className="w-full" disabled={buttonDisabled}>
+         <Button type="submit" className="w-full" disabled={buttonDisabled}>
             {buttonText}
-         </StyledButton>
+         </Button>
       </div>
    )
 }

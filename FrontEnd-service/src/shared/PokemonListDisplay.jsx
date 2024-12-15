@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
-import { StyledButton } from './StyledButton'
-import { StyledTableHeaderCell } from './StyledTableHeaderCell'
-import { StyledTableCell } from './StyledTableCell'
+import { Button } from './UI/Button'
+import { TableHeaderCell } from './UI/TableHeaderCell'
+import { TableCell } from './UI/TableCell'
+import { Error } from './UI/Error'
 
 export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageType }) => {
    const { theme } = useContext(ThemeContext)
@@ -29,9 +30,9 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
                      />
                   </div>
                   {onEditClick && (
-                     <StyledButton onClick={() => onEditClick(pokemon)} className="w-full sm:w-auto">
+                     <Button onClick={() => onEditClick(pokemon)} className="w-full sm:w-auto">
                         Edytuj
-                     </StyledButton>
+                     </Button>
                   )}
                </li>
             ))}
@@ -42,38 +43,34 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
    if (pageType === 'ranking') {
       return (
          <div className="overflow-x-auto rounded-3xl border dark:border-gray-500">
-            <table
-               className={clsx('bg-light-background text-[7px] sm:text-sm md:text-base', {
-                  'dark:bg-dark-background': theme === 'dark',
-               })}
-            >
+            <table className="sm:text-sm md:text-base">
                <thead>
                   <tr>
-                     <StyledTableHeaderCell>ID</StyledTableHeaderCell>
-                     <StyledTableHeaderCell>Nazwa Pokémona</StyledTableHeaderCell>
-                     <StyledTableHeaderCell>Obrazek</StyledTableHeaderCell>
-                     <StyledTableHeaderCell>Doświadczenie</StyledTableHeaderCell>
-                     <StyledTableHeaderCell>Waga</StyledTableHeaderCell>
-                     <StyledTableHeaderCell>Wzrost</StyledTableHeaderCell>
-                     <StyledTableHeaderCell>Liczba wygranych walk</StyledTableHeaderCell>
+                     <TableHeaderCell>ID</TableHeaderCell>
+                     <TableHeaderCell>Nazwa Pokémona</TableHeaderCell>
+                     <TableHeaderCell>Obrazek</TableHeaderCell>
+                     <TableHeaderCell>Doświadczenie</TableHeaderCell>
+                     <TableHeaderCell>Waga</TableHeaderCell>
+                     <TableHeaderCell>Wzrost</TableHeaderCell>
+                     <TableHeaderCell>Liczba wygranych walk</TableHeaderCell>
                   </tr>
                </thead>
                <tbody>
                   {pokemons.map((pokemon, index) => (
                      <tr key={pokemon.id} className="text-center even:bg-gray-100 even:dark:bg-gray-700">
-                        <StyledTableCell>{(currentPage - 1) * 15 + index + 1}</StyledTableCell>
-                        <StyledTableCell>{pokemon.name}</StyledTableCell>
-                        <StyledTableCell className="flex justify-center items-center">
+                        <TableCell>{(currentPage - 1) * 15 + index + 1}</TableCell>
+                        <TableCell>{pokemon.name}</TableCell>
+                        <TableCell className="flex justify-center items-center">
                            <img
                               src={pokemon.sprites?.other.dream_world.front_default || pokemon.sprite}
                               alt={pokemon.name}
                               className="w-12 h-12 sm:w-16 sm:h-16"
                            />
-                        </StyledTableCell>
-                        <StyledTableCell>{pokemon.base_experience}</StyledTableCell>
-                        <StyledTableCell>{pokemon.weight}</StyledTableCell>
-                        <StyledTableCell>{pokemon.height}</StyledTableCell>
-                        <StyledTableCell>{pokemon.wins}</StyledTableCell>
+                        </TableCell>
+                        <TableCell>{pokemon.base_experience}</TableCell>
+                        <TableCell>{pokemon.weight}</TableCell>
+                        <TableCell>{pokemon.height}</TableCell>
+                        <TableCell>{pokemon.wins}</TableCell>
                      </tr>
                   ))}
                </tbody>
@@ -82,5 +79,5 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
       )
    }
 
-   return <p className="text-center text-red-500">Nie znaleziono widoku</p>
+   return <Error>Nie znaleziono widoku</Error>
 }

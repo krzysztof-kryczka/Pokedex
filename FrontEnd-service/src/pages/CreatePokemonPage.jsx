@@ -7,6 +7,8 @@ import { PokemonForm } from '../shared/PokemonForm'
 import { useManagePokemon } from '../hooks/useManagePokemon'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
+import { Header } from '../shared/UI/Header'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const CreatePokemonPage = () => {
    const {
@@ -39,12 +41,8 @@ export const CreatePokemonPage = () => {
    const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${spriteIndex}.svg`
 
    return (
-      <div
-         className={clsx('p-4 max-w-5xl mx-auto', {
-            'dark:bg-dark-background': theme === 'dark',
-         })}
-      >
-         <h1 className="text-4xl font-bold text-center my-4 text-blue-700">Stwórz Pokémona</h1>
+      <Wrapper>
+         <Header variant="h1">Stwórz Pokémona</Header>
          <PokemonForm
             register={register}
             errors={errors}
@@ -55,6 +53,6 @@ export const CreatePokemonPage = () => {
             isEditing={false}
          />
          {loading && <p>Trwa tworzenie Pokémona...</p>}
-      </div>
+      </Wrapper>
    )
 }

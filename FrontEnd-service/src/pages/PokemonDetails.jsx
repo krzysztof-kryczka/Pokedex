@@ -6,6 +6,7 @@ import { useSnackbar } from 'notistack'
 import { usePokemonDetails } from '../hooks/usePokemonDetails'
 import { PokemonCard } from '../shared/PokemonCard'
 import { addPokemonToArena, getPokemons, removePokemonFromArena, savePokemon } from '../api'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const PokemonDetails = () => {
    const { name } = useParams()
@@ -74,7 +75,7 @@ export const PokemonDetails = () => {
    }
 
    return (
-      <div className="p-4 max-w-full mx-auto">
+      <Wrapper>
          <PokemonCard
             pokemon={pokemonDetails}
             imageUrl={imageUrl}
@@ -87,6 +88,6 @@ export const PokemonDetails = () => {
             showArenaAction={true}
             showFavorite={true}
          />
-      </div>
+      </Wrapper>
    )
 }

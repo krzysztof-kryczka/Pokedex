@@ -12,7 +12,9 @@ import { Loader } from '../components/Loader'
 import { PokemonListDisplay } from '../shared/PokemonListDisplay'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
-import { StyledButton } from '../shared/StyledButton'
+import { Button } from '../shared/UI/Button'
+import { Header } from '../shared/UI/Header'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const EditPage = () => {
    const { pokemons: contextPokemons = [], setPokemons, totalCount } = usePokemon()
@@ -66,13 +68,12 @@ export const EditPage = () => {
    }
 
    return (
-      <div
-         className={clsx('max-w-5xl mx-auto p-4', {
-            'dark:bg-dark-background dark': theme === 'dark',
-         })}
-      >
-         <StyledButton onClick={() => navigate('/create')}>Stwórz Pokémona</StyledButton>
-         <h1 className="text-2xl md:text-4xl font-bold text-center m-4 md:m-8">Lista Pokémonów</h1>
+      <Wrapper>
+         <div className="pt-8">
+            <Button onClick={() => navigate('/create')}>Stwórz Pokémona</Button>
+         </div>
+
+         <Header variant="h1">Lista Pokémonów</Header>
          {error && (
             <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>
          )}
@@ -107,6 +108,6 @@ export const EditPage = () => {
                />
             </>
          )}
-      </div>
+      </Wrapper>
    )
 }

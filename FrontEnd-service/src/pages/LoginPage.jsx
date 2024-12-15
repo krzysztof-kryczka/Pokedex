@@ -6,6 +6,8 @@ import { useSnackbar } from 'notistack'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { LoginForm } from '../shared/PokemonUser/LoginForm'
+import { Header } from '../shared/UI/Header'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const LoginPage = () => {
    const { enqueueSnackbar } = useSnackbar()
@@ -25,15 +27,15 @@ export const LoginPage = () => {
    }
 
    return (
-         <div className="p-4">
-            <h1 className="text-4xl font-bold py-4 text-center">Logowanie</h1>
-            <LoginForm
-               register={register}
-               handleSubmit={handleSubmit}
-               errors={errors}
-               onSubmit={onSubmit}
-               loading={loading}
-            />
-         </div>
+      <Wrapper>
+         <Header variant="h1">Logowanie</Header>
+         <LoginForm
+            register={register}
+            handleSubmit={handleSubmit}
+            errors={errors}
+            onSubmit={onSubmit}
+            loading={loading}
+         />
+      </Wrapper>
    )
 }

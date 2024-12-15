@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { StyledButton } from '../StyledButton'
-import { StyledFormField } from '../StyledFormField'
+import { Button } from '../UI/Button'
+import { FormField } from '../UI/FormField'
 import { ThemeContext } from '../../context/ThemeContext'
 import clsx from 'clsx'
 
@@ -20,11 +20,11 @@ export const LoginForm = ({ register, handleSubmit, errors, onSubmit, loading })
             theme === 'dark' ? 'border-gray-500' : 'bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
          )}
       >
-         <StyledFormField label="Email:" type="email" register={register} name="email" errors={errors.email} />
-         <StyledFormField label="Hasło:" type="password" register={register} name="password" errors={errors.password} />
-         <StyledButton type="submit" disabled={loading}>
+         <FormField label="Email:" type="email" register={register} name="email" errors={errors.email} />
+         <FormField label="Hasło:" type="password" register={register} name="password" errors={errors.password} />
+         <Button type="submit" disabled={loading}>
             {loading ? 'Logowanie...' : 'Zaloguj się'}
-         </StyledButton>
+         </Button>
       </form>
    )
 }

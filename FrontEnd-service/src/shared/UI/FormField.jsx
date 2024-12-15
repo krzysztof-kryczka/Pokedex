@@ -1,18 +1,8 @@
 import React, { useContext } from 'react'
-import { ThemeContext } from '../context/ThemeContext'
+import { ThemeContext } from '../../context/ThemeContext'
 import clsx from 'clsx'
 
-export const StyledFormField = ({
-   label,
-   type,
-   defaultValue,
-   register,
-   name,
-   min,
-   errors,
-   disabled,
-   valueAsNumber,
-}) => {
+export const FormField = ({ label, type, defaultValue, register, name, min, errors, disabled, valueAsNumber }) => {
    const { theme } = useContext(ThemeContext)
 
    return (

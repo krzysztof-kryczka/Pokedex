@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from './UI/Button'
 
 export const PokemonSort = ({ sortCriteria, sortOrder, onSortChange, onOrderChange }) => {
    const handleSortChange = e => {
@@ -27,12 +28,12 @@ export const PokemonSort = ({ sortCriteria, sortOrder, onSortChange, onOrderChan
 
    return (
       <div className="mb-4 flex flex-col md:flex-row items-start md:items-center">
-         <label htmlFor="sortCriteria" className="block mb-2 md:mb-0 md:mr-4">
+         <label htmlFor="sortCriteria" className="flex mb-2 md:mb-0 md:mr-4">
             Sortuj według:
          </label>
          <select
             id="sortCriteria"
-            className="p-2 border rounded w-full md:w-auto bg-white dark:bg-gray-700 text-black dark:text-white mb-2 md:mb-0"
+            className="p-2 border rounded-lg w-full md:w-auto bg-white dark:bg-gray-700 text-black dark:text-white mb-2 md:mb-0"
             value={sortCriteria}
             onChange={handleSortChange}
          >
@@ -41,12 +42,9 @@ export const PokemonSort = ({ sortCriteria, sortOrder, onSortChange, onOrderChan
             <option value="height">Wzrost</option>
             <option value="battle_wins">Liczba wygranych walk</option>
          </select>
-         <button
-            onClick={handleOrderChange}
-            className="p-2 border rounded bg-blue-500 text-white dark:bg-blue-700 md:ml-4"
-         >
+         <Button onClick={handleOrderChange} className="md:ml-4">
             {sortOrder === 'asc' ? 'Rosnąco' : 'Malejąco'}
-         </button>
+         </Button>
          <p className="mt-2 md:mt-0 md:ml-4">
             Obecnie sortowane według: <strong>{getSortLabel()}</strong> ({sortOrder === 'asc' ? 'Rosnąco' : 'Malejąco'})
          </p>

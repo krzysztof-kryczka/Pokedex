@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { ThemeContext } from '../context/ThemeContext'
+import { ThemeContext } from '../../context/ThemeContext'
 import clsx from 'clsx'
 
-export const StyledButton = ({ onClick, disabled, children, className }) => {
+export const Button = ({ onClick, disabled, children, className }) => {
    const { theme } = useContext(ThemeContext)
 
    return (

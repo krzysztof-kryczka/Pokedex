@@ -5,6 +5,8 @@ import { PokemonCard } from '../shared/PokemonCard'
 import { useSnackbar } from 'notistack'
 import { Pagination } from '../components/Pagination'
 import { useNavigate } from 'react-router-dom'
+import { Header } from '../shared/UI/Header'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const FavoritesPage = () => {
    const { user } = useAuth()
@@ -35,8 +37,8 @@ export const FavoritesPage = () => {
    }
 
    return (
-      <div className="p-4 max-w-full mx-auto">
-         <h1 className="text-4xl font-bold mb-4 pb-4 text-center">Ulubione Pokemony</h1>
+      <Wrapper>
+         <Header variant="h1">Ulubione Pokemony</Header>
          {favoriteDetails.length === 0 ? (
             <p className="text-center text-lg">
                Nie masz jeszcze żadnych ulubionych pokemonów. Dodaj je klikając w ikonę serca na karcie pokemona.
@@ -72,6 +74,6 @@ export const FavoritesPage = () => {
                )}
             </>
          )}
-      </div>
+      </Wrapper>
    )
 }

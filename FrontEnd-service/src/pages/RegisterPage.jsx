@@ -6,6 +6,8 @@ import { useSnackbar } from 'notistack'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { RegisterForm } from '../shared/PokemonUser/RegisterForm'
+import { Header } from '../shared/UI/Header'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const RegisterPage = () => {
    const { enqueueSnackbar } = useSnackbar()
@@ -32,8 +34,8 @@ export const RegisterPage = () => {
    }
 
    return (
-      <div className="p-4">
-         <h1 className="text-4xl font-bold py-4 text-center">Rejestracja</h1>
+      <Wrapper>
+         <Header variant="h1">Rejestracja</Header>
          <RegisterForm
             register={register}
             handleSubmit={handleSubmit}
@@ -42,6 +44,6 @@ export const RegisterPage = () => {
             loading={loading}
             isSubmitting={isSubmitting}
          />
-      </div>
+      </Wrapper>
    )
 }

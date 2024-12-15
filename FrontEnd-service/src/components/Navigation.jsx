@@ -6,7 +6,8 @@ import { useSnackbar } from 'notistack'
 import { ThemeContext } from '../context/ThemeContext'
 import { FaSun, FaMoon, FaBars, FaTimes, FaUser } from 'react-icons/fa'
 import clsx from 'clsx'
-import { StyledNavLinkButton } from '../shared/StyledNavLinkButton'
+import { NavLinkButton } from '../shared/UI/NavLinkButton'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const Navigation = () => {
    const { user, isAuthenticated, logout } = useAuth()
@@ -31,61 +32,70 @@ export const Navigation = () => {
    ]
 
    return (
-      <header className={clsx('p-4 w-full', theme === 'dark' ? 'bg-section-dark' : 'bg-section-light')}>
-         <div className="flex items-center justify-between">
-            <Link to="/" className="flex justify-center md:justify-start">
-               <img src={logo} alt="Pokémon Logo" className="h-16 md:h-24" />
-            </Link>
-            <button className="md:hidden text-white" onClick={handleMenuToggle}>
-               {menuOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
-            </button>
-            <div className="hidden md:flex flex-col items-end md:space-x-4">
-               <div className="flex items-center mb-4 space-x-4">
-                  {isAuthenticated && (
-                     <p className="text-white flex items-center">
-                        <FaUser className="mr-2" /> {`Zalogowany jako: ${user.name}`}
-                     </p>
-                  )}
-                  <div
-                     className="relative flex items-center justify-center w-16 h-8 bg-dark-background rounded-full cursor-pointer"
-                     onClick={toggleTheme}
-                  >
+      <header
+         className={clsx(
+            'p-4 w-full fixed top-0 left-0 right-0 z-50',
+            theme === 'dark' ? 'bg-section-dark' : 'bg-section-light',
+         )}
+      >
+         <Wrapper className="md:pt-4 pt-4">
+            <div className="flex items-center justify-between">
+               <Link to="/">
+                  <img src={logo} alt="Pokémon Logo" className="h-16 w-auto md:h-16" />
+               </Link>
+               <button className="md:hidden text-white" onClick={handleMenuToggle}>
+                  {menuOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
+               </button>
+               <div className="hidden md:flex flex-col items-end md:space-x-4">
+                  <div className="flex items-center mb-4 space-x-4">
+                     {isAuthenticated && (
+                        <p className="text-white flex items-center">
+                           <FaUser className="mr-2" /> {`Zalogowany jako: ${user.name}`}
+                        </p>
+                     )}
                      <div
-                        className={clsx(
-                           'absolute w-11 h-11 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300',
-                           theme === 'dark' ? 'bg-dark-background translate-x-3' : 'bg-light-background -translate-x-3',
-                        )}
+                        className="relative flex items-center justify-center w-16 h-8 bg-dark-background rounded-full cursor-pointer"
+                        onClick={toggleTheme}
                      >
-                        {theme === 'dark' ? (
-                           <FaMoon className="text-blue-500" />
-                        ) : (
-                           <FaSun className="text-yellow-500" />
-                        )}
+                        <div
+                           className={clsx(
+                              'absolute w-11 h-11 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300',
+                              theme === 'dark'
+                                 ? 'bg-dark-background translate-x-3'
+                                 : 'bg-light-background -translate-x-3',
+                           )}
+                        >
+                           {theme === 'dark' ? (
+                              <FaMoon className="text-blue-500" />
+                           ) : (
+                              <FaSun className="text-yellow-500" />
+                           )}
+                        </div>
                      </div>
                   </div>
-               </div>
-               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                  {isAuthenticated ? (
-                     <>
-                        {authenticatedLinks.map(link => (
-                           <StyledNavLinkButton key={link.to} to={link.to}>
-                              {link.text}
-                           </StyledNavLinkButton>
-                        ))}
-                        <StyledNavLinkButton onClick={() => logout(enqueueSnackbar)}>Wyloguj</StyledNavLinkButton>
-                     </>
-                  ) : (
-                     <>
-                        {unauthenticatedLinks.map(link => (
-                           <StyledNavLinkButton key={link.to} to={link.to}>
-                              {link.text}
-                           </StyledNavLinkButton>
-                        ))}
-                     </>
-                  )}
+                  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+                     {isAuthenticated ? (
+                        <>
+                           {authenticatedLinks.map(link => (
+                              <NavLinkButton key={link.to} to={link.to}>
+                                 {link.text}
+                              </NavLinkButton>
+                           ))}
+                           <NavLinkButton onClick={() => logout(enqueueSnackbar)}>Wyloguj</NavLinkButton>
+                        </>
+                     ) : (
+                        <>
+                           {unauthenticatedLinks.map(link => (
+                              <NavLinkButton key={link.to} to={link.to}>
+                                 {link.text}
+                              </NavLinkButton>
+                           ))}
+                        </>
+                     )}
+                  </div>
                </div>
             </div>
-         </div>
+         </Wrapper>
          {menuOpen && (
             <div className="md:hidden mt-4 space-y-2 text-center">
                {isAuthenticated ? (
@@ -94,25 +104,25 @@ export const Navigation = () => {
                         <FaUser className="mr-2" /> {`Zalogowany jako: ${user.name}`}
                      </p>
                      {authenticatedLinks.map(link => (
-                        <StyledNavLinkButton key={link.to} to={link.to} onClick={handleMenuToggle}>
+                        <NavLinkButton key={link.to} to={link.to} onClick={handleMenuToggle}>
                            {link.text}
-                        </StyledNavLinkButton>
+                        </NavLinkButton>
                      ))}
-                     <StyledNavLinkButton
+                     <NavLinkButton
                         onClick={() => {
                            logout(enqueueSnackbar)
                            handleMenuToggle()
                         }}
                      >
                         Wyloguj
-                     </StyledNavLinkButton>
+                     </NavLinkButton>
                   </>
                ) : (
                   <>
                      {unauthenticatedLinks.map(link => (
-                        <StyledNavLinkButton key={link.to} to={link.to} onClick={handleMenuToggle}>
+                        <NavLinkButton key={link.to} to={link.to} onClick={handleMenuToggle}>
                            {link.text}
-                        </StyledNavLinkButton>
+                        </NavLinkButton>
                      ))}
                   </>
                )}

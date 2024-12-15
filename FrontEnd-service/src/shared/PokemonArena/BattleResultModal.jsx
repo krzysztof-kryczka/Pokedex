@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { StyledButton } from '../StyledButton'
+import { Button } from '../UI/Button'
 
 import clsx from 'clsx'
 import { ThemeContext } from '../../context/ThemeContext'
@@ -29,7 +29,7 @@ export const BattleResultModal = ({ result, onClose }) => {
             ) : (
                <h2 className="text-2xl font-bold mb-4">Remis!</h2>
             )}
-            <StyledButton onClick={onClose}>Opuść arenę</StyledButton>
+            <Button onClick={onClose}>Opuść arenę</Button>
          </div>
       </div>
    )

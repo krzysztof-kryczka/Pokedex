@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { StyledButton } from '../StyledButton'
-import { StyledFormField } from '../StyledFormField'
+import { Button } from '../UI/Button'
+import { FormField } from '../UI/FormField'
 import { ThemeContext } from '../../context/ThemeContext'
 import clsx from 'clsx'
 
@@ -20,19 +20,19 @@ export const RegisterForm = ({ register, handleSubmit, errors, onSubmit, loading
             theme === 'dark' ? 'border-gray-500' : 'bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
          )}
       >
-         <StyledFormField label="Imię" type="text" register={register} name="name" errors={errors.name} />
-         <StyledFormField label="Email" type="email" register={register} name="email" errors={errors.email} />
-         <StyledFormField label="Hasło" type="password" register={register} name="password" errors={errors.password} />
-         <StyledFormField
+         <FormField label="Imię" type="text" register={register} name="name" errors={errors.name} />
+         <FormField label="Email" type="email" register={register} name="email" errors={errors.email} />
+         <FormField label="Hasło" type="password" register={register} name="password" errors={errors.password} />
+         <FormField
             label="Powtórz hasło"
             type="password"
             register={register}
             name="repeatPassword"
             errors={errors.repeatPassword}
          />
-         <StyledButton type="submit" disabled={loading || isSubmitting}>
+         <Button type="submit" disabled={loading || isSubmitting}>
             {loading || isSubmitting ? 'Rejestracja...' : 'Zarejestruj się'}
-         </StyledButton>
+         </Button>
       </form>
    )
 }

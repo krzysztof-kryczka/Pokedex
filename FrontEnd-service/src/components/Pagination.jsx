@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledButton } from '../shared/StyledButton'
+import { Button } from '../shared/UI/Button'
 
 const PaginationButton = ({ page, label, currentPage, onPageChange }) => (
    <button
@@ -80,13 +80,13 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
 
          {(pageType === 'edit' || pageType === 'ranking' || pageType === 'favorites') && (
             <>
-               <StyledButton onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+               <Button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
                   Poprzednia
-               </StyledButton>
+               </Button>
 
-               <StyledButton onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+               <Button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                   Następna
-               </StyledButton>
+               </Button>
             </>
          )}
       </div>

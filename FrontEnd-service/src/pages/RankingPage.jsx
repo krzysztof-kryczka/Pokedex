@@ -7,6 +7,9 @@ import { PokemonListDisplay } from '../shared/PokemonListDisplay'
 import { PokemonSort } from '../shared/PokemonSort'
 import { ThemeContext } from '../context/ThemeContext'
 import clsx from 'clsx'
+import { Error } from '../shared/UI/Error'
+import { Header } from '../shared/UI/Header'
+import { Wrapper } from '../shared/UI/Wrapper'
 
 export const RankingPage = () => {
    const { pokemons: contextPokemons, totalCount } = usePokemon()
@@ -24,15 +27,9 @@ export const RankingPage = () => {
    })
 
    return (
-      <div
-         className={clsx('max-w-5xl mx-auto p-4 md:p-8', {
-            'dark:bg-dark-background dark': theme === 'dark',
-         })}
-      >
-         <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-blue-700">Ranking Pokémonów</h1>
-         {error && (
-            <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>
-         )}
+      <Wrapper>
+         <Header variant="h1">Ranking Pokémonów</Header>
+         {error && <Error>Błąd podczas ładowania Pokémonów: {error.message}</Error>}
          {isLoading ? (
             <Loader />
          ) : (
@@ -57,6 +54,6 @@ export const RankingPage = () => {
                )}
             </>
          )}
-      </div>
+      </Wrapper>
    )
 }
