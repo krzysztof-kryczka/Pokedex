@@ -26,7 +26,7 @@ const router = createBrowserRouter(
          path: '/',
          children: [
             { path: '/', element: <Pokedex /> },
-            { path: 'pokemon/:name', element: <PokemonDetails /> },
+            { path: 'pokemon/:id', element: <PokemonDetails /> },
             // public route
             { path: 'register', element: <PublicRoute element={<RegisterPage />} /> },
             { path: 'login', element: <PublicRoute element={<LoginPage />} /> },

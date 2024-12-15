@@ -7,15 +7,19 @@ import { usePokemonDetails } from '../hooks/usePokemonDetails'
 import { PokemonCard } from '../shared/PokemonCard'
 import { addPokemonToArena, getPokemons, removePokemonFromArena, savePokemon } from '../api'
 import { Wrapper } from '../shared/UI/Wrapper'
+import { Error } from '../shared/UI/Error'
 
 export const PokemonDetails = () => {
-   const { name } = useParams()
+   const { id } = useParams()
    const { pokemons, arena, setArena } = usePokemon()
    const { user } = useAuth()
    const { enqueueSnackbar } = useSnackbar()
 
-   const pokemon = pokemons.find(p => p.name === name)
+   const parsedId = parseInt(id, 10)
+   const pokemon = pokemons.find(p => p.id === parsedId)
    const { pokemonDetails, isFavorite, toggleFavorite } = usePokemonDetails(pokemon, user, enqueueSnackbar)
+
+   const [error, setError] = useState(null)
 
    const [favorite, setFavorite] = useState(isFavorite)
    const [inArena, setInArena] = useState(false)
@@ -27,8 +31,16 @@ export const PokemonDetails = () => {
       }
    }, [isFavorite, arena, pokemonDetails])
 
-   if (!pokemon) {
-      return <p className="text-center">Nie znaleziono danych dla Pokémona {name}.</p>
+   useEffect(() => {
+      if (!pokemonDetails) {
+         setError(`Nie znaleziono danych dla Pokémona o ID ${id}.`)
+      } else {
+         setError(null)
+      }
+   }, [pokemonDetails, id])
+
+   if (error) {
+      return <Error>{error}</Error>
    }
 
    if (!pokemonDetails) {

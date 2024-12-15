@@ -12,15 +12,15 @@ export const PokemonList = ({ pokemons }) => {
             const imageUrl = pokemon.sprites?.other.dream_world.front_default || pokemon.sprite
             return (
                <li
-                  key={pokemon.name}
+                  key={pokemon.id}
                   className={clsx(
-                     'rounded-3xl  shadow-lg transform hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer',
+                     'rounded-3xl shadow-lg transform hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer',
                      theme === 'dark'
                         ? 'border-gray-500 bg-dark-background'
                         : 'bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
                   )}
                >
-                  <Link to={`/pokemon/${pokemon.name}`}>
+                  <Link to={`/pokemon/${pokemon.id}`}>
                      <PokemonCard
                         pokemon={pokemon}
                         imageUrl={imageUrl}

@@ -33,7 +33,7 @@ export const FavoritesPage = () => {
    }
 
    const handleCardClick = pokemon => {
-      navigate(`/pokemon/${pokemon.name}`)
+      navigate(`/pokemon/${pokemon.id}`)
    }
 
    return (
