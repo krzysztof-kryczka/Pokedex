@@ -40,7 +40,7 @@ export const PokemonSort = ({ sortCriteria, sortOrder, onSortChange, onOrderChan
             <option value="base_experience">Doświadczenie</option>
             <option value="weight">Waga</option>
             <option value="height">Wzrost</option>
-            <option value="battle_wins">Liczba wygranych walk</option>
+            <option value="wins">Liczba wygranych walk</option>
          </select>
          <Button onClick={handleOrderChange} className="md:ml-4">
             {sortOrder === 'asc' ? 'Rosnąco' : 'Malejąco'}

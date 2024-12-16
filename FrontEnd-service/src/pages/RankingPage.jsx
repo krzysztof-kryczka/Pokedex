@@ -16,8 +16,12 @@ export const RankingPage = () => {
    const [sortedPokemons, setSortedPokemons] = useState([])
 
    useEffect(() => {
-      // Sort Pokémon based on criteria
-      const sorted = [...contextPokemons].sort((a, b) => {
+      const pokemonsWithDefaultWins = contextPokemons.map(pokemon => ({
+         ...pokemon,
+         wins: pokemon.wins ?? 0,
+      }))
+
+      const sorted = [...pokemonsWithDefaultWins].sort((a, b) => {
          if (sortOrder === 'asc') {
             return a[sortCriteria] - b[sortCriteria]
          } else {
@@ -25,12 +29,26 @@ export const RankingPage = () => {
          }
       })
 
-      // Calculate Pokémon indices for the current page
       const startIndex = (currentPage - 1) * 15
       const paginatedSortedPokemons = sorted.slice(startIndex, startIndex + 15)
 
       setSortedPokemons(paginatedSortedPokemons)
    }, [contextPokemons, sortCriteria, sortOrder, currentPage])
+
+   const handleSortChange = criteria => {
+      setSortCriteria(criteria)
+      setCurrentPage(1)
+   }
+
+   const handleOrderChange = () => {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+      setCurrentPage(1)
+   }
+
+   const handlePageChange = page => {
+      setCurrentPage(page)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }
 
    return (
       <Wrapper>
@@ -43,18 +61,15 @@ export const RankingPage = () => {
                <PokemonSort
                   sortCriteria={sortCriteria}
                   sortOrder={sortOrder}
-                  onSortChange={setSortCriteria}
-                  onOrderChange={setSortOrder}
+                  onSortChange={handleSortChange}
+                  onOrderChange={handleOrderChange}
                />
                <PokemonListDisplay pokemons={sortedPokemons} currentPage={currentPage} pageType="ranking" />
                {Math.ceil(totalCount / 15) > 1 && (
                   <Pagination
                      currentPage={currentPage}
                      totalPages={Math.ceil(totalCount / 15)}
-                     onPageChange={page => {
-                        setCurrentPage(page)
-                        window.scrollTo({ top: 0, behavior: 'smooth' })
-                     }}
+                     onPageChange={handlePageChange}
                      pageType="ranking"
                   />
                )}
