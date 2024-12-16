@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useFavorites } from '../hooks/useFavorites'
-import { PokemonCard } from '../shared/PokemonCard'
+import { PokemonCard } from '../components/shared/PokemonCard'
 import { useSnackbar } from 'notistack'
 import { Pagination } from '../components/Pagination'
 import { useNavigate } from 'react-router-dom'
-import { Header } from '../shared/UI/Header'
-import { Wrapper } from '../shared/UI/Wrapper'
+import { Header } from '../components/shared/UI/Header'
+import { Wrapper } from '../components/shared/UI/Wrapper'
 
 export const FavoritesPage = () => {
    const { user } = useAuth()

@@ -33,7 +33,7 @@ export const PokemonSort = ({ sortCriteria, sortOrder, onSortChange, onOrderChan
          </label>
          <select
             id="sortCriteria"
-            className="p-2 border rounded-lg w-full md:w-auto bg-white dark:bg-gray-700 text-black dark:text-white mb-2 md:mb-0"
+            className="p-2 border rounded-lg w-full md:w-auto dark:bg-dark-input mb-2 md:mb-0"
             value={sortCriteria}
             onChange={handleSortChange}
          >

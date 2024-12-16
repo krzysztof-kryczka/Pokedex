@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createPokemonSchema } from '../schemas/pokemonSchema'
-import { PokemonForm } from '../shared/PokemonForm'
+import { PokemonForm } from '../components/shared/PokemonForm'
 import { useManagePokemon } from '../hooks/useManagePokemon'
-import { ThemeContext } from '../context/ThemeContext'
-import clsx from 'clsx'
-import { Header } from '../shared/UI/Header'
-import { Wrapper } from '../shared/UI/Wrapper'
+import { Header } from '../components/shared/UI/Header'
+import { Wrapper } from '../components/shared/UI/Wrapper'
 
 export const CreatePokemonPage = () => {
    const {
@@ -24,7 +22,6 @@ export const CreatePokemonPage = () => {
    const [spriteIndex, setSpriteIndex] = useState(151)
    const navigate = useNavigate()
    const { savePokemon, loading, usedSprites } = useManagePokemon(navigate, reset)
-   const { theme } = useContext(ThemeContext)
 
    useEffect(() => {
       const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${spriteIndex}.svg`

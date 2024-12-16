@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { usePokemon } from '../context/PokemonContext'
 import { useSnackbar } from 'notistack'
-import { PokemonCard } from '../shared/PokemonCard'
-import { PlaceholderCard } from '../shared/PokemonArena/PlaceholderCard'
-import { BattleButton } from '../shared/PokemonArena/BattleButton'
-import { BattleResultModal } from '../shared/PokemonArena/BattleResultModal'
+import { PokemonCard } from '../components/shared/PokemonCard'
+import { PlaceholderCard } from '../components/shared/PokemonArena/PlaceholderCard'
+import { BattleButton } from '../components/shared/PokemonArena/BattleButton'
+import { BattleResultModal } from '../components/shared/PokemonArena/BattleResultModal'
 import { getPokemons, getArena, removePokemonFromArena, updatePokemon } from '../api'
 import BattleArena from '../assets/battle-arena.webp'
+import { Wrapper } from '../components/shared/UI/Wrapper'
+import { Header } from '../components/shared/UI/Header'
 
 export const ArenaPage = () => {
    const { pokemons, setPokemons, arena, setArena } = usePokemon()
@@ -89,9 +91,10 @@ export const ArenaPage = () => {
    }
 
    return (
-      // <div className="min-w-full">
+      <Wrapper className="min-h-[calc(100vh-80px)]">
+         <Header variant="h1">Arena</Header>
          <div
-            className="p-4"
+            className="p-4 w-full flex-1"
             style={{ backgroundImage: `url(${BattleArena})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -124,11 +127,11 @@ export const ArenaPage = () => {
                   </>
                )}
             </div>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center py-4">
                <BattleButton onClick={handleBattle} disabled={arena.length < 2} />
             </div>
             {showModal && <BattleResultModal result={battleResult} onClose={handleLeaveArena} />}
          </div>
-      // </div>
+      </Wrapper>
    )
 }

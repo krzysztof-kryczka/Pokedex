@@ -5,9 +5,9 @@ import { loginSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { LoginForm } from '../shared/PokemonUser/LoginForm'
-import { Header } from '../shared/UI/Header'
-import { Wrapper } from '../shared/UI/Wrapper'
+import { Wrapper } from '../components/shared/UI/Wrapper'
+import { Header } from '../components/shared/UI/Header'
+import { LoginForm } from '../components/shared/PokemonUser/LoginForm'
 
 export const LoginPage = () => {
    const { enqueueSnackbar } = useSnackbar()

@@ -8,15 +8,22 @@ export default {
             light: {
                background: 'var(--color-bg-light)',
                text: 'var(--color-text-light)',
-               blue: 'var(--color-bg-blue-light)',
-               button: 'var(--color-bg-section-blue-light)', // bg-blue-500
-               'button-hover': 'var(--color-bg-section-blue-light-hover)', // bg-blue-600
+               section: 'var(--color-bg-section-light)',
+               button: 'var(--color-bg-button-light)',
+               'button-hover': 'var(--color-bg-button-light-hover)',
+               'row-even': 'var(--color-bg-row-light)',
+               'row-header': 'var(--color-bg-row-header-light)',
             },
             dark: {
                background: 'var(--color-bg-dark)',
-               text: 'var(--color-text-dark)',
-               button: 'var(--color-bg-section-blue-dark)', // bg-blue-700
-               'button-hover': 'var(--color-bg-section-blue-dark-hover)', // bg-blue-800
+               text: 'var(--color-text-dark)', // text-dark-text
+               section: 'var( --color-bg-section-dark)',
+               button: 'var(--color-bg-button-dark)',
+               'button-hover': 'var(--color-bg-button-dark-hover)',
+               input: 'var(--color-bg-input-dark)',
+               'row-even': 'var(--color-bg-row-dark)',
+               'row-header': 'var(--color-bg-row-header-dark)',
+               border: 'var(--color-border-dark)', //border-dark-border
             },
          },
       },

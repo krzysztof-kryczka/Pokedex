@@ -1,24 +1,17 @@
-import React, { useContext } from 'react'
-import { ThemeContext } from '../context/ThemeContext'
-import clsx from 'clsx'
+import React from 'react'
 import { Button } from './UI/Button'
 import { TableHeaderCell } from './UI/TableHeaderCell'
 import { TableCell } from './UI/TableCell'
 import { Error } from './UI/Error'
 
 export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageType }) => {
-   const { theme } = useContext(ThemeContext)
-
    if (pageType === 'edit') {
       return (
          <ul className="flex flex-col gap-5">
             {pokemons.map((pokemon, index) => (
                <li
                   key={`${index}-${pokemon.id}`}
-                  className={clsx(
-                     'flex flex-col md:flex-row items-center justify-between p-4 shadow-lg rounded-lg',
-                     theme === 'dark' ? ' bg-dark-search' : 'bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
-                  )}
+                  className="flex flex-col md:flex-row items-center justify-between p-4 shadow-lg rounded-lg bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 dark:bg-dark-input dark:bg-none"
                >
                   <div className="flex flex-col md:flex-row items-center md:gap-10 gap-5 mb-4 md:mb-0">
                      <span className="text-sm sm:text-base">{(currentPage - 1) * 15 + index + 1}</span>
@@ -42,7 +35,7 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
 
    if (pageType === 'ranking') {
       return (
-         <div className="overflow-x-auto rounded-3xl border dark:border-gray-500">
+         <div className="overflow-x-auto rounded-3xl border">
             <table className="sm:text-sm md:text-base">
                <thead>
                   <tr>
@@ -57,7 +50,7 @@ export const PokemonListDisplay = ({ pokemons, onEditClick, currentPage, pageTyp
                </thead>
                <tbody>
                   {pokemons.map((pokemon, index) => (
-                     <tr key={pokemon.id} className="text-center even:bg-gray-100 even:dark:bg-gray-700">
+                     <tr key={pokemon.id} className="text-center even:bg-light-row-even even:dark:bg-dark-row-even">
                         <TableCell>{(currentPage - 1) * 15 + index + 1}</TableCell>
                         <TableCell>{pokemon.name}</TableCell>
                         <TableCell className="flex justify-center items-center">

@@ -5,9 +5,9 @@ import { registerSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { RegisterForm } from '../shared/PokemonUser/RegisterForm'
-import { Header } from '../shared/UI/Header'
-import { Wrapper } from '../shared/UI/Wrapper'
+import { Wrapper } from '../components/shared/UI/Wrapper'
+import { Header } from '../components/shared/UI/Header'
+import { RegisterForm } from '../components/shared/PokemonUser/RegisterForm'
 
 export const RegisterPage = () => {
    const { enqueueSnackbar } = useSnackbar()

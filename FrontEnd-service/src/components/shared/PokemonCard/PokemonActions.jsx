@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { FaHeart, FaShieldAlt } from 'react-icons/fa'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../../context/AuthContext'
 
 export const PokemonActions = ({
    toggleFavorite,
@@ -12,7 +12,6 @@ export const PokemonActions = ({
    showArenaAction,
 }) => {
    const { isAuthenticated } = useContext(AuthContext)
-   console.log('isAuthenticated', isAuthenticated)
    return (
       <div className="flex items-center justify-center mt-4">
          {isAuthenticated && (

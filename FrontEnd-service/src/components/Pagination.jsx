@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../shared/UI/Button'
+import { Button } from './shared/UI/Button'
 
 const PaginationButton = ({ page, label, currentPage, onPageChange }) => (
    <button

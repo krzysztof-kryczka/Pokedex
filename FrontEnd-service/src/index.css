@@ -7,12 +7,17 @@
    --color-text-light: #131516;
    --color-bg-dark: #181a1b;
    --color-text-dark: #fff;
+   --color-bg-button-light: #3b82f6; /* bg-blue-500 */
+   --color-bg-button-light-hover: #2563eb; /* bg-blue-600 */
+   --color-bg-button-dark: #0844a6; /* bg-blue-700 */
+   --color-bg-button-dark-hover: #06397a; /* bg-blue-800 */
+   --color-bg-row-light: #f3f4f6; /* bg-gray-100 */
+   --color-bg-row-dark: #374151; /* bg-gray-700 */
+   --color-bg-row-header-light: #e5e7eb; /* bg-gray-200 */
+   --color-bg-row-header-dark: #1f2937; /* bg-gray-800 */
+   --color-border-dark: #6b7280; /* bg-gray-500 */
+   --color-bg-input-dark: #0e0f0f;
    --color-bg-blue-light: #ebf8ff;
-   --color-bg-section-blue-light: #3b82f6; /* bg-blue-500 */
-   --color-bg-section-blue-light-hover: #2563eb; /* bg-blue-600 */
-   --color-bg-section-blue-dark: #0844a6; /* bg-blue-700 */
-   --color-bg-section-blue-dark-hover: #06397a; /* bg-blue-800 */
-   --color-bg-search-dark: #0e0f0f;
    --color-bg-section-light: #2b5876;
    --color-bg-section-dark: #122430;
 }
@@ -33,60 +38,8 @@
    }
 }
 
-.bg-light-blue {
-   background-color: var(--color-bg-blue-light);
-}
-
-.dark .bg-light-blue {
-   background-color: var(--color-bg-dark);
-}
-
-.bg-light-section {
-   background-color: var(--color-bg-section-blue-light);
-}
-
-.bg-light-section-hover:hover {
-   background-color: var(--color-bg-section-blue-light-hover);
-}
-
-.dark .bg-dark-section {
-   background-color: var(--color-bg-section-blue-dark);
-}
-
-.dark .bg-dark-section-hover:hover {
-   background-color: var(--color-bg-section-blue-dark-hover);
-}
-
-.bg-dark-search {
-   background-color: var(--color-bg-search-dark);
-}
-
-.bg-light-button {
-   background-color: var(--color-bg-section-blue-light); /* bg-blue-500 */
-}
-
-.hover\:bg-light-button-hover:hover {
-   background-color: var(--color-bg-section-blue-light-hover); /* bg-blue-600 */
-}
-
-.bg-dark-button {
-   background-color: var(--color-bg-section-blue-dark); /* bg-blue-700 */
-}
-
-.hover\:bg-dark-button-hover:hover {
-   background-color: var(--color-bg-section-blue-dark-hover); /* bg-blue-800 */
-}
-
 .btn {
-   @apply px-4 py-2 rounded-lg text-white transition duration-200 disabled:opacity-40 disabled:cursor-not-allowed;
-}
-
-.bg-section-light {
-   background-color: var(--color-bg-section-light);
-}
-
-.bg-section-dark {
-   background-color: var(--color-bg-section-dark);
+   @apply px-4 py-2 rounded-lg text-white transition duration-200 font-bold text-center flex justify-center disabled:opacity-40 disabled:cursor-not-allowed;
 }
 
 /* width */

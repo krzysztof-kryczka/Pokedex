@@ -1,28 +1,25 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { editPokemonSchema } from '../schemas/pokemonSchema'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
 import { useManagePokemon } from '../hooks/useManagePokemon'
-import { PokemonForm } from '../shared/PokemonForm'
+import { PokemonForm } from '../components/shared/PokemonForm'
 import { Pagination } from '../components/Pagination'
 import { usePokemon } from '../context/PokemonContext'
 import { Loader } from '../components/Loader'
-import { PokemonListDisplay } from '../shared/PokemonListDisplay'
-import { ThemeContext } from '../context/ThemeContext'
-import clsx from 'clsx'
-import { Button } from '../shared/UI/Button'
-import { Header } from '../shared/UI/Header'
-import { Wrapper } from '../shared/UI/Wrapper'
+import { PokemonListDisplay } from '../components/shared/PokemonListDisplay'
+import { Button } from '../components/shared/UI/Button'
+import { Header } from '../components/shared/UI/Header'
+import { Wrapper } from '../components/shared/UI/Wrapper'
 
 export const EditPage = () => {
-   const { pokemons: contextPokemons = [], setPokemons, totalCount } = usePokemon()
-   const { pokemons: fetchedPokemons = [], isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
+   const { pokemons: contextPokemons = [], totalCount } = usePokemon()
+   const { isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
    const [selectedPokemon, setSelectedPokemon] = useState(null)
    const navigate = useNavigate()
    const { savePokemon, loading } = useManagePokemon(navigate)
-   const { theme } = useContext(ThemeContext)
 
    const {
       register,
@@ -74,15 +71,13 @@ export const EditPage = () => {
          </div>
 
          <Header variant="h1">Lista Pokémonów</Header>
-         {error && (
-            <p className="text-center text-red-700 font-bold">Błąd podczas ładowania Pokémonów: {error.message}</p>
-         )}
+         {error && <Error>Błąd podczas ładowania Pokémonów: {error.message}</Error>}
          {isLoading ? (
             <Loader />
          ) : (
             <>
                <PokemonListDisplay
-                  pokemons={contextPokemons}
+                  pokemons={contextPokemons.slice((currentPage - 1) * 15, currentPage * 15)}
                   onEditClick={handleEditClick}
                   currentPage={currentPage}
                   pageType="edit"

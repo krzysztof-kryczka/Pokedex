@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { PokemonActions } from './PokemonActions'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../../context/AuthContext'
 import { PokemonStatistics } from './PokemonStatistics'
+import { PokemonActions } from './PokemonActions'
+import { Header } from '../UI/Header'
 
 export const PokemonInfo = ({
    pokemon,
@@ -16,7 +17,7 @@ export const PokemonInfo = ({
    const { isAuthenticated } = useContext(AuthContext)
    return (
       <div className="flex flex-col">
-         <h2 className="text-xl md:text-2xl lg:text-4xl font-bold mb-2 mt-2 capitalize text-center">{pokemon.name}</h2>
+         <Header variant="h2">{pokemon.name}</Header>
          <div className="grid grid-cols-2 gap-4 text-center">
             <PokemonStatistics value={pokemon.height} label="Height" />
             <PokemonStatistics value={pokemon.base_experience} label="Base exp" />

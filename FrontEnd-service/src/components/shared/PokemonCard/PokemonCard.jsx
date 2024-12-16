@@ -1,9 +1,7 @@
 import React, { useContext } from 'react'
-import clsx from 'clsx'
 import { PokemonImage } from './PokemonImage'
 import { PokemonInfo } from './PokemonInfo'
-import { ThemeContext } from '../../context/ThemeContext'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../../context/AuthContext'
 
 export const PokemonCard = ({
    pokemon,
@@ -19,22 +17,18 @@ export const PokemonCard = ({
    showArenaAction,
    isLoser,
 }) => {
-   const { theme } = useContext(ThemeContext)
    const { isAuthenticated } = useContext(AuthContext)
 
    return (
-      <div className={clsx('relative p-0', isInArena && 'opacity-75', isLoser && 'opacity-30')}>
+      <div className={`relative p-0 ${isInArena ? 'opacity-75' : ''} ${isLoser ? 'opacity-30' : ''}`}>
          <div
-            className={clsx(
-               'rounded-3xl overflow-hidden p-4 flex flex-col md:flex-row justify-evenly relative border-2 gap-8',
-               theme === 'dark'
-                  ? 'bg-dark-background border-gray-500'
-                  : 'bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50',
-               cardClassName,
-            )}
+            className={`rounded-3xl overflow-hidden p-4 flex flex-col md:flex-row justify-evenly relative border-2 gap-8 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50
+                  dark:bg-dark-background dark:border-dark-border dark:bg-none
+               ${cardClassName}
+            `}
          >
             {isAuthenticated && (pokemon.wins > 0 || pokemon.losses > 0) && (
-               <div className="absolute top-0 left-0 bg-black text-white p-5 rounded-tl-2xl rounded-br-2xl shadow-lg">
+               <div className="absolute top-0 left-0 bg-black text-amber-300 p-5 rounded-tl-2xl rounded-br-2xl shadow-lg">
                   <div className="flex flex-col items-start space-y-1 font-mono font-bold">
                      <p className="text-lg">W: {pokemon.wins || 0}</p>
                      <p className="text-lg">L: {pokemon.losses || 0}</p>

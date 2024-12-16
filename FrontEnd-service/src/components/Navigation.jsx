@@ -5,9 +5,8 @@ import { useAuth } from '../hooks/useAuth'
 import { useSnackbar } from 'notistack'
 import { ThemeContext } from '../context/ThemeContext'
 import { FaSun, FaMoon, FaBars, FaTimes, FaUser } from 'react-icons/fa'
-import clsx from 'clsx'
-import { NavLinkButton } from '../shared/UI/NavLinkButton'
-import { Wrapper } from '../shared/UI/Wrapper'
+import { NavLinkButton } from './shared/UI/NavLinkButton'
+import { Wrapper } from './shared/UI/Wrapper'
 
 export const Navigation = () => {
    const { user, isAuthenticated, logout } = useAuth()
@@ -32,12 +31,7 @@ export const Navigation = () => {
    ]
 
    return (
-      <header
-         className={clsx(
-            'p-4 w-full fixed top-0 left-0 right-0 z-50',
-            theme === 'dark' ? 'bg-section-dark' : 'bg-section-light',
-         )}
-      >
+      <header className="p-4 w-full fixed top-0 left-0 right-0 z-50 bg-light-section dark:bg-dark-section">
          <Wrapper className="md:pt-4 pt-4">
             <div className="flex items-center justify-between">
                <Link to="/">
@@ -58,12 +52,9 @@ export const Navigation = () => {
                         onClick={toggleTheme}
                      >
                         <div
-                           className={clsx(
-                              'absolute w-11 h-11 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300',
-                              theme === 'dark'
-                                 ? 'bg-dark-background translate-x-3'
-                                 : 'bg-light-background -translate-x-3',
-                           )}
+                           className="absolute w-11 h-11 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300
+                              bg-light-background -translate-x-3
+                              dark:bg-dark-background dark:translate-x-3"
                         >
                            {theme === 'dark' ? (
                               <FaMoon className="text-blue-500" />
@@ -133,12 +124,7 @@ export const Navigation = () => {
                      handleMenuToggle()
                   }}
                >
-                  <div
-                     className={clsx(
-                        'w-16 h-16 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300',
-                        theme === 'dark' ? 'bg-dark-background' : 'bg-light-background',
-                     )}
-                  >
+                  <div className="w-16 h-16 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300 cursor-pointer bg-light-background dark:bg-dark-background">
                      {theme === 'dark' ? <FaMoon className="text-blue-500" /> : <FaSun className="text-yellow-500" />}
                   </div>
                </div>
