@@ -16,7 +16,7 @@ export const PokemonInfo = ({
 }) => {
    const { isAuthenticated } = useContext(AuthContext)
    return (
-      <div className="flex flex-col">
+      <div className="flex flex-col justify-center my-4 d:w-80">
          <Header variant="h2">{pokemon.name}</Header>
          <div className="grid grid-cols-2 gap-4 text-center">
             <PokemonStatistics value={pokemon.height} label="Height" />

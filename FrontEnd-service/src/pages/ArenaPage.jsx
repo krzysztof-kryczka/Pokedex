@@ -5,7 +5,7 @@ import { PokemonCard } from '../components/shared/PokemonCard'
 import { PlaceholderCard } from '../components/shared/PokemonArena/PlaceholderCard'
 import { BattleButton } from '../components/shared/PokemonArena/BattleButton'
 import { BattleResultModal } from '../components/shared/PokemonArena/BattleResultModal'
-import { getPokemons, getArena, removePokemonFromArena, updatePokemon } from '../api'
+import { getArena, removePokemonFromArena, updatePokemon } from '../api'
 import BattleArena from '../assets/battle-arena.webp'
 import { Wrapper } from '../components/shared/UI/Wrapper'
 import { Header } from '../components/shared/UI/Header'
@@ -18,21 +18,19 @@ export const ArenaPage = () => {
    const [loserId, setLoserId] = useState(null)
 
    useEffect(() => {
-      const fetchData = async () => {
+      const fetchArenaData = async () => {
          try {
-            const pokemonsResponse = await getPokemons()
-            setPokemons(pokemonsResponse.data)
-            console.log('Pokémons zostały pobrane:', pokemonsResponse.data)
             const arenaResponse = await getArena()
             setArena(arenaResponse.data)
             console.log('Dane areny zostały pobrane:', arenaResponse.data)
          } catch (error) {
             console.error('Nie udało się pobrać danych:', error)
-            enqueueSnackbar('Nie udało się pobrać danych.', { variant: 'error' })
+            enqueueSnackbar('Nie udało się pobrać danych areny.', { variant: 'error' })
          }
       }
-      fetchData()
-   }, [setPokemons, setArena, enqueueSnackbar])
+
+      fetchArenaData()
+   }, [setArena, enqueueSnackbar])
 
    const handleRemoveFromArena = async id => {
       try {

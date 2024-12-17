@@ -1,30 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
 import { Pagination } from '../components/Pagination'
 import { Loader } from '../components/Loader'
 import { PokemonList } from '../components/PokemonList'
 import { usePokemon } from '../context/PokemonContext'
-import { Error } from '../shared/UI/Error'
-import { PokemonSearch } from '../shared/PokemonSearch'
-import { Wrapper } from '../shared/UI/Wrapper'
+import { Error } from '../components/shared/UI/Error'
+import { PokemonSearch } from '../components/shared/PokemonSearch'
+import { Wrapper } from '../components/shared/UI/Wrapper'
 
 const pokemonsPerPage = 15
 
 export const Pokedex = () => {
-   const { pokemons: contextPokemons = [], setPokemons, totalCount } = usePokemon()
-   const {
-      pokemons: fetchedPokemons,
-      isLoading,
-      error,
-      currentPage,
-      setCurrentPage,
-   } = useFetchPokemons(pokemonsPerPage, true)
-
+   const { pokemons: contextPokemons = [] } = usePokemon()
+   const { isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(pokemonsPerPage)
    const [searchTerm, setSearchTerm] = useState('')
+   const [filteredPokemons, setFilteredPokemons] = useState([])
 
-   const filteredPokemons = contextPokemons.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()),
-   )
+   useEffect(() => {
+      setFilteredPokemons(
+         contextPokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())),
+      )
+   }, [searchTerm, contextPokemons])
 
    const handlePageChange = page => {
       console.log('Changing to page:', page)
@@ -32,18 +28,23 @@ export const Pokedex = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
    }
 
+   const startIndex = (currentPage - 1) * pokemonsPerPage
+   const currentPokemons = filteredPokemons.slice(startIndex, startIndex + pokemonsPerPage)
+
+   const totalFilteredPages = Math.ceil(filteredPokemons.length / pokemonsPerPage)
+
    return (
       <Wrapper>
          {error && <Error>Błąd podczas pobierania danych z API.</Error>}
          {isLoading && <Loader />}
-         <PokemonSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
          {!isLoading && !error && (
             <>
-               <PokemonList pokemons={filteredPokemons} />
-               {filteredPokemons.length >= 0 && (
+               <PokemonSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+               <PokemonList pokemons={currentPokemons} />
+               {filteredPokemons.length > 0 && (
                   <Pagination
                      currentPage={currentPage}
-                     totalPages={Math.ceil(totalCount / pokemonsPerPage)}
+                     totalPages={totalFilteredPages}
                      onPageChange={handlePageChange}
                   />
                )}

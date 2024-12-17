@@ -15,9 +15,14 @@ export const PokemonProvider = ({ children }) => {
       )
    }
 
+   const addPokemon = newPokemon => {
+      setPokemons(prevPokemons => [newPokemon, ...prevPokemons])
+      setTotalCount(prevCount => prevCount + 1)
+   }
+
    return (
       <PokemonContext.Provider
-         value={{ pokemons, setPokemons, totalCount, setTotalCount, arena, setArena, updatePokemon }}
+         value={{ pokemons, setPokemons, totalCount, setTotalCount, arena, setArena, updatePokemon, addPokemon }}
       >
          {children}
       </PokemonContext.Provider>

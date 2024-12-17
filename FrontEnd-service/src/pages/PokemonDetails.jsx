@@ -4,10 +4,10 @@ import { usePokemon } from '../context/PokemonContext'
 import { useAuth } from '../hooks/useAuth'
 import { useSnackbar } from 'notistack'
 import { usePokemonDetails } from '../hooks/usePokemonDetails'
-import { PokemonCard } from '../shared/PokemonCard'
+import { PokemonCard } from '../components/shared/PokemonCard'
 import { addPokemonToArena, getPokemons, removePokemonFromArena, savePokemon } from '../api'
-import { Wrapper } from '../shared/UI/Wrapper'
-import { Error } from '../shared/UI/Error'
+import { Wrapper } from '../components/shared/UI/Wrapper'
+import { Error } from '../components/shared/UI/Error'
 
 export const PokemonDetails = () => {
    const { id } = useParams()
@@ -20,6 +20,7 @@ export const PokemonDetails = () => {
    const { pokemonDetails, isFavorite, toggleFavorite } = usePokemonDetails(pokemon, user, enqueueSnackbar)
 
    const [error, setError] = useState(null)
+   const [loading, setLoading] = useState(true)
 
    const [favorite, setFavorite] = useState(isFavorite)
    const [inArena, setInArena] = useState(false)
@@ -29,6 +30,7 @@ export const PokemonDetails = () => {
       if (pokemonDetails && arena) {
          setInArena(arena.some(arenaPokemon => arenaPokemon.id === pokemonDetails.id))
       }
+      setLoading(false) // Ustawienie loading na false po wczytaniu danych
    }, [isFavorite, arena, pokemonDetails])
 
    useEffect(() => {
@@ -39,12 +41,12 @@ export const PokemonDetails = () => {
       }
    }, [pokemonDetails, id])
 
-   if (error) {
-      return <Error>{error}</Error>
+   if (loading) {
+      return <p className="text-center">Ładowanie danych Pokémona...</p>
    }
 
-   if (!pokemonDetails) {
-      return <p className="text-center">Ładowanie danych Pokémona...</p>
+   if (error) {
+      return <Error>{error}</Error>
    }
 
    const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonDetails.id}.svg`
@@ -87,7 +89,7 @@ export const PokemonDetails = () => {
    }
 
    return (
-      <Wrapper>
+      <Wrapper className={'pt-40 md:pt-44'}>
          <PokemonCard
             pokemon={pokemonDetails}
             imageUrl={imageUrl}

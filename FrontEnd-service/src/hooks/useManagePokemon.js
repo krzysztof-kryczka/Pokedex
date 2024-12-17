@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useSnackbar } from 'notistack'
 import { fetchUsedSprites, getPokemons, savePokemon as savePokemonApi, updatePokemon as updatePokemonApi } from '../api'
+import { usePokemon } from '../context/PokemonContext'
 
 export const useManagePokemon = (navigate, reset) => {
    const { enqueueSnackbar } = useSnackbar()
+   const { updatePokemon, addPokemon } = usePokemon()
    const [loading, setLoading] = useState(false)
    const [usedSprites, setUsedSprites] = useState([])
 
@@ -44,9 +46,11 @@ export const useManagePokemon = (navigate, reset) => {
 
          if (existingPokemon) {
             await updatePokemonApi(pokemonId, finalPokemonData)
+            updatePokemon(finalPokemonData)
             enqueueSnackbar(`Zmieniono atrybuty pokémona: ${name}`, { variant: 'success' })
          } else {
             await savePokemonApi(finalPokemonData)
+            addPokemon(finalPokemonData)
             enqueueSnackbar(`Nowy pokémon: ${name} został dodany`, { variant: 'success' })
             if (reset) reset()
          }

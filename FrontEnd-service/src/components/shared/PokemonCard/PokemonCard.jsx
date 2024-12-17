@@ -11,7 +11,7 @@ export const PokemonCard = ({
    toggleFavorite,
    isFavorite,
    toggleArena,
-   isInArena,
+   isInArena = false,
    showFavorite = false,
    arenaSlots,
    showArenaAction,

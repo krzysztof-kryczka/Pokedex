@@ -12,8 +12,9 @@ export const PokemonActions = ({
    showArenaAction,
 }) => {
    const { isAuthenticated } = useContext(AuthContext)
+
    return (
-      <div className="flex items-center justify-center mt-4">
+      <div className="flex items-center justify-center pt-4">
          {isAuthenticated && (
             <>
                {showFavorite && (
@@ -33,7 +34,7 @@ export const PokemonActions = ({
                   </div>
                )}
                {showArenaAction && (
-                  <div className="flex flex-col items-center ml-6">
+                  <div className="flex flex-col items-center">
                      <button
                         onClick={toggleArena}
                         className="text-6xl"
@@ -45,7 +46,9 @@ export const PokemonActions = ({
                            }`}
                         />
                      </button>
-                     <p className="mt-2 text-lg">{isInArena ? 'Usuń z areny' : `Dodaj do areny (${arenaSlots}/2)`}</p>
+                     <p className="mt-2 text-lg md:w-44 text-center">
+                        {isInArena ? 'Usuń z areny' : `Dodaj do areny (${arenaSlots}/2)`}
+                     </p>
                   </div>
                )}
             </>
