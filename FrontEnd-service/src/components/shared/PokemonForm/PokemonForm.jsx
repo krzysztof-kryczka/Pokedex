@@ -5,10 +5,7 @@ import { Button } from '../UI/Button'
 import { SpriteNavigation } from './SpriteNavigation'
 
 export const PokemonForm = ({ pokemon, onSubmit, isSpriteUsed, spriteUrl, handleSpriteNavigation, isEditing }) => {
-   const {
-      register,
-      handleSubmit,
-   } = useFormContext()
+   const { register, handleSubmit } = useFormContext()
 
    return (
       <form

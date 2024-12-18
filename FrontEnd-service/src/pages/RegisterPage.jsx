@@ -16,7 +16,6 @@ export const RegisterPage = () => {
    const navigate = useNavigate()
 
    const onSubmit = async data => {
-      setIsSubmitting(true)
       const result = await registerUser(data, enqueueSnackbar)
       if (result) {
          navigate('/')
