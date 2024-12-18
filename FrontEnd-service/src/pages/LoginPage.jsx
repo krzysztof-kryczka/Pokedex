@@ -1,5 +1,5 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
@@ -12,12 +12,8 @@ import { LoginForm } from '../components/shared/PokemonUser/LoginForm'
 export const LoginPage = () => {
    const { enqueueSnackbar } = useSnackbar()
    const { login, loading } = useAuth()
+   const methods = useForm({ resolver: zodResolver(loginSchema) })
    const navigate = useNavigate()
-   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-   } = useForm({ resolver: zodResolver(loginSchema) })
 
    const onSubmit = async data => {
       const result = await login(data.email, data.password, enqueueSnackbar)
@@ -29,13 +25,9 @@ export const LoginPage = () => {
    return (
       <Wrapper>
          <Header variant="h1">Logowanie</Header>
-         <LoginForm
-            register={register}
-            handleSubmit={handleSubmit}
-            errors={errors}
-            onSubmit={onSubmit}
-            loading={loading}
-         />
+         <FormProvider {...methods}>
+            <LoginForm onSubmit={methods.handleSubmit(onSubmit)} loading={loading} />
+         </FormProvider>
       </Wrapper>
    )
 }

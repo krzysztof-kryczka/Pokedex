@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '../schemas/userSchema'
 import { useSnackbar } from 'notistack'
@@ -12,38 +12,23 @@ import { RegisterForm } from '../components/shared/PokemonUser/RegisterForm'
 export const RegisterPage = () => {
    const { enqueueSnackbar } = useSnackbar()
    const { register: registerUser, loading } = useAuth()
+   const methods = useForm({ resolver: zodResolver(registerSchema) })
    const navigate = useNavigate()
-   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-   } = useForm({ resolver: zodResolver(registerSchema) })
-
-   const [isSubmitting, setIsSubmitting] = useState(false)
 
    const onSubmit = async data => {
       setIsSubmitting(true)
       const result = await registerUser(data, enqueueSnackbar)
       if (result) {
-         reset()
          navigate('/')
-      } else {
-         setIsSubmitting(false)
       }
    }
 
    return (
       <Wrapper>
          <Header variant="h1">Rejestracja</Header>
-         <RegisterForm
-            register={register}
-            handleSubmit={handleSubmit}
-            errors={errors}
-            onSubmit={onSubmit}
-            loading={loading}
-            isSubmitting={isSubmitting}
-         />
+         <FormProvider {...methods}>
+            <RegisterForm onSubmit={methods.handleSubmit(onSubmit)} loading={loading} />
+         </FormProvider>
       </Wrapper>
    )
 }

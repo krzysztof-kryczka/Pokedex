@@ -1,21 +1,19 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useFormContext } from 'react-hook-form'
 import { Button } from '../UI/Button'
 import { FormField } from '../UI/FormField'
 
-export const LoginForm = ({ register, handleSubmit, errors, onSubmit, loading }) => {
-   const handleFormSubmit = e => {
-      e.preventDefault()
-      handleSubmit(onSubmit)(e)
-   }
+export const LoginForm = ({ onSubmit, loading }) => {
+   const { handleSubmit } = useFormContext()
 
    return (
       <form
-         onSubmit={handleFormSubmit}
+         onSubmit={handleSubmit(onSubmit)}
          className="max-w-2xl mx-auto p-4 border rounded-lg shadow-lg flex flex-col gap-5 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50
             dark:border-dark-border dark:bg-none"
       >
-         <FormField label="Email:" type="email" register={register} name="email" errors={errors.email} />
-         <FormField label="Hasło:" type="password" register={register} name="password" errors={errors.password} />
+         <FormField label="Email:" type="email" name="email" />
+         <FormField label="Hasło:" type="password" name="password" />
          <Button type="submit" disabled={loading}>
             {loading ? 'Logowanie...' : 'Zaloguj się'}
          </Button>

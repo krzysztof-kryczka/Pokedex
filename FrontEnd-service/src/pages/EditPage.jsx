@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { editPokemonSchema } from '../schemas/pokemonSchema'
 import { useFetchPokemons } from '../hooks/useFetchPokemons'
@@ -19,17 +19,9 @@ export const EditPage = () => {
    const { isLoading, error, currentPage, setCurrentPage } = useFetchPokemons(15, true)
    const [selectedPokemon, setSelectedPokemon] = useState(null)
    const navigate = useNavigate()
-   const { savePokemon, loading } = useManagePokemon(navigate)
+   const { savePokemon } = useManagePokemon(navigate)
 
-   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-   } = useForm({
-      resolver: zodResolver(editPokemonSchema),
-      mode: 'onSubmit',
-   })
+   const methods = useForm({ resolver: zodResolver(editPokemonSchema) })
 
    const formRef = useRef(null)
 
@@ -46,7 +38,7 @@ export const EditPage = () => {
 
    useEffect(() => {
       if (selectedPokemon) {
-         reset({
+         methods.reset({
             name: selectedPokemon.name,
             weight: selectedPokemon.weight,
             height: selectedPokemon.height,
@@ -55,10 +47,9 @@ export const EditPage = () => {
             abilities: selectedPokemon.abilities ? selectedPokemon.abilities.map(a => a.ability.name).join(', ') : '',
          })
       }
-   }, [selectedPokemon, reset])
+   }, [selectedPokemon])
 
    const handlePageChange = page => {
-      console.log('Changing to page:', page)
       setSelectedPokemon(null)
       setCurrentPage(page)
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -84,15 +75,15 @@ export const EditPage = () => {
                />
                {selectedPokemon && (
                   <div ref={formRef} className="mt-8">
-                     <PokemonForm
-                        pokemon={selectedPokemon}
-                        register={register}
-                        errors={errors}
-                        onSubmit={handleSubmit(updatedPokemon => {
-                           savePokemon({ ...selectedPokemon, ...updatedPokemon })
-                        })}
-                        isEditing={true}
-                     />
+                     <FormProvider {...methods}>
+                        <PokemonForm
+                           pokemon={selectedPokemon}
+                           onSubmit={methods.handleSubmit(updatedPokemon => {
+                              savePokemon({ ...selectedPokemon, ...updatedPokemon })
+                           })}
+                           isEditing={true}
+                        />
+                     </FormProvider>
                   </div>
                )}
                <Pagination
