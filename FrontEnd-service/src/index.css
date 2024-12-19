@@ -1,68 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-   line-height: 1.5;
-   font-weight: 400;
-
-   color-scheme: light dark;
-   color: rgba(255, 255, 255, 0.87);
-   background-color: #242424;
-
-   font-synthesis: none;
-   text-rendering: optimizeLegibility;
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;
+   --color-bg-light: #fff;
+   --color-text-light: #131516;
+   --color-bg-dark: #181a1b;
+   --color-text-dark: #fff;
+   --color-bg-button-light: #3b82f6; /* bg-blue-500 */
+   --color-bg-button-light-hover: #2563eb; /* bg-blue-600 */
+   --color-bg-button-dark: #0844a6; /* bg-blue-700 */
+   --color-bg-button-dark-hover: #06397a; /* bg-blue-800 */
+   --color-bg-row-light: #f3f4f6; /* bg-gray-100 */
+   --color-bg-row-dark: #374151; /* bg-gray-700 */
+   --color-bg-row-header-light: #e5e7eb; /* bg-gray-200 */
+   --color-bg-row-header-dark: #1f2937; /* bg-gray-800 */
+   --color-border-dark: #6b7280; /* bg-gray-500 */
+   --color-bg-input-dark: #0e0f0f;
+   --color-bg-blue-light: #ebf8ff;
+   --color-bg-section-light: #2b5876;
+   --color-bg-section-dark: #122430;
 }
 
-a {
-   font-weight: 500;
-   color: #646cff;
-   text-decoration: inherit;
-}
-a:hover {
-   color: #535bf2;
-}
-
-body {
+* {
    margin: 0;
-   display: flex;
-   place-items: center;
-   min-width: 320px;
-   min-height: 100vh;
+   padding: 0;
+   box-sizing: border-box;
 }
 
-h1 {
-   font-size: 3.2em;
-   line-height: 1.1;
+@layer base {
+   body {
+      @apply bg-light-background text-light-text;
+   }
+
+   .dark body {
+      @apply bg-dark-background text-dark-text;
+   }
 }
 
-button {
-   border-radius: 8px;
-   border: 1px solid transparent;
-   padding: 0.6em 1.2em;
-   font-size: 1em;
-   font-weight: 500;
-   font-family: inherit;
-   background-color: #1a1a1a;
-   cursor: pointer;
-   transition: border-color 0.25s;
-}
-button:hover {
-   border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-   outline: 4px auto -webkit-focus-ring-color;
+.btn {
+   @apply px-4 py-2 rounded-lg text-white transition duration-200 font-bold text-center flex justify-center disabled:opacity-40 disabled:cursor-not-allowed;
 }
 
-@media (prefers-color-scheme: light) {
-   :root {
-      color: #213547;
-      background-color: #ffffff;
-   }
-   a:hover {
-      color: #747bff;
-   }
-   button {
-      background-color: #f9f9f9;
-   }
+/* width */
+::-webkit-scrollbar {
+   width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+   background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+   background: #ff0000;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+   background: #555;
 }
