@@ -20,10 +20,10 @@ export const Pokedex = () => {
       setFilteredPokemons(
          contextPokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())),
       )
+      setCurrentPage(1)
    }, [searchTerm, contextPokemons])
 
    const handlePageChange = page => {
-      console.log('Changing to page:', page)
       setCurrentPage(page)
       window.scrollTo({ top: 0, behavior: 'smooth' })
    }

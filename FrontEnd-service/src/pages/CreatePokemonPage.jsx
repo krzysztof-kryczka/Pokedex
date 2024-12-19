@@ -17,7 +17,7 @@ export const CreatePokemonPage = () => {
    useEffect(() => {
       const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${spriteIndex}.svg`
       methods.setValue('sprite', spriteUrl)
-   }, [spriteIndex, methods])
+   }, [spriteIndex, methods.setValue])
 
    const handleSpriteNavigation = direction => {
       const newIndex = direction === 'next' ? spriteIndex + 1 : Math.max(151, spriteIndex - 1)

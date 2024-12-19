@@ -8,17 +8,18 @@ import { PokemonCard } from '../components/shared/PokemonCard'
 import { addPokemonToArena, getPokemons, removePokemonFromArena, savePokemon } from '../api'
 import { Wrapper } from '../components/shared/UI/Wrapper'
 import { Error } from '../components/shared/UI/Error'
+import { useFetchPokemons } from '../hooks/useFetchPokemons'
 
 export const PokemonDetails = () => {
    const { id } = useParams()
-   const { pokemons, arena, setArena } = usePokemon()
+   const { pokemons: contextPokemons, arena, setArena } = usePokemon()
+   const {} = useFetchPokemons(1, true)
    const { user } = useAuth()
    const { enqueueSnackbar } = useSnackbar()
 
    const parsedId = parseInt(id, 10)
-   const pokemon = pokemons.find(p => p.id === parsedId)
+   const pokemon = contextPokemons.find(p => p.id === parsedId)
    const { pokemonDetails, isFavorite, toggleFavorite } = usePokemonDetails(pokemon, user, enqueueSnackbar)
-
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(true)
 
@@ -30,7 +31,7 @@ export const PokemonDetails = () => {
       if (pokemonDetails && arena) {
          setInArena(arena.some(arenaPokemon => arenaPokemon.id === pokemonDetails.id))
       }
-      setLoading(false) // Ustawienie loading na false po wczytaniu danych
+      setLoading(false)
    }, [isFavorite, arena, pokemonDetails])
 
    useEffect(() => {

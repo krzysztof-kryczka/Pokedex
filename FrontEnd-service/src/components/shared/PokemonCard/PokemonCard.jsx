@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { PokemonImage } from './PokemonImage'
 import { PokemonInfo } from './PokemonInfo'
 import { AuthContext } from '../../../context/AuthContext'
+import { Button } from '../UI/Button'
 
 export const PokemonCard = ({
    pokemon,
@@ -48,12 +49,9 @@ export const PokemonCard = ({
             />
          </div>
          {!showArenaAction && isInArena && (
-            <button
-               onClick={toggleArena}
-               className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
-            >
+            <Button onClick={toggleArena} variant="removeFromArena">
                Usuń z areny
-            </button>
+            </Button>
          )}
       </div>
    )

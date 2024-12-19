@@ -22,8 +22,6 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
    const endPage = Math.min(totalPages, startPage + maxPages - 1)
    const pages = [...Array(Math.max(endPage - startPage + 1, 0)).keys()].map(i => startPage + i)
 
-   console.log('pageType', pageType)
-
    return (
       <div className="flex flex-wrap justify-center space-x-2 my-4">
          {pageType !== 'edit' && pageType !== 'ranking' && pageType !== 'favorites' && currentPage > 1 && (
