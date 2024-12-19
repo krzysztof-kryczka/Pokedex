@@ -10,7 +10,7 @@ export const PokemonForm = ({ pokemon, onSubmit, isSpriteUsed, spriteUrl, handle
       formState: { errors },
    } = useFormContext()
 
-   console.log('Form errors:', errors)
+   // console.log('Form errors:', errors)
 
    return (
       <form

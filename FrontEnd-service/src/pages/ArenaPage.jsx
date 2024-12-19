@@ -5,7 +5,7 @@ import { PokemonCard } from '../components/shared/PokemonCard'
 import { PlaceholderCard } from '../components/shared/PokemonArena/PlaceholderCard'
 import { BattleButton } from '../components/shared/PokemonArena/BattleButton'
 import { BattleResultModal } from '../components/shared/PokemonArena/BattleResultModal'
-import { getArena, removePokemonFromArena, updatePokemon } from '../api'
+import { getArena, removePokemonFromArena, updatePokemon, savePokemon, getLocalPokemonById } from '../api'
 import BattleArena from '../assets/battle-arena.webp'
 import { Wrapper } from '../components/shared/UI/Wrapper'
 import { Header } from '../components/shared/UI/Header'
@@ -22,7 +22,6 @@ export const ArenaPage = () => {
          try {
             const arenaResponse = await getArena()
             setArena(arenaResponse.data)
-            console.log('Dane areny zostały pobrane:', arenaResponse.data)
          } catch (error) {
             console.error('Nie udało się pobrać danych:', error)
             enqueueSnackbar('Nie udało się pobrać danych areny.', { variant: 'error' })
@@ -65,12 +64,31 @@ export const ArenaPage = () => {
                setBattleResult({ winner: null, loser: null })
                enqueueSnackbar('Remis! Pokemony nie otrzymały żadnych statystyk.', { variant: 'info' })
             }
-            await updatePokemon(pokemon1?.id, pokemon1)
-            await updatePokemon(pokemon2?.id, pokemon2)
+            // console.log('Pokémon 1 przed zapisem:', pokemon1)
+            // console.log('Pokémon 2 przed zapisem:', pokemon2)
+            await saveOrUpdatePokemon(pokemon1)
+            await saveOrUpdatePokemon(pokemon2)
             setShowModal(true)
          } else {
             enqueueSnackbar('Nie znaleziono Pokémona na arenie.', { variant: 'error' })
          }
+      }
+   }
+
+   const saveOrUpdatePokemon = async pokemon => {
+      try {
+         // console.log('Pokémon przed zapisem/aktualizacją:', pokemon)
+         const response = await getLocalPokemonById(pokemon.id)
+         if (response.data && response.data.length > 0) {
+            const existingPokemon = response.data[0]
+            // console.log('Istniejący Pokémon:', existingPokemon)
+            await updatePokemon(pokemon.id, { ...existingPokemon, ...pokemon })
+         } else {
+            await savePokemon(pokemon)
+         }
+      } catch (error) {
+         console.error('Nie udało się zapisać lub zaktualizować Pokémona:', error)
+         enqueueSnackbar('Nie udało się zapisać lub zaktualizować Pokémona.', { variant: 'error' })
       }
    }
 
@@ -109,7 +127,6 @@ export const ArenaPage = () => {
                               toggleArena={() => handleRemoveFromArena(pokemon.id)}
                               isInArena={true}
                               arenaSlots={arena.length}
-                              // showArenaAction={false}
                               isLoser={pokemon.id === loserId}
                            />
                         )

@@ -3,7 +3,7 @@ import { FormField } from '../UI/FormField'
 import { Button } from '../UI/Button'
 
 export const PokemonFormFields = ({ pokemon, buttonText, buttonDisabled }) => (
-   <div className="flex flex-col gap-5">
+   <div className="flex flex-col gap-1">
       <FormField
          label="Nazwa"
          type="text"

@@ -15,7 +15,7 @@ export const Button = ({ onClick, disabled, children, className, variant = 'defa
          onClick={
             onClick
                ? e => {
-                    console.log('Button clicked:', children)
+                    // console.log('Button clicked:', children)
                     onClick(e)
                  }
                : undefined

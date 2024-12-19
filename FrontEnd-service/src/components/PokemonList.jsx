@@ -9,7 +9,7 @@ export const PokemonList = ({ pokemons }) => (
          return (
             <li
                key={pokemon.id}
-               className="rounded-3xl border shadow-lg transform hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer
+               className="rounded-3xl border-2 shadow-lg transform hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer
                      bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50
                         dark:border-dark-border dark:bg-dark-background dark:bg-none"
             >
@@ -18,7 +18,7 @@ export const PokemonList = ({ pokemons }) => (
                      pokemon={pokemon}
                      imageUrl={imageUrl}
                      imageClassName="flex justify-center items-center"
-                     cardClassName="flex flex-col md:flex-col border-0"
+                     cardClassName="flex flex-col md:flex-col border-none"
                      showActions={false}
                   />
                </Link>

@@ -21,10 +21,21 @@ export const getLocalPokemonById = pokemonId => localAxios.get(`/pokemons?id=${p
 export const createUser = userData => localAxios.post('/users', userData)
 export const getUsers = () => localAxios.get('/users')
 
+export const validateUser = async user => {
+   try {
+      const response = await localAxios.get(`/users?id=${user.id}`)
+      const validUser = response.data.find(u => u.id === user.id && u.email === user.email)
+      return !!validUser
+   } catch (error) {
+      console.error('Error validating user:', error)
+      return false
+   }
+}
+
 // page: favorites
-// export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId=${userId}`)
-// export const addFavorite = favoriteData => localAxios.post('/favorites', favoriteData)
-// export const removeFavorite = favoriteId => localAxios.delete(`/favorites/${favoriteId}`)
+// export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId=${userId}`);
+// export const addFavorite = favoriteData => localAxios.post('/favorites', favoriteData);
+// export const removeFavorite = favoriteId => localAxios.delete(`/favorites/${favoriteId}`);
 
 export const getFavoritesByUserId = userId => localAxios.get(`/favorites?userId=${userId}`)
 
@@ -64,8 +75,18 @@ export const removeFavorite = async (pokemonId, userId) => {
 
 // page: create/edit
 export const fetchUsedSprites = () => localAxios.get('/pokemons')
-export const savePokemon = pokemonData => localAxios.post('/pokemons', pokemonData)
-export const updatePokemon = (pokemonId, pokemonData) => localAxios.put(`/pokemons/${pokemonId}`, pokemonData)
+//export const savePokemon = pokemonData => localAxios.post('/pokemons', pokemonData)
+// export const updatePokemon = (pokemonId, pokemonData) => localAxios.put(`/pokemons/${pokemonId}`, pokemonData)
+export const savePokemon = async pokemonData => {
+   const { id, name, weight, height, base_experience, sprite, abilities, wins = 0, losses = 0 } = pokemonData
+   const newPokemon = { id, name, weight, height, base_experience, sprite, abilities, wins, losses }
+   return localAxios.post('/pokemons', newPokemon)
+}
+export const updatePokemon = async (pokemonId, pokemonData) => {
+   const { id, name, weight, height, base_experience, sprite, abilities, wins, losses } = pokemonData
+   const updatedPokemon = { id, name, weight, height, base_experience, sprite, abilities, wins, losses }
+   return localAxios.put(`/pokemons/${pokemonId}`, updatedPokemon)
+}
 
 // page: arena
 export const getArena = () => localAxios.get('/arena')

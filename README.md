@@ -13,7 +13,8 @@
 
 # Pokémon Manager (PokeDex)
 
-Pokémon Manager to aplikacja do zarządzania Pokémonami, która umożliwia przeglądanie, dodawanie nowych, edytowanie istniejących Pokémonów oraz zarządzanie walkami Pokémonów na arenie.
+Pokémon Manager to aplikacja do zarządzania Pokémonami, która umożliwia przeglądanie, dodawanie nowych, edytowanie istniejących Pokémonów oraz zarządzanie walkami Pokémonów na arenie a także dodawanie własnych Pokémonów do ulubionych. Każdy użytkownik ma swoją listę ulubionych Pokémonów.
+Wykorzystano technikę React Context do przechowywania danych o pokemonach, jednak dane w kontekście przechowywane są tylko w pamięci przeglądarki. Oznacza to, że po odświeżeniu strony dane przechowywane w kontekście zostają utracone i mogą być niespodziewane problemy z działaniem aplikacji.
 
 ## Funkcje
 
@@ -123,6 +124,7 @@ $ npm run dev
     │   │   │   │   ├── PokemonForm
     │   │   │   │   │   ├── index.js
     │   │   │   │   │   ├── PokemonForm.jsx
+    │   │   │   │   │   ├── PokemonFormFields.jsx
     │   │   │   │   │   ├── SpriteNavigation.jsx
     │   │   │   │   ├── PokemonUser
     │   │   │   │   │   ├── LoginForm.jsx
@@ -196,7 +198,7 @@ $ npm run dev
 -  package-lock.json: Automatycznie generowany plik opisujący dokładne wersje zależności.
 -  package.json: Plik konfiguracyjny projektu Node.js.
 -  README.md: Dokumentacja backendu.
-- [Backend Service Dokumentacja](./BackEnd-service/README.md)
+-  [Backend Service Dokumentacja](./BackEnd-service/README.md)
 
 ### FrontEnd-service
 
@@ -212,7 +214,7 @@ $ npm run dev
 -  App.jsx: Główny komponent aplikacji.
 -  index.css: Główny plik stylów.
 -  man.jsx: Główny plik wejściowy aplikacji.
-- [Frontend Service Dokumentacja](./FrontEnd-service/README.md)
+-  [Frontend Service Dokumentacja](./FrontEnd-service/README.md)
 
 Główne pliki konfiguracyjne
 
@@ -238,8 +240,8 @@ Do budowy aplikacji wykorzystano m.in:
 
 ## Komponenty
 
-- Pagination.jsx: Komponent do paginacji listy Pokémonów.
-- Loader.jsx: Wyświetla animację ładowania podczas pobierania danych.
+-  Pagination.jsx: Komponent do paginacji listy Pokémonów.
+-  Loader.jsx: Wyświetla animację ładowania podczas pobierania danych.
 -  PokemonCard: Zbiór komponentów do wyświetlania informacji o Pokémonach.
 
    -  PokemonActions.jsx: Akcje dostępne dla każdego Pokémona.
