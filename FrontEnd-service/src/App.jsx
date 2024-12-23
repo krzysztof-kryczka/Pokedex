@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { Navigation } from './components/Navigation'
+import { Navigation } from './components/shared/Navigation/Navigation.jsx'
 import { Footer } from './components/Footer.jsx'
 
 export const App = () => {

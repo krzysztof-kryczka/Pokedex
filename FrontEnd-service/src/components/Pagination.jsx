@@ -24,64 +24,61 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, pageType }) 
 
    return (
       <div className="flex flex-wrap justify-center space-x-2 my-4">
-         {pageType !== 'edit' && pageType !== 'ranking' && pageType !== 'favorites' && currentPage > 1 && (
-            <PaginationButton
-               page={currentPage - 1}
-               label="&lt;"
-               currentPage={currentPage}
-               onPageChange={onPageChange}
-            />
-         )}
-         {pageType !== 'edit' && pageType !== 'ranking' && pageType !== 'favorites' && (
-            <PaginationButton page={1} currentPage={currentPage} onPageChange={onPageChange} />
-         )}
-         {pageType !== 'edit' &&
-            pageType !== 'ranking' &&
-            pageType !== 'favorites' &&
-            startPage > 1 &&
-            startPage !== 2 && (
-               <button
-                  className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
-                  disabled
-               >
-                  ...
-               </button>
-            )}
-         {pageType !== 'edit' &&
-            pageType !== 'ranking' &&
-            pageType !== 'favorites' &&
-            pages.map(
-               page =>
-                  page !== 1 && (
-                     <PaginationButton key={page} page={page} currentPage={currentPage} onPageChange={onPageChange} />
-                  ),
-            )}
-         {pageType !== 'edit' && pageType !== 'ranking' && pageType !== 'favorites' && endPage < totalPages && (
+         {pageType !== 'edit' && pageType !== 'ranking' && pageType !== 'favorites' ? (
             <>
-               <button
-                  className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
-                  disabled
-               >
-                  ...
-               </button>
-               <PaginationButton page={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
+               {currentPage > 1 && (
+                  <PaginationButton
+                     page={currentPage - 1}
+                     label="&lt;"
+                     currentPage={currentPage}
+                     onPageChange={onPageChange}
+                  />
+               )}
+               <PaginationButton page={1} currentPage={currentPage} onPageChange={onPageChange} />
+               {startPage > 1 && startPage !== 2 && (
+                  <button
+                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
+                     disabled
+                  >
+                     ...
+                  </button>
+               )}
+               {pages.map(
+                  page =>
+                     page !== 1 && (
+                        <PaginationButton
+                           key={page}
+                           page={page}
+                           currentPage={currentPage}
+                           onPageChange={onPageChange}
+                        />
+                     ),
+               )}
+               {endPage < totalPages && (
+                  <>
+                     <button
+                        className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center justify-center text-sm sm:text-base md:text-3xl font-bold bg-white text-blue-500 hover:bg-blue-500 hover:text-white rounded-full"
+                        disabled
+                     >
+                        ...
+                     </button>
+                     <PaginationButton page={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
+                  </>
+               )}
+               {currentPage < totalPages && (
+                  <PaginationButton
+                     page={currentPage + 1}
+                     label="&gt;"
+                     currentPage={currentPage}
+                     onPageChange={onPageChange}
+                  />
+               )}
             </>
-         )}
-         {pageType !== 'edit' && pageType !== 'ranking' && pageType !== 'favorites' && currentPage < totalPages && (
-            <PaginationButton
-               page={currentPage + 1}
-               label="&gt;"
-               currentPage={currentPage}
-               onPageChange={onPageChange}
-            />
-         )}
-
-         {(pageType === 'edit' || pageType === 'ranking' || pageType === 'favorites') && (
+         ) : (
             <>
                <Button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
                   Poprzednia
                </Button>
-
                <Button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                   Następna
                </Button>
